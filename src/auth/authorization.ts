@@ -16,4 +16,6 @@ function authorization(req: RequestInterface, res: Response, next: NextFunction)
   }
 }
 
+export default authorization;
+
 
