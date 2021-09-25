@@ -18,6 +18,14 @@ export async function joiValidateSignup(validate:String){
   return validated
 }
 
+const secret: string = process.env.ACCESS_TOKEN_SECRET as string;
+const days: string =process.env.ACCESS_EXPIRES as string;
+export const signToken = async (id: string) => {
+  return jwt.sign({ id }, secret, {
+    expiresIn: days,
+  });
+};
+
 export async function isEmailValid(email: string) {
   return emailValidator.validate(email);
 }
