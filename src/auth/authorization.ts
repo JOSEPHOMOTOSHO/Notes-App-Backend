@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken'
 import RequestInterface from '../interfaces/interface'
+import dotenv from 'dotenv'
+import joi from 'joi'
 
 function authorization(req: RequestInterface, res: Response, next: NextFunction) {
   const jwtToken = req.cookies.token || req.headers.token
