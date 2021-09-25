@@ -3,7 +3,8 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import router from './routes/index';
+const dotenv = require("dotenv").config()
+import signupRoute from './routes/signup';
 
 
 const app = express();
@@ -14,9 +15,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', router);
+app.use('/', signupRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
