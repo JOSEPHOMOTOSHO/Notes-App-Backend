@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import getNewPasswordFromUser  from '../controller/changePassword'
 import authorization from '../auth/authorization'
+import changePassword from '../controller/changePassword';
 
 const router = Router();
 
 
-router.post('/changePassword', getNewPasswordFromUser)
+router.post('/changePassword', authorization, changePassword)
+
 
 
 export = router;
