@@ -6,9 +6,9 @@ import logger from 'morgan';
 //import router from './routes/index';
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
-import dotenv from 'dotenv'
+const dotenv = require("dotenv").config()
+import signupRoute from './routes/signup';
 
-dotenv.config();
 
 const app = express();
 
@@ -18,13 +18,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', router);
 app.use('/forgotPassword', forgotPassword)
 app.use('/changePassword', changePassword)
 
 
+app.use('/', signupRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
