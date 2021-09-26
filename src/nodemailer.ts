@@ -6,7 +6,7 @@ let transporter = nodemailer.createTransport({
         pass: 'Bobili001&23',
     }
 })
-const sendMail = (Email:string, body: string) => { 
+const sendMail = (Email:string, body: string) => {
     let mailOptions = {
         from: 'ajkshines001@gmail.com',
         to: Email,

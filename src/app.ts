@@ -19,13 +19,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs')
+app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
 
-//app.use('/', router);
-app.use('/forgotPassword', forgotPassword)
+app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
+app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
 
 
-app.use('/', signupRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -45,7 +46,7 @@ app.use(function (
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.message);
 });
 
 export default app;

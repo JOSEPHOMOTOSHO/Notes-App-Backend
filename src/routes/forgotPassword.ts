@@ -1,10 +1,19 @@
-import { Router } from 'express';
-import { getNewPasswordFromUser, resetPasswordLink, getEmailFromUser } from '../controller/forgotPassword';
+import { Router, Request, Response } from 'express';
+import {
+  processNewPasswordFromUser,
+  resetPasswordLink,
+  getEmailFromUser,
+  displayNewPasswordForm,
+} from '../controller/forgotPassword';
 
 const router = Router();
 
-router.post('/forgotPassword', getNewPasswordFromUser);
+router.get('/recoveryemail', getEmailFromUser);
+router.post('/recoveryemail', resetPasswordLink);
 
-router.post('/getEmailFromUser', getEmailFromUser )
+router.get('/reset/:token', displayNewPasswordForm);
+router.post('/newpassword', processNewPasswordFromUser);
+
+
 
 export = router;
