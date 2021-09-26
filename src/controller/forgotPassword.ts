@@ -1,6 +1,10 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
-import jwt from 'jsonwebtoken';
-import joi from 'joi';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import Joi from 'joi';
+import bcrypt from 'bcryptjs';
+import userModel from '../model/signupModel';
+import { token } from 'morgan';
+import sendEmail from '../nodemailer';
 
 const app = express();
 
@@ -16,9 +20,9 @@ async function resetPasswordLink(
   next: NextFunction,
 ) {
   const { email } = req.body;
-  // const user = await user.findOne({ email: email });
+  const user = await userModel.findOne({ email: email });
 
-  const validatorSchema = joi.object({
+  const validatorSchema = Joi.object({
     email: Joi.string().required().min(6).max(50).email(),
   });
   const validator = validatorSchema.validate(req.body);
@@ -37,24 +41,22 @@ async function resetPasswordLink(
         .json({ status: 'Not found', message: 'User not found' });
     }
 
-    const token = jwtToken.createToken(user);
-    const link = `${req.protocol}://localhost:3000/forgotPassword/${token}`;
-
-    await sendEmail(
-      email,
-      'noreply@notes.com',
-      'Best to do change password',
-      `
-      <div>Click the link below to change your password</div><br/>
-      <div>${link}</div>
-      `,
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      { expiresIn: '24h' },
     );
 
-    return res.status(200).json({
-      status: 'Okay',
-      message:
-        'Link to change your password has been successfully sent to mail, please check your inbox.',
-    });
+    const link = `${req.protocol}://localhost:3000/password/reset/${token}`;
+    const Email = email;
+    const body = `
+    <div>Click the link below to change your password</div><br/>
+    <div>${link}</div>
+    `;
+
+    await sendEmail(Email, body);
+
+    return res.status(200).render('fakeEmailView', { link });
   } catch (err) {
     console.log('forgotPasswordLink =>', err);
     res
@@ -64,12 +66,38 @@ async function resetPasswordLink(
 }
 
 //Function to get get new password from the user
-async function getNewPasswordFromUser(
+async function displayNewPasswordForm(req: Request, res: Response) {
+  const token = req.params.token;
+  if (!token) {
+    res.status(401).json({
+      status: '401 Unauthorized',
+      message: 'Token not found',
+    });
+  }
+  try {
+    const verified = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET as string,
+    ) as JwtPayload;
+    console.log(verified);
+    res.render('resetPassword', { token: token });
+  } catch (err) {
+    console.log('displayNewPasswordForm => ', err);
+    res.status(401).json({
+      status: '401 Unauthorized',
+      message: 'Invalid token',
+    });
+  }
+}
+
+//Function to process the new password from the user
+async function processNewPasswordFromUser(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   const ValidateSchema = Joi.object({
+    token: Joi.string().required(),
     password: Joi.string().required().min(6).max(20),
     confirmPassword: Joi.string().required().min(6).max(20),
   });
@@ -82,12 +110,14 @@ async function getNewPasswordFromUser(
   }
 
   try {
-    const { password } = req.body;
-    const { token } = req.params;
-    const check = jwtToken.verifyToken(token);
-    const hashedPassword = hashPassword(password);
+    const { password, token } = req.body;
+    const check = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET as string,
+    ) as JwtPayload;
+    const hashedPassword = bcrypt.hashSync(password, 12);
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await userModel.findByIdAndUpdate(
       check.userId,
       { password: hashedPassword },
       { new: true },
@@ -95,11 +125,11 @@ async function getNewPasswordFromUser(
 
     const { id, name, email } = updatedUser;
 
-    return res.status(200).json({
-      status: 'Successful',
-      message: 'Password reset successful',
-    });
-    res.redirect('/');
+    return res.redirect('/');
+    // return res.status(200).json({
+    //   status: 'Successful',
+    //   message: 'Password reset successful',
+    // });
   } catch (err) {
     console.log('forgotPassword =>', err);
     res
@@ -108,4 +138,9 @@ async function getNewPasswordFromUser(
   }
 }
 
-export { getEmailFromUser, resetPasswordLink, getNewPasswordFromUser };
+export {
+  getEmailFromUser,
+  resetPasswordLink,
+  displayNewPasswordForm,
+  processNewPasswordFromUser,
+};

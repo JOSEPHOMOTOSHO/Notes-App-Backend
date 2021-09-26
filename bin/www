@@ -4,17 +4,20 @@
  * Module dependencies.
  */
 
+
 var app = require('../dist/app').default;
 var debug = require('debug')('008-setup:server');
 var http = require('http');
 const mongoose = require('mongoose');
+const userModel = require( "../dist/model/signupModel").default;
+
 
 const Url = process.env.MONGODB_URL
 
 mongoose
   .connect(Url)
   .then(() => {
-    console.log('Connected Successfully!!!')
+    console.log('Connected Successfully!!!');
   }).catch((err) => {
     console.log("Error", err.message)
   })
