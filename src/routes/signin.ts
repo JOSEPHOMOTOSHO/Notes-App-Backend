@@ -1,6 +1,9 @@
 import { Router } from 'express'
-import siginIn from '../controller/signin'
-import router from './changePassword'
-import userAuthentication from '../auth/authentication'
+import signIn from '../controller/signin'
+//import userAuthentication from '../auth/authentication'
 
-router.post('/sigin', userAuthentication, siginIn)
+const router = Router();
+
+router.post('/signin', signIn)
+
+export default router

@@ -6,6 +6,7 @@ import logger from 'morgan';
 //import router from './routes/index';
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
+import signIn from './routes/signin';
 const dotenv = require("dotenv").config()
 import signupRoute from './routes/signup';
 
@@ -22,9 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs')
 app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
 
-app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
+//app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
+app.use('/', signIn )
 
 
 

@@ -4,26 +4,28 @@ import Joi  from 'joi'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { Console } from 'console'
 
 dotenv.config();
 
 async function signIn(req: Request, res: Response, next: NextFunction) {
     const validateSchema = Joi.object({
         email: Joi.string().email().required(),
-        password: Joi.string().min(6).max(20).required() 
+        password: Joi.string().min(7).max(20).required() 
     })
-
-    const validationResult = await validateSchema.validate(req.body) 
+console.log(req.body)
+    const validationResult = await validateSchema.validate(req.body)
+    console.log(validationResult) 
         if (validationResult.error) {
             return res.status(400).json({
                 status: "Not Found",
-                message: validationResult.error?.details[0].message
+                message: validationResult.error.details[0].message
             })
         }
     
         const existingUser = await userModel.findOne({
-            email: req.body.emil.toLowerCase(),
-        })
+            email: req.body.email,
+        }).select("+password")
 
         if(!existingUser) {
             return res.status(404).json({
@@ -32,12 +34,16 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
             })
         }
 
-        const password = bcrypt.compareSync(
+        console.log(existingUser, "12345")
+
+        const passwordisValid = await bcrypt.compare(
             req.body.password,
             existingUser.password
         )
 
-        if (!password) {
+        console.log(passwordisValid)
+        
+        if (!passwordisValid) {
             return res.status(400).json({
                 status: "Not Found",
                 message: "Invalid password"
