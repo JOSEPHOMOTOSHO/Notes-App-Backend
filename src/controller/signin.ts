@@ -4,7 +4,7 @@ import Joi  from 'joi'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import { Console } from 'console'
+
 
 dotenv.config();
 
@@ -13,9 +13,8 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
         email: Joi.string().email().required(),
         password: Joi.string().min(7).max(20).required() 
     })
-console.log(req.body)
+
     const validationResult = await validateSchema.validate(req.body)
-    console.log(validationResult) 
         if (validationResult.error) {
             return res.status(400).json({
                 status: "Not Found",
@@ -34,14 +33,11 @@ console.log(req.body)
             })
         }
 
-        console.log(existingUser, "12345")
-
         const passwordisValid = await bcrypt.compare(
             req.body.password,
             existingUser.password
         )
 
-        console.log(passwordisValid)
         
         if (!passwordisValid) {
             return res.status(400).json({
@@ -64,5 +60,6 @@ console.log(req.body)
             message: "Signed in sucessfully"
         })
 }
+
 
 export default signIn;
