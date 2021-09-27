@@ -5,25 +5,26 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
+
 dotenv.config();
 
-async function signIn(req: Request, res: Response) {
+async function signIn(req: Request, res: Response, next: NextFunction) {
     const validateSchema = Joi.object({
         email: Joi.string().email().required(),
-        password: Joi.string().min(6).max(20).required() 
+        password: Joi.string().min(7).max(20).required() 
     })
 
-    const validationResult = await validateSchema.validate(req.body) 
+    const validationResult = await validateSchema.validate(req.body)
         if (validationResult.error) {
             return res.status(400).json({
                 status: "Not Found",
-                message: validationResult.error?.details[0].message
+                message: validationResult.error.details[0].message
             })
         }
     
         const existingUser = await userModel.findOne({
-            email: req.body.emil.toLowerCase(),
-        })
+            email: req.body.email,
+        }).select("+password")
 
         if(!existingUser) {
             return res.status(404).json({
@@ -32,12 +33,13 @@ async function signIn(req: Request, res: Response) {
             })
         }
 
-        const password = bcrypt.compareSync(
+        const passwordisValid = await bcrypt.compare(
             req.body.password,
             existingUser.password
         )
 
-        if (!password) {
+        
+        if (!passwordisValid) {
             return res.status(400).json({
                 status: "Not Found",
                 message: "Invalid password"
@@ -58,5 +60,6 @@ async function signIn(req: Request, res: Response) {
             message: "Signed in sucessfully"
         })
 }
+
 
 export default signIn;
