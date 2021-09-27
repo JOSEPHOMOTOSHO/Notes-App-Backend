@@ -1,13 +1,8 @@
 import joi from "joi"
 import jwt from 'jsonwebtoken';
+import { objJoi } from "../interfaces/interface";
 const emailValidator = require('deep-email-validator');
 
-interface obj{
-  firstName:string,
-  lastName:string,
-  email:string,
-  password:string
-}
 
 export async function joiValidateSignup(validate:String){
   const todoSignupSchema = joi
@@ -15,7 +10,7 @@ export async function joiValidateSignup(validate:String){
        firstName: joi.string().trim().min(3).max(250).required(),
        lastName: joi.string().trim().min(3).max(250).required(),
        password: joi.string().min(7).required().alphanum(),
-       confirm_password: joi.ref('password'),
+       confirm_password: joi.string().min(7).required().alphanum(),
        email: joi
          .string()
          .trim()
@@ -28,7 +23,7 @@ export async function joiValidateSignup(validate:String){
 
 const secret: string = process.env.ACCESS_TOKEN_SECRET as string;
 const hrs: string =process.env.ACCESS_EXPIRES as string;
-export const signToken = async (args:obj) => {
+export const signToken = async (args:objJoi) => {
   return jwt.sign({ args }, secret, {
     expiresIn: hrs,
   });
@@ -37,3 +32,6 @@ export const signToken = async (args:obj) => {
 export async function isEmailValid(email: string) {
   return emailValidator.validate(email);
 }
+
+
+

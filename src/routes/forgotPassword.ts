@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { getNewPasswordFromUser, resetPasswordLink, getEmailFromUser } from '../controller/forgotPassword';
+// import { Router } from 'express';
+// import { getNewPasswordFromUser, resetPasswordLink, getEmailFromUser } from '../controller/forgotPassword';
 
-const router = Router();
+// const router = Router();
 
-router.post('/forgotPassword', getNewPasswordFromUser);
+// router.post('/forgotPassword', getNewPasswordFromUser);
 
-router.post('/getEmailFromUser', getEmailFromUser )
+// router.post('/getEmailFromUser', getEmailFromUser )
 
-export = router;
+// export = router;
