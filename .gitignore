@@ -59,9 +59,3 @@ typings/
 
 # next.js build output
 .next
-
-# TypeScript compiled files
-dist
-
-# unused readme file
-README3.md
