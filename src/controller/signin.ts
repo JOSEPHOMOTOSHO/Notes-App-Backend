@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-async function signIn(req: Request, res: Response) {
+async function signIn(req: Request, res: Response, next: NextFunction) {
     const validateSchema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(6).max(20).required() 
