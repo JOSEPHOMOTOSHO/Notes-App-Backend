@@ -32,9 +32,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/', signupRoute);
-app.use('/', signIn);
+app.use('/signin', signIn);
 app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
+app.use('/testing', router)
 
 
 // app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -66,5 +67,6 @@ app.use(function (
   res.send(err.message);
 });
 
-const port = 5050;
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+// const port = 5050;
+// app.listen(port, () => console.log(`Server is running on port ${port}`));
+export default app

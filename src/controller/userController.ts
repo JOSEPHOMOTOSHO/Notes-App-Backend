@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as FacebookStrategy, Profile } from 'passport-facebook';
 // const  strategy = require('passport-facebook')
 
-import User from '../model/userModel';
+import notesUsers from '../model/signupModel';
 
 // const FacebookStrategy = strategy.Strategy;
 
@@ -36,7 +36,7 @@ export = (passport: passport.Authenticator) => {
           lastName: last_name,
         };
 
-        User.findOne({ email }, (err:any, user:any) => {
+        notesUsers.findOne({ email }, (err:any, user:any) => {
           if (err) {
             return done(err);
           }
@@ -44,7 +44,7 @@ export = (passport: passport.Authenticator) => {
             return done(null, user);
           }
           if (!user) {
-            new User(userData).save();
+            new notesUsers(userData).save();
             return done(null, userData);
           }
         });
