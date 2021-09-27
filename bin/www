@@ -10,9 +10,14 @@ var debug = require('debug')('008-setup:server');
 var http = require('http');
 const mongoose = require('mongoose');
 const userModel = require( "../dist/model/signupModel").default;
+var dotenv = require('dotenv')
 
 
 const Url = process.env.MONGODB_URL
+
+dotenv.config();
+
+
 
 mongoose
   .connect(Url)
