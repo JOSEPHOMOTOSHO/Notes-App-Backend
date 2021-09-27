@@ -3,11 +3,10 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-//import router from './routes/index';
+const dotenv = require("dotenv").config()
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
 import signIn from './routes/signin';
-const dotenv = require("dotenv").config()
 import signupRoute from './routes/signup';
 
 
@@ -24,9 +23,11 @@ app.set('view engine', 'ejs')
 app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
 
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
+app.use('/', signupRoute);
+app.use('/', signIn);
 app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
-app.use('/', signIn )
+
 
 
 

@@ -1197,7 +1197,7 @@ axios@^0.19.2:
   dependencies:
     follow-redirects "1.5.10"
 
-axios@^0.21.4:
+axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -1748,6 +1748,15 @@ dedent@^0.7.0:
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=
 
+deep-email-validator-extended@~0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/deep-email-validator-extended/-/deep-email-validator-extended-0.2.0.tgz#88db922e1847f2701fa8ada662c2a7bcd1415cdb"
+  integrity sha512-PGfYzCQ6FBa6Ao6NN6k7MD1jOUexpDJx/Mi8/afiL5/WrDL9K4oin0o0trZsDOWxKDFlcL0hrMgbMng5pU2ahQ==
+  dependencies:
+    axios "^0.21.1"
+    disposable-email-domains "^1.0.57"
+    mailcheck "^1.1.1"
+
 deep-email-validator@~0.1.18:
   version "0.1.18"
   resolved "https://registry.yarnpkg.com/deep-email-validator/-/deep-email-validator-0.1.18.tgz#a072a93f28e11863cc6b9ca3ae964e0e45b3ece8"
@@ -1837,7 +1846,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-disposable-email-domains@^1.0.53:
+disposable-email-domains@^1.0.53, disposable-email-domains@^1.0.57:
   version "1.0.58"
   resolved "https://registry.yarnpkg.com/disposable-email-domains/-/disposable-email-domains-1.0.58.tgz#ac9c879c02c4f0898bfb6c0c80b959c0b0b7bc51"
   integrity sha512-frnNCPqTjk6t/sosPoco6EIFHbP9SazHQkeltJNfZeUyNgewaVf+kFjEfVkVDVd436Vln43YElJPb8JozhBs7Q==
@@ -4916,6 +4925,11 @@ v8-to-istanbul@^8.0.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
+
+validate-email-dns@~0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/validate-email-dns/-/validate-email-dns-0.1.6.tgz#a4ce0032b35c613f92e7df93da69767fd111f8bf"
+  integrity sha1-pM4AMrNcYT+S59+T2ml2f9ER+L8=
 
 vary@~1.1.2:
   version "1.1.2"

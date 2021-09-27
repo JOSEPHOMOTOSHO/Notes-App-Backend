@@ -1,19 +1,10 @@
 // import { } from "../util";
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { objInt } from '../interfaces/interface';
 
-export interface obj {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  location:string;
-  gender:string;
-  role:string;
-  about:string;
-}
 
-const UsersSchema = new mongoose.Schema<obj>({
+const UsersSchema = new mongoose.Schema<objInt>({
   firstName: {
     type: String,
     required: [true, 'Name is needed'],
