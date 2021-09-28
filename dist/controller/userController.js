@@ -2,10 +2,10 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const passport_facebook_1 = require("passport-facebook");
+var passport_facebook_1 = require("passport-facebook");
 // const  strategy = require('passport-facebook')
-const signupModel_1 = __importDefault(require("../model/signupModel"));
-module.exports = (passport) => {
+var signupModel_1 = __importDefault(require("../model/signupModel"));
+module.exports = function (passport) {
     passport.serializeUser(function (user, done) {
         done(null, user);
     });
@@ -18,13 +18,13 @@ module.exports = (passport) => {
         callbackURL: process.env.CALLBACK_URL,
         profileFields: ['email', 'name'],
     }, function (accessToken, refreshToken, profile, done) {
-        const { email, first_name, last_name } = profile._json; //password
-        const userData = {
-            email,
+        var _a = profile._json, email = _a.email, first_name = _a.first_name, last_name = _a.last_name; //password
+        var userData = {
+            email: email,
             firstName: first_name,
             lastName: last_name,
         };
-        signupModel_1.default.findOne({ email }, (err, user) => {
+        signupModel_1.default.findOne({ email: email }, function (err, user) {
             if (err) {
                 return done(err);
             }
@@ -38,4 +38,3 @@ module.exports = (passport) => {
         });
     }));
 };
-//# sourceMappingURL=userController.js.map
