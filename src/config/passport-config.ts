@@ -18,7 +18,7 @@ passport.serializeUser((user:Use, done:Function)=>{
         done(null, user)
     })
   });
- 
+
 passport.use(
     new GoogleStrategy({
         clientID : process.env.CLIENT_ID_GOOGLE,
@@ -26,12 +26,15 @@ passport.use(
         callbackURL:'/auth/google/redirect',
     },async(accessToken:string, refreshToken:string, profile:Profile, done:Function)=>{
           console.log("1")
-        let previousUser = await User.findOne({googleId:profile.id})
+          console.log(profile.id)
+        let previousUser = await User.findOne({googleId:profile.id}).exec()
         console.log("2")
-         if(previousUser){
+        console.log(previousUser)
+        console.log(previousUser.googleId)
+         if(previousUser.googleId === profile.id){
             // console.log(previousUser);
             done(null, previousUser)
-            
+
         }else{
             let googleuser = {
                 googleId : profile.id,
@@ -44,7 +47,7 @@ passport.use(
             done(null, newuser)
         }
 
-        
-        
+
+
     })
 )
