@@ -17,8 +17,12 @@ import passport from 'passport';
 import cors from 'cors';
 
 
+require('./config/passport')(passport)
+
+
 const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
+const indexRouter = require('./routes/index')
 
 const app = express();
 // run();
@@ -64,7 +68,7 @@ app.use((req:Request, res:Response, next:NextFunction)=>{
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/', signupRoute);
-app.use('/signin', signIn);
+app.use('/users', indexRouter);
 app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
 app.use('/testing', router)

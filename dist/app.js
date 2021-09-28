@@ -14,14 +14,15 @@ const session = require('express-session');
 const passportSetup = require('./config/passport-config');
 const changePassword_1 = __importDefault(require("./routes/changePassword"));
 const forgotPassword_1 = __importDefault(require("./routes/forgotPassword"));
-const signin_1 = __importDefault(require("./routes/signin"));
 const signup_1 = __importDefault(require("./routes/signup"));
 // import { run } from './db/mongoose';
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
+require('./config/passport')(passport_1.default);
 const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
+const indexRouter = require('./routes/index');
 const app = (0, express_1.default)();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '..', 'views'));
@@ -52,7 +53,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/', signup_1.default);
-app.use('/signin', signin_1.default);
+app.use('/users', indexRouter);
 app.use('/password', forgotPassword_1.default);
 app.use('/changePassword', changePassword_1.default);
 app.use('/testing', userRoutes_1.default);
