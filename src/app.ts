@@ -4,6 +4,9 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 const dotenv = require("dotenv").config()
+const flash = require('connect-flash');
+const session = require('express-session')
+const passportSetup = require('./config/passport-config')
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
 import signIn from './routes/signin';
@@ -14,9 +17,18 @@ import passport from 'passport';
 import cors from 'cors';
 
 
+const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile');
+
 const app = express();
 // run();
 
+declare module "express" {
+  interface Request {
+      flash?: any,
+      isAuthenticated?:any,
+  }
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, '..', 'views'));
@@ -29,8 +41,28 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
+app.use(session({
+  secret:process.env.SESS,
+  resave: true,
+  saveUninitialized:true,
+}))
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Connect flash
+app.use(flash())
+
+ //GLobal Vars
+app.use((req:Request, res:Response, next:NextFunction)=>{
+  res.locals.success_msg = req.flash('sucess_msg');
+  res.locals.error_msg=req.flash('error_msg');
+  next();
+})
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
+
+app.use('/auth', authRouter);
+app.use('/profile', profileRouter);
 app.use('/', signupRoute);
 app.use('/signin', signIn);
 app.use('/password', forgotPassword)
@@ -43,7 +75,7 @@ app.use(cors());
 
 require('./controller/userController')(passport)
 
-app.use(passport.initialize());
+
 
 
 // catch 404 and forward to error handler
