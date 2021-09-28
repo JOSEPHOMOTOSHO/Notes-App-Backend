@@ -4,28 +4,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // var express = require('express');
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
-const passport = require('passport');
+var express_1 = __importDefault(require("express"));
+var router = express_1.default.Router();
+var passport = require('passport');
 // import { authorization} from "../config/authorize";
 // Welcome Page
-router.get('/welcome', (req, res) => res.send('Protected Route' + req.user));
-router.get('/', (req, res) => res.send('You are out'));
+router.get('/welcome', function (req, res) { return res.send('Protected Route' + req.user); });
+router.get('/', function (req, res) { return res.send('You are out'); });
 router.get('/login', function (req, res, next) {
-    let message = req.flash('error');
+    var message = req.flash('error');
     res.send(message[0]);
 });
-router.post('/login', (req, res, next) => {
+router.post('/login', function (req, res, next) {
     passport.authenticate('local', {
         successRedirect: '/users/welcome',
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
 });
-router.get('/logout', (req, res) => {
+router.get('/logout', function (req, res) {
     req.logout();
     req.flash('success_msg', 'You are logged out');
     res.redirect('/login');
 });
 module.exports = router;
-//# sourceMappingURL=index.js.map

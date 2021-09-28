@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const nodemailer = require('nodemailer');
-let transporter = nodemailer.createTransport({
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'ajkshines001@gmail.com',
         pass: 'Bobili001&23',
     }
 });
-const sendMail = (Email, body) => {
-    let mailOptions = {
+var sendMail = function (Email, body) {
+    var mailOptions = {
         from: 'ajkshines001@gmail.com',
         to: Email,
         subject: 'Successfully Signed up',
         html: body
     };
-    return transporter.sendMail(mailOptions, (err, data) => {
+    return transporter.sendMail(mailOptions, function (err, data) {
         if (err) {
             console.log('Error Occurred: ', err);
         }
@@ -23,4 +23,3 @@ const sendMail = (Email, body) => {
     });
 };
 exports.default = sendMail;
-//# sourceMappingURL=nodemailer.js.map

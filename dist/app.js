@@ -3,27 +3,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const http_errors_1 = __importDefault(require("http-errors"));
-const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const morgan_1 = __importDefault(require("morgan"));
-const dotenv = require("dotenv").config();
-const flash = require('connect-flash');
-const session = require('express-session');
-const passportSetup = require('./config/passport-config');
-const changePassword_1 = __importDefault(require("./routes/changePassword"));
-const forgotPassword_1 = __importDefault(require("./routes/forgotPassword"));
-const signup_1 = __importDefault(require("./routes/signup"));
+var http_errors_1 = __importDefault(require("http-errors"));
+var express_1 = __importDefault(require("express"));
+var path_1 = __importDefault(require("path"));
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
+var morgan_1 = __importDefault(require("morgan"));
+var dotenv = require("dotenv").config();
+var flash = require('connect-flash');
+var session = require('express-session');
+var passportSetup = require('./config/passport-config');
+var changePassword_1 = __importDefault(require("./routes/changePassword"));
+var forgotPassword_1 = __importDefault(require("./routes/forgotPassword"));
+var signup_1 = __importDefault(require("./routes/signup"));
 // import { run } from './db/mongoose';
-const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
-const passport_1 = __importDefault(require("passport"));
-const cors_1 = __importDefault(require("cors"));
+var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+var passport_1 = __importDefault(require("passport"));
+var cors_1 = __importDefault(require("cors"));
 require('./config/passport')(passport_1.default);
-const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
-const indexRouter = require('./routes/index');
-const app = (0, express_1.default)();
+var authRouter = require('./routes/auth');
+var profileRouter = require('./routes/profile');
+var indexRouter = require('./routes/index');
+var app = (0, express_1.default)();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
@@ -44,7 +44,7 @@ app.use(passport_1.default.session());
 //Connect flash
 app.use(flash());
 //GLobal Vars
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
     res.locals.success_msg = req.flash('sucess_msg');
     res.locals.error_msg = req.flash('error_msg');
     next();
@@ -76,4 +76,3 @@ app.use(function (err, req, res, _next) {
 // const port = 5050;
 // app.listen(port, () => console.log(`Server is running on port ${port}`));
 exports.default = app;
-//# sourceMappingURL=app.js.map
