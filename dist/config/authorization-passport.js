@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorization = void 0;
 function authorization(req, res, next) {
     if (!req.user) {
         res.redirect("/");
@@ -9,5 +8,5 @@ function authorization(req, res, next) {
         next();
     }
 }
-exports.authorization = authorization;
+exports.default = authorization;
 //# sourceMappingURL=authorization-passport.js.map

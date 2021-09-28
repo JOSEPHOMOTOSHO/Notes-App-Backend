@@ -22,9 +22,12 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/redirect',
 }, async (accessToken, refreshToken, profile, done) => {
     console.log("1");
-    let previousUser = await signupModel_1.default.findOne({ googleId: profile.id });
+    console.log(profile.id);
+    let previousUser = await signupModel_1.default.findOne({ googleId: profile.id }).exec();
     console.log("2");
-    if (previousUser) {
+    console.log(previousUser);
+    console.log(previousUser.googleId);
+    if (previousUser.googleId === profile.id) {
         // console.log(previousUser);
         done(null, previousUser);
     }

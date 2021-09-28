@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 const express_1 = require("express");
 const changePassword_1 = __importDefault(require("../controller/changePassword"));
-const authorization_1 = __importDefault(require("../auth/authorization"));
+const authorization_passport_1 = __importDefault(require("../auth/authorization-passport"));
 const router = (0, express_1.Router)();
-router.post('/changePassword', authorization_1.default, changePassword_1.default);
+router.post('/changePassword', authorization_passport_1.default, changePassword_1.default);
 module.exports = router;
 //# sourceMappingURL=changePassword.js.map
