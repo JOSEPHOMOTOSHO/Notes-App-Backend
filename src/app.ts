@@ -1,46 +1,94 @@
-import createError from 'http-errors';
-import express from 'express';
+import createError, { HttpError } from 'http-errors';
+import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-//import router from './routes/index';
+const dotenv = require("dotenv").config()
+const flash = require('connect-flash');
+const session = require('express-session')
+const passportSetup = require('./config/passport-config')
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
 import signIn from './routes/signin';
-const dotenv = require("dotenv").config()
 import signupRoute from './routes/signup';
+// import { run } from './db/mongoose';
+import router from './routes/userRoutes';
+import passport from 'passport';
+import cors from 'cors';
 
+
+const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile');
 
 const app = express();
+// run();
 
+declare module "express" {
+  interface Request {
+      flash?: any,
+      isAuthenticated?:any,
+  }
+}
 
+// view engine setup
+app.set('views', path.join(__dirname, '..', 'views'));
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'ejs')
-app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
+// app.set('view engine', 'ejs')
+// app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
+app.use(session({
+  secret:process.env.SESS,
+  resave: true,
+  saveUninitialized:true,
+}))
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Connect flash
+app.use(flash())
+
+ //GLobal Vars
+app.use((req:Request, res:Response, next:NextFunction)=>{
+  res.locals.success_msg = req.flash('sucess_msg');
+  res.locals.error_msg=req.flash('error_msg');
+  next();
+})
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
+
+app.use('/auth', authRouter);
+app.use('/profile', profileRouter);
+app.use('/', signupRoute);
+app.use('/signin', signIn);
 app.use('/password', forgotPassword)
 app.use('/changePassword', changePassword)
-app.use('/', signIn )
+app.use('/testing', router)
+
+
+// app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(cors());
+
+require('./controller/userController')(passport)
+
 
 
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
 
 // error handler
 app.use(function (
-  err: createError.HttpError,
-  req: express.Request,
-  res: express.Response,
-  _next: express.NextFunction
+  err: HttpError,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
 ) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -51,4 +99,6 @@ app.use(function (
   res.send(err.message);
 });
 
-export default app;
+// const port = 5050;
+// app.listen(port, () => console.log(`Server is running on port ${port}`));
+export default app
