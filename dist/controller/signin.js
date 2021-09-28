@@ -40,10 +40,12 @@ async function signIn(req, res, next) {
     const token = jsonwebtoken_1.default.sign({ user_id: existingUser._id, user_email: existingUser.email }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.ACCESS_EXPIRES
     });
-    res.cookie("token", token, { httpOnly: true });
+    // res.cookie("token", token, { httpOnly: true})
+    res.clearCookie("token");
     res.status(200).json({
         status: "Successful",
-        message: "Signed in sucessfully"
+        message: "Signed in sucessfully",
+        token
     });
 }
 exports.default = signIn;

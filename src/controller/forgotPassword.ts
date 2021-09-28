@@ -125,11 +125,11 @@ async function processNewPasswordFromUser(
 
     const { id, name, email } = updatedUser;
 
-    return res.redirect('/');
-    // return res.status(200).json({
-    //   status: 'Successful',
-    //   message: 'Password reset successful',
-    // });
+    // return res.redirect('/');
+    return res.status(200).json({
+      status: 'Successful',
+      message: 'Password reset successful',
+    });
   } catch (err) {
     console.log('forgotPassword =>', err);
     res

@@ -6,7 +6,6 @@ import { JwtPayload } from 'jsonwebtoken';
 
 async function changePassword(req: RequestInterface, res: Response) {
   const user_id = req.user as JwtPayload;
-  console.log("changePassword:", user_id);
   let { oldPassword, newPassword, confirmPassword } = req.body;
   if (newPassword !== confirmPassword) {
     res
@@ -16,16 +15,15 @@ async function changePassword(req: RequestInterface, res: Response) {
         message: 'Password does not match' });
   }
 
-  const user = await userModel.findOne({id:user_id});
-  console.log(user.password)
-  const validPassword = await bcrypt.compare(oldPassword, user.password);
-  newPassword= await bcrypt.hash(newPassword, 10);
+  const user = await userModel.findById(user_id);
+  const validPassword = bcrypt.compareSync(oldPassword, user.password);
+  const newPasswords = await bcrypt.hash(newPassword, 10);
 
   try {
     if (validPassword) {
       const updatedPassword = await userModel.findByIdAndUpdate(
         user._id,
-        { password: newPassword },
+        { password: newPasswords },
         { new: true },
       );
 

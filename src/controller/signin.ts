@@ -52,7 +52,8 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
                 expiresIn: process.env.ACCESS_EXPIRES
             }
         )
-        res.cookie("token", token, { httpOnly: true})
+        // res.cookie("token", token, { httpOnly: true})
+        res.clearCookie("token")
 
         res.status(200).json({
             status: "Successful",

@@ -5,7 +5,8 @@ import dotenv from 'dotenv'
 import joi from 'joi'
 
 function authorization(req: RequestInterface, res: Response, next: NextFunction) {
-  const jwtToken = req.headers.token || req.cookies.token
+  const jwtToken =  req.headers.token || req.cookies.token
+  console.log(jwtToken)
   if (!jwtToken) {
     return res.status(401).json({
       status: '401 Not Authorized',
@@ -15,7 +16,6 @@ function authorization(req: RequestInterface, res: Response, next: NextFunction)
     const authorization = jwt.verify(
       jwtToken.toString(),
       process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
-      console.log("authorization says:",authorization)
     req.user = authorization.user_id;
     next();
   } catch(err) {

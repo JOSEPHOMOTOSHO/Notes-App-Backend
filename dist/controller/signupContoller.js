@@ -25,12 +25,12 @@ async function createUsers(req, res, next) {
         let finder = await signupModel_1.default.findOne({ email });
         console.log(finder, "wserdtrfyguh");
         if (!finder) {
-            const { error } = await joi_1.joiValidateSignup(req.body);
+            const { error } = await (0, joi_1.joiValidateSignup)(req.body);
             if (error) {
                 res.status(404).send(error.details[0].message);
                 return;
             }
-            let { valid } = await joi_1.isEmailValid(email);
+            let { valid } = await (0, joi_1.isEmailValid)(email);
             console.log(valid);
             // const valid = await co.wrap(validate)(email).then(function(correct:boolean) {
             //   if (correct) {
@@ -48,14 +48,14 @@ async function createUsers(req, res, next) {
                     email,
                     password,
                 };
-                let token = await joi_1.signToken(newUsers);
+                let token = await (0, joi_1.signToken)(newUsers);
                 const Email = email;
                 const body = `
         <h2>Please click on the given <a href="http://localhost:3000/confirm/${token}">link</a> to activate your acount.</h2></br>
         <h3>This link expires in 15mins</h3>
         `;
                 //email services
-                nodemailer_1.default(Email, body);
+                (0, nodemailer_1.default)(Email, body);
                 res.status(201).send({ msg: 'A mail has been sent to you for verification!!!' });
             }
             else {

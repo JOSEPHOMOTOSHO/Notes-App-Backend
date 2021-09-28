@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 function authorization(req, res, next) {
     const jwtToken = req.headers.token || req.cookies.token;
+    console.log(jwtToken);
     if (!jwtToken) {
         return res.status(401).json({
             status: '401 Not Authorized',
@@ -14,7 +15,6 @@ function authorization(req, res, next) {
     }
     try {
         const authorization = jsonwebtoken_1.default.verify(jwtToken.toString(), process.env.ACCESS_TOKEN_SECRET);
-        console.log("authorization says:", authorization);
         req.user = authorization.user_id;
         next();
     }

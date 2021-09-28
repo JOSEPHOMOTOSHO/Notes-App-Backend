@@ -10,7 +10,7 @@ const joi_1 = __importDefault(require("joi"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const signupModel_1 = __importDefault(require("../model/signupModel"));
 const nodemailer_1 = __importDefault(require("../nodemailer"));
-const app = express_1.default();
+const app = (0, express_1.default)();
 //Function to get email from the user
 function getEmailFromUser(req, res) {
     return res.render('getEmail');
@@ -43,7 +43,7 @@ async function resetPasswordLink(req, res, next) {
     <div>Click the link below to change your password</div><br/>
     <div>${link}</div>
     `;
-        await nodemailer_1.default(Email, body);
+        await (0, nodemailer_1.default)(Email, body);
         return res.status(200).render('fakeEmailView', { link });
     }
     catch (err) {
@@ -96,11 +96,11 @@ async function processNewPasswordFromUser(req, res, next) {
         const hashedPassword = bcryptjs_1.default.hashSync(password, 12);
         const updatedUser = await signupModel_1.default.findByIdAndUpdate(check.userId, { password: hashedPassword }, { new: true });
         const { id, name, email } = updatedUser;
-        return res.redirect('/');
-        // return res.status(200).json({
-        //   status: 'Successful',
-        //   message: 'Password reset successful',
-        // });
+        // return res.redirect('/');
+        return res.status(200).json({
+            status: 'Successful',
+            message: 'Password reset successful',
+        });
     }
     catch (err) {
         console.log('forgotPassword =>', err);
