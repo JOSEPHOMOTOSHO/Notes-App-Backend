@@ -21,19 +21,16 @@ const UsersSchema = new mongoose_1.default.Schema({
         unique: true,
         lowercase: true,
     },
-    googleId: {
-        type: String,
-        // required : true,
-    },
     password: {
         type: String,
+        required: [true, 'Password needed'],
         minlength: [7, 'Password length should not be less than 5'],
     },
     location: {
-        type: String,
+        type: String
     },
     gender: {
-        type: String,
+        type: String
     },
     role: {
         type: String,
@@ -41,8 +38,6 @@ const UsersSchema = new mongoose_1.default.Schema({
     about: {
         type: String,
     },
-}, {
-    timestamps: true,
 });
 UsersSchema.pre('save', async function (next) {
     if (!this.isModified('password'))

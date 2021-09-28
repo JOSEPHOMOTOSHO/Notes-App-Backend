@@ -8,11 +8,11 @@ import {
 
 const router = Router();
 
-router.get('/recoveryemail', getEmailFromUser);
-router.post('/recoveryemail', resetPasswordLink);
+router.get('/recovery-email', getEmailFromUser);
+router.post('/recovery-email', resetPasswordLink);
 
 router.get('/reset/:token', displayNewPasswordForm);
-router.post('/newpassword', processNewPasswordFromUser);
+router.post('/reset', processNewPasswordFromUser);
 
 
 

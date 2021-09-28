@@ -6,17 +6,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const signupModel_1 = __importDefault(require("../model/signupModel"));
 async function changePassword(req, res) {
-    const user = req.user;
-    const { oldPassword, newPassword, confirmPassword } = req.body;
-    const validPassword = await bcryptjs_1.default.compare(oldPassword, user.password);
+    const user_id = req.user;
+    let { oldPassword, newPassword, confirmPassword } = req.body;
+    if (newPassword !== confirmPassword) {
+        res
+            .status(400)
+            .json({
+            status: 'Client error',
+            message: 'Password does not match'
+        });
+    }
+    const user = await signupModel_1.default.findById(user_id);
+    const validPassword = bcryptjs_1.default.compareSync(oldPassword, user.password);
+    const newPasswords = await bcryptjs_1.default.hash(newPassword, 10);
     try {
         if (validPassword) {
-            const updatedPassword = signupModel_1.default.findByIdAndUpdate(user._id, { password: newPassword }, { new: true });
+            const updatedPassword = await signupModel_1.default.findByIdAndUpdate(user._id, { password: newPasswords }, { new: true });
+            return res.status(200).json({
+                status: 'Ok',
+                message: "Password change successful"
+            });
         }
         else {
-            res
-                .status(404)
-                .json({ status: 'Not found', message: 'Not a valid password' });
+            res.status(404).json({
+                status: 'Not found',
+                message: 'Not a valid password',
+            });
         }
     }
     catch (err) {

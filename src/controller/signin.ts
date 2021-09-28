@@ -11,7 +11,7 @@ dotenv.config();
 async function signIn(req: Request, res: Response, next: NextFunction) {
     const validateSchema = Joi.object({
         email: Joi.string().email().required(),
-        password: Joi.string().min(7).max(20).required() 
+        password: Joi.string().min(7).max(20).required()
     })
 
     const validationResult = await validateSchema.validate(req.body)
@@ -21,7 +21,7 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
                 message: validationResult.error.details[0].message
             })
         }
-    
+
         const existingUser = await userModel.findOne({
             email: req.body.email,
         }).select("+password")
@@ -38,7 +38,6 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
             existingUser.password
         )
 
-        
         if (!passwordisValid) {
             return res.status(400).json({
                 status: "Not Found",
@@ -53,11 +52,13 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
                 expiresIn: process.env.ACCESS_EXPIRES
             }
         )
-        res.cookie("token", token, { httpOnly: true})
+        // res.cookie("token", token, { httpOnly: true})
+        res.clearCookie("token")
 
         res.status(200).json({
             status: "Successful",
-            message: "Signed in sucessfully"
+            message: "Signed in sucessfully",
+            token
         })
 }
 

@@ -96,11 +96,11 @@ async function processNewPasswordFromUser(req, res, next) {
         const hashedPassword = bcryptjs_1.default.hashSync(password, 12);
         const updatedUser = await signupModel_1.default.findByIdAndUpdate(check.userId, { password: hashedPassword }, { new: true });
         const { id, name, email } = updatedUser;
-        return res.redirect('/');
-        // return res.status(200).json({
-        //   status: 'Successful',
-        //   message: 'Password reset successful',
-        // });
+        // return res.redirect('/');
+        return res.status(200).json({
+            status: 'Successful',
+            message: 'Password reset successful',
+        });
     }
     catch (err) {
         console.log('forgotPassword =>', err);

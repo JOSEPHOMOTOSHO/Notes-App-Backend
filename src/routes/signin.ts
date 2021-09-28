@@ -3,6 +3,6 @@ import signIn from '../controller/signin'
 
 const router = Router();
 
-router.post('/signin', signIn)
+router.post('/sign', signIn)
 
 export default router
