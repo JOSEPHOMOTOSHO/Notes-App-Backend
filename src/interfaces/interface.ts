@@ -23,6 +23,7 @@ export interface objInt {
   gender:string;
   role:string;
   about:string;
+  googleId:string
 }
 
 export interface objJoi{
@@ -30,4 +31,14 @@ export interface objJoi{
   lastName:string,
   email:string,
   password:string
+}
+
+export interface DatabaseUserInterface {
+  email : string;
+  password: string;
+  id: string;
+}
+
+export interface Use{
+  id?: string
 }

@@ -21,6 +21,10 @@ const UsersSchema = new mongoose_1.default.Schema({
         unique: true,
         lowercase: true,
     },
+    googleId: {
+        type: String,
+        // required : true,
+    },
     password: {
         type: String,
         minlength: [7, 'Password length should not be less than 5'],
