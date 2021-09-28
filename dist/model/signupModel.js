@@ -46,5 +46,6 @@ UsersSchema.pre('save', async function (next) {
     this.password = await bcryptjs_1.default.hash(this.password, 10);
     next();
 });
+// const notesUsers =  mongoose.model('notesUsers', UsersSchema);
 exports.default = mongoose_1.default.model('notesUsers', UsersSchema);
 //# sourceMappingURL=signupModel.js.map

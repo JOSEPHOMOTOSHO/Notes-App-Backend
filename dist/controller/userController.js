@@ -18,11 +18,12 @@ module.exports = (passport) => {
         callbackURL: process.env.CALLBACK_URL,
         profileFields: ['email', 'name'],
     }, function (accessToken, refreshToken, profile, done) {
-        const { email, first_name, last_name } = profile._json; //password
+        const { email, first_name, last_name, id } = profile._json; //password
         const userData = {
             email,
             firstName: first_name,
             lastName: last_name,
+            id
         };
         signupModel_1.default.findOne({ email }, (err, user) => {
             if (err) {
@@ -33,6 +34,7 @@ module.exports = (passport) => {
             }
             if (!user) {
                 new signupModel_1.default(userData).save();
+                console.log(userData);
                 return done(null, userData);
             }
         });

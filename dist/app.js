@@ -17,6 +17,7 @@ const signup_1 = __importDefault(require("./routes/signup"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
+require('./controller/userController')(passport_1.default);
 const app = (0, express_1.default)();
 // run();
 // view engine setup
@@ -29,6 +30,8 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
+app.use((0, cors_1.default)());
+app.use(passport_1.default.initialize());
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/', signup_1.default);
 app.use('/signin', signin_1.default);
@@ -36,9 +39,6 @@ app.use('/password', forgotPassword_1.default);
 app.use('/changePassword', changePassword_1.default);
 app.use('/testing', userRoutes_1.default);
 // app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use((0, cors_1.default)());
-require('./controller/userController')(passport_1.default);
-app.use(passport_1.default.initialize());
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));

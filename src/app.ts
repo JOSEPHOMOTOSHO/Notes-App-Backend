@@ -13,6 +13,7 @@ import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
 
+require('./controller/userController')(passport)
 
 const app = express();
 // run();
@@ -30,6 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
 
+
+app.use(cors());
+app.use(passport.initialize());
+
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/', signupRoute);
 app.use('/signin', signIn);
@@ -39,11 +44,7 @@ app.use('/testing', router)
 
 
 // app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use(cors());
 
-require('./controller/userController')(passport)
-
-app.use(passport.initialize());
 
 
 // catch 404 and forward to error handler
