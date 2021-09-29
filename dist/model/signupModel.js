@@ -61,6 +61,9 @@ var UsersSchema = new mongoose_1.default.Schema({
         type: String,
         // required : true,
     },
+    facebookId: {
+        type: String
+    },
     password: {
         type: String,
         minlength: [7, 'Password length should not be less than 5'],

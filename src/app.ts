@@ -45,32 +45,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
+
+
 app.use(session({
   secret:process.env.SESSION_SECRET!,
   resave: true,
   saveUninitialized:true,
 }))
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 //Connect flash
 app.use(flash())
 
- //GLobal Vars
+//GLobal Vars
 app.use((req:Request, res:Response, next:NextFunction)=>{
   res.locals.success_msg = req.flash('sucess_msg');
   res.locals.error_msg=req.flash('error_msg');
   next();
 })
-app.use(session({
-  secret: process.env.SESSION_SECRET!,
-  resave: true,
-  saveUninitialized: true,
-}))
-
 
 app.use(cors());
+
+//Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session())
 
@@ -86,8 +80,6 @@ app.use('/testing', router)
 
 
 // app.use(express.static(path.join(__dirname, '..', 'public')));
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

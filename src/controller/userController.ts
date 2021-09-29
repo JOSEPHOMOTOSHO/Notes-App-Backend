@@ -46,7 +46,7 @@ export = (passport: passport.Authenticator) => {
           }
           if (!user) {
             new notesUsers(userData).save();
-            console.log(userData);
+            // console.log(userData);
             return done(null, userData);
           }
         });

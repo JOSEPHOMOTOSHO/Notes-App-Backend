@@ -8,17 +8,17 @@ var express_1 = __importDefault(require("express"));
 var path_1 = __importDefault(require("path"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var morgan_1 = __importDefault(require("morgan"));
-var dotenv = require("dotenv").config();
-var flash = require('connect-flash');
-var session = require('express-session');
-var passportSetup = require('./config/passport-config');
 var changePassword_1 = __importDefault(require("./routes/changePassword"));
 var forgotPassword_1 = __importDefault(require("./routes/forgotPassword"));
 var signup_1 = __importDefault(require("./routes/signup"));
-// import { run } from './db/mongoose';
 var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var passport_1 = __importDefault(require("passport"));
 var cors_1 = __importDefault(require("cors"));
+var express_session_1 = __importDefault(require("express-session"));
+var dotenv = require("dotenv").config();
+var flash = require('connect-flash');
+var passportSetup = require('./config/passport-config');
+require('./controller/userController')(passport_1.default);
 require('./config/passport')(passport_1.default);
 var authRouter = require('./routes/auth');
 var profileRouter = require('./routes/profile');
@@ -34,13 +34,11 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
-app.use(session({
-    secret: process.env.SESS,
+app.use((0, express_session_1.default)({
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
 }));
-app.use(passport_1.default.initialize());
-app.use(passport_1.default.session());
 //Connect flash
 app.use(flash());
 //GLobal Vars
@@ -49,6 +47,10 @@ app.use(function (req, res, next) {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
+app.use((0, cors_1.default)());
+//Initialize Passport
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
@@ -58,8 +60,6 @@ app.use('/password', forgotPassword_1.default);
 app.use('/changePassword', changePassword_1.default);
 app.use('/testing', userRoutes_1.default);
 // app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use((0, cors_1.default)());
-require('./controller/userController')(passport_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));

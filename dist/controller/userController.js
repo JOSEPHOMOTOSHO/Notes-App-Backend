@@ -18,11 +18,12 @@ module.exports = function (passport) {
         callbackURL: process.env.CALLBACK_URL,
         profileFields: ['email', 'name'],
     }, function (accessToken, refreshToken, profile, done) {
-        var _a = profile._json, email = _a.email, first_name = _a.first_name, last_name = _a.last_name; //password
+        var _a = profile._json, email = _a.email, first_name = _a.first_name, last_name = _a.last_name, id = _a.id; //password
         var userData = {
             email: email,
             firstName: first_name,
             lastName: last_name,
+            facebookId: id
         };
         signupModel_1.default.findOne({ email: email }, function (err, user) {
             if (err) {
@@ -33,6 +34,7 @@ module.exports = function (passport) {
             }
             if (!user) {
                 new signupModel_1.default(userData).save();
+                // console.log(userData);
                 return done(null, userData);
             }
         });

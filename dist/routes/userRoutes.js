@@ -8,8 +8,8 @@ var passport_1 = __importDefault(require("passport"));
 var router = express_1.default.Router();
 router.get('/auth/facebook', passport_1.default.authenticate('facebook'));
 router.get('/auth/facebook/callback', passport_1.default.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: '/fail',
+    successRedirect: '/testing',
+    failureRedirect: '/testing/fail',
 }));
 router.get('/fail', function (req, res) {
     res.send('Failed attempt');
