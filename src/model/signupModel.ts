@@ -19,6 +19,13 @@ const UsersSchema = new mongoose.Schema<objInt>(
       unique: true,
       lowercase: true,
     },
+    googleId: {
+      type: String,
+      // required : true,
+    },
+    facebookId:{
+      type: String
+    },
     password: {
       type: String,
       minlength: [7, 'Password length should not be less than 5'],
@@ -45,5 +52,5 @@ UsersSchema.pre('save', async function (next: () => void) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-// const notesUsers =  mongoose.model('notesUsers', UsersSchema);
+
 export default mongoose.model('notesUsers', UsersSchema);

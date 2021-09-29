@@ -12,6 +12,7 @@ import signupRoute from './routes/signup';
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
+import session from 'express-session'
 
 require('./controller/userController')(passport)
 
@@ -31,9 +32,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.set('view engine', 'ejs')
 // app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
 
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: true,
+  saveUninitialized: true,
+}))
+
 
 app.use(cors());
 app.use(passport.initialize());
+app.use(passport.session())
 
 //app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
 app.use('/', signupRoute);

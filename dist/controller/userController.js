@@ -23,7 +23,7 @@ module.exports = (passport) => {
             email,
             firstName: first_name,
             lastName: last_name,
-            id
+            facebookId: id
         };
         signupModel_1.default.findOne({ email }, (err, user) => {
             if (err) {

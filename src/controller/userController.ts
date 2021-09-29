@@ -34,7 +34,7 @@ export = (passport: passport.Authenticator) => {
           email,
           firstName: first_name,
           lastName: last_name,
-          id
+          facebookId: id
         };
 
         notesUsers.findOne({ email }, (err: any, user: any) => {

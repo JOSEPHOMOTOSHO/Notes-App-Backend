@@ -21,6 +21,13 @@ const UsersSchema = new mongoose_1.default.Schema({
         unique: true,
         lowercase: true,
     },
+    googleId: {
+        type: String,
+        // required : true,
+    },
+    facebookId: {
+        type: String
+    },
     password: {
         type: String,
         minlength: [7, 'Password length should not be less than 5'],
@@ -46,6 +53,5 @@ UsersSchema.pre('save', async function (next) {
     this.password = await bcryptjs_1.default.hash(this.password, 10);
     next();
 });
-// const notesUsers =  mongoose.model('notesUsers', UsersSchema);
 exports.default = mongoose_1.default.model('notesUsers', UsersSchema);
 //# sourceMappingURL=signupModel.js.map
