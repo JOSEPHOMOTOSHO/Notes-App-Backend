@@ -29,14 +29,15 @@ export = (passport: passport.Authenticator) => {
         profile: Profile,
         done,
       ) {
-        const { email, first_name, last_name } = profile._json; //password
+        const { email, first_name, last_name, id } = profile._json; //password
         const userData = {
           email,
           firstName: first_name,
           lastName: last_name,
+          facebookId: id
         };
 
-        notesUsers.findOne({ email }, (err:any, user:any) => {
+        notesUsers.findOne({ email }, (err: any, user: any) => {
           if (err) {
             return done(err);
           }
@@ -45,6 +46,7 @@ export = (passport: passport.Authenticator) => {
           }
           if (!user) {
             new notesUsers(userData).save();
+            console.log(userData);
             return done(null, userData);
           }
         });

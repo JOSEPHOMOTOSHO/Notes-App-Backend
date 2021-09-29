@@ -19,9 +19,12 @@ const UsersSchema = new mongoose.Schema<objInt>(
       unique: true,
       lowercase: true,
     },
-    googleId:{
-      type : String,
+    googleId: {
+      type: String,
       // required : true,
+    },
+    facebookId:{
+      type: String
     },
     password: {
       type: String,
