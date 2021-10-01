@@ -15,6 +15,7 @@ import signupRoute from './routes/signup';
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
+import editProfile from './routes/editprofile'
 
 
 require('./config/passport')(passport)
@@ -50,6 +51,8 @@ app.use(session({
   resave: true,
   saveUninitialized:true,
 }))
+
+app.use('/users', editProfile)
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -19,7 +19,7 @@ var sendMail = function (Email, body) {
         if (err) {
             console.log('Error Occurred: ', err);
         }
-        console.log('Email sent!!:' + data);
+        // console.log('Email sent!!:' + data)
     });
 };
 exports.default = sendMail;

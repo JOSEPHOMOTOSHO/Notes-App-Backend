@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { } from "../util";
 var mongoose_1 = __importDefault(require("mongoose"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var UsersSchema = new mongoose_1.default.Schema({
@@ -61,6 +60,9 @@ var UsersSchema = new mongoose_1.default.Schema({
         type: String,
         // required : true,
     },
+    facebookId: {
+        type: String
+    },
     password: {
         type: String,
         minlength: [7, 'Password length should not be less than 5'],
@@ -77,6 +79,7 @@ var UsersSchema = new mongoose_1.default.Schema({
     about: {
         type: String,
     },
+    avatar: { type: String },
 }, {
     timestamps: true,
 });

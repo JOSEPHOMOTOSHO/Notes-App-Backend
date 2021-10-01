@@ -38,7 +38,9 @@ async function resetPasswordLink(
     if (!user) {
       return res
         .status(404)
-        .json({ status: 'Not found', message: 'User not found' });
+        .json({ 
+          status: 'Not found', 
+          message: 'User not found' });
     }
 
     const token = jwt.sign(
@@ -47,21 +49,22 @@ async function resetPasswordLink(
       { expiresIn: '24h' },
     );
 
-    const link = `${req.protocol}://localhost:3000/password/reset/${token}`;
     const Email = email;
+    const link = `${req.protocol}://localhost:3000/password/reset/${token}`;
     const body = `
-    <div>Click the link below to change your password</div><br/>
+    <div>Click the link below to reset your password</div><br/>
     <div>${link}</div>
     `;
 
     await sendEmail(Email, body);
-
     return res.status(200).render('fakeEmailView', { link });
+
   } catch (err) {
-    console.log('forgotPasswordLink =>', err);
     res
       .status(500)
-      .json({ status: 'Server Error', message: 'Unable to process request' });
+      .json({ 
+        status: 'Server Error', 
+        message: 'Unable to process request' });
   }
 }
 
@@ -79,8 +82,9 @@ async function displayNewPasswordForm(req: Request, res: Response) {
       token,
       process.env.ACCESS_TOKEN_SECRET as string,
     ) as JwtPayload;
-    console.log(verified);
+  
     res.render('resetPassword', { token: token });
+
   } catch (err) {
     console.log('displayNewPasswordForm => ', err);
     res.status(401).json({
@@ -111,10 +115,12 @@ async function processNewPasswordFromUser(
 
   try {
     const { password, token } = req.body;
+
     const check = jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET as string,
     ) as JwtPayload;
+
     const hashedPassword = bcrypt.hashSync(password, 12);
 
     const updatedUser = await userModel.findByIdAndUpdate(
@@ -130,11 +136,14 @@ async function processNewPasswordFromUser(
       status: 'Successful',
       message: 'Password reset successful',
     });
+
   } catch (err) {
     console.log('forgotPassword =>', err);
     res
       .status(500)
-      .json({ status: 'Service Error', message: 'Unable to process request' });
+      .json({ 
+        status: 'Service Error', 
+        message: 'Unable to process request' });
   }
 }
 

@@ -19,6 +19,7 @@ var signup_1 = __importDefault(require("./routes/signup"));
 var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var passport_1 = __importDefault(require("passport"));
 var cors_1 = __importDefault(require("cors"));
+var editprofile_1 = __importDefault(require("./routes/editprofile"));
 require('./config/passport')(passport_1.default);
 var authRouter = require('./routes/auth');
 var profileRouter = require('./routes/profile');
@@ -39,6 +40,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
+app.use('/users', editprofile_1.default);
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 //Connect flash

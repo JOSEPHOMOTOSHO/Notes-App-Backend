@@ -13,11 +13,11 @@ router.get('/welcome', function (req, res) { return res.send('Protected Route' +
 router.get('/', function (req, res) { return res.send('You are out'); });
 router.get('/login', function (req, res, next) {
     var message = req.flash('error');
-    res.send(message[0]);
+    res.status(422).send(message[0]);
 });
 router.post('/login', function (req, res, next) {
     passport.authenticate('local', {
-        successRedirect: '/users/welcome',
+        successRedirect: '/profile/',
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
@@ -25,6 +25,6 @@ router.post('/login', function (req, res, next) {
 router.get('/logout', function (req, res) {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/users');
 });
 module.exports = router;

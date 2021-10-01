@@ -1,8 +1,6 @@
-// import { } from "../util";
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { objInt } from '../interfaces/interface';
-
 const UsersSchema = new mongoose.Schema<objInt>(
   {
     firstName: {
@@ -19,9 +17,12 @@ const UsersSchema = new mongoose.Schema<objInt>(
       unique: true,
       lowercase: true,
     },
-    googleId:{
-      type : String,
+    googleId: {
+      type: String,
       // required : true,
+    },
+    facebookId:{
+      type: String
     },
     password: {
       type: String,
@@ -39,10 +40,11 @@ const UsersSchema = new mongoose.Schema<objInt>(
     about: {
       type: String,
     },
+    avatar: { type: String },
   },
   {
     timestamps: true,
-  },
+  }
 );
 UsersSchema.pre('save', async function (next: () => void) {
   if (!this.isModified('password')) return next();

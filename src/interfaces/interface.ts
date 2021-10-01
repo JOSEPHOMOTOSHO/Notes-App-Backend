@@ -23,7 +23,9 @@ export interface objInt {
   gender:string;
   role:string;
   about:string;
-  googleId:string
+  googleId:string;
+  avatar:string
+  facebookId:string;
 }
 
 export interface objJoi{
