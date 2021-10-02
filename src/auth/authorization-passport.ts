@@ -4,7 +4,7 @@ import express, { Request, Response, NextFunction } from 'express';
 function authorization(req: Request, res: Response, next: NextFunction) {
   if (!req.user) {
     console.log("user not found: ",req.user)
-    res.redirect('/');
+    res.redirect('/users');
   } else {
     next();
   }

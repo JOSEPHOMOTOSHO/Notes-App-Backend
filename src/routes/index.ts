@@ -24,7 +24,7 @@ router.get('/welcome',  (req, res) => res.send('Protected Route'+req.user));
 router.get('/', (req, res) => res.send('You are out'));
 router.get('/login', function(req:Request, res:Response, next:NextFunction) {
  let message =  req.flash('error')
-  res.status(422).send(message[0])
+  res.status(400).send(message[0])
 });
 
 router.post('/login', (req, res, next) => {

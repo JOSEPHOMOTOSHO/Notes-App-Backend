@@ -15,7 +15,7 @@ router.get(
 );
 
 router.get('/fail', (req, res) => {
-  res.send('Failed attempt');
+  res.status(400).send('Failed attempt');
 });
 
 router.get('/', (req, res) => {
