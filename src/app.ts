@@ -6,7 +6,6 @@ import logger from 'morgan';
 const dotenv = require("dotenv").config()
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
-import signIn from './routes/signin';
 import signupRoute from './routes/signup';
 import router from './routes/userRoutes';
 import passport from 'passport';
