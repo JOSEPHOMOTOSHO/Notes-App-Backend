@@ -17,7 +17,7 @@ const sendMail = (Email:string, body: string) => {
         if (err) {
             console.log('Error Occurred: ', err)
         }
-        console.log('Email sent!!:' + data)
+        // console.log('Email sent!!:' + data)
     })
 }
 export default sendMail;

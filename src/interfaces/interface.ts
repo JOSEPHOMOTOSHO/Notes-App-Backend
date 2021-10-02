@@ -24,6 +24,7 @@ export interface objInt {
   role:string;
   about:string;
   googleId: string;
+  avatar:string
   facebookId:string;
 }
 

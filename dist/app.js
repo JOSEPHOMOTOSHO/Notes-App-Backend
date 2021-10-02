@@ -19,6 +19,7 @@ var dotenv = require("dotenv").config();
 var flash = require('connect-flash');
 var passportSetup = require('./config/passport-config');
 require('./controller/userController')(passport_1.default);
+var editprofile_1 = __importDefault(require("./routes/editprofile"));
 require('./config/passport')(passport_1.default);
 var authRouter = require('./routes/auth');
 var profileRouter = require('./routes/profile');
@@ -39,6 +40,9 @@ app.use((0, express_session_1.default)({
     resave: true,
     saveUninitialized: true,
 }));
+app.use('/users', editprofile_1.default);
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 //Connect flash
 app.use(flash());
 //GLobal Vars

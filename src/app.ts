@@ -14,6 +14,7 @@ import session from 'express-session'
 const dotenv = require("dotenv").config()
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
+import editProfile from './routes/editprofile'
 
 require('./controller/userController')(passport)
 
@@ -52,6 +53,12 @@ app.use(session({
   resave: true,
   saveUninitialized:true,
 }))
+
+app.use('/users', editProfile)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Connect flash
 app.use(flash())
 

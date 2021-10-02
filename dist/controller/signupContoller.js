@@ -44,21 +44,17 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var joi_1 = require("../middleware/joi");
 var signupModel_1 = __importDefault(require("../model/signupModel"));
 var nodemailer_1 = __importDefault(require("../nodemailer"));
-var co = require('co');
-var validate = require('validate-email-dns');
+var EmailValidator = require('email-deep-validator');
+var emailValidator = new EmailValidator();
 var secret = process.env.ACCESS_TOKEN_SECRET;
 function createUsers(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, firstName, lastName, email, password, confirm_password, finder, error, valid, newUsers, token, Email, body, err_1;
+        var _a, firstName, lastName, email, password, confirm_password, finder, error, validDomain, newUsers, token, Email, body, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 9, , 10]);
+                    _b.trys.push([0, 11, , 12]);
                     _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, confirm_password = _a.confirm_password;
-                    // if (!firstName || !lastName || !email || !password || !confirm_password   ) {
-                    //   res.status(404).send({msg: "Please fill in all fields" });
-                    //   return;
-                    // }
                     if (password !== confirm_password) {
                         res.status(404).send({ msg: "Password do not match" });
                         return [2 /*return*/];
@@ -66,8 +62,7 @@ function createUsers(req, res, next) {
                     return [4 /*yield*/, signupModel_1.default.findOne({ email: email })];
                 case 1:
                     finder = _b.sent();
-                    console.log(finder, "wserdtrfyguh");
-                    if (!!finder) return [3 /*break*/, 7];
+                    if (!!finder) return [3 /*break*/, 9];
                     return [4 /*yield*/, (0, joi_1.joiValidateSignup)(req.body)];
                 case 2:
                     error = (_b.sent()).error;
@@ -75,20 +70,10 @@ function createUsers(req, res, next) {
                         res.status(404).send(error.details[0].message);
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, (0, joi_1.isEmailValid)(email)];
+                    return [4 /*yield*/, emailValidator.verify(email)];
                 case 3:
-                    valid = (_b.sent()).valid;
-                    console.log(valid);
-                    // const valid = await co.wrap(validate)(email).then(function(correct:boolean) {
-                    //   if (correct) {
-                    //     console.log(correct, 'This email address is correct');
-                    //     return correct
-                    //   } else {
-                    //     console.log('This email address is incorrect');
-                    //   }
-                    // });
-                    console.log(valid, "dwghj");
-                    if (!valid) return [3 /*break*/, 5];
+                    validDomain = (_b.sent()).validDomain;
+                    if (!validDomain) return [3 /*break*/, 7];
                     newUsers = {
                         firstName: firstName,
                         lastName: lastName,
@@ -100,24 +85,28 @@ function createUsers(req, res, next) {
                     token = _b.sent();
                     Email = email;
                     body = "\n        <h2>Please click on the given <a href=\"http://localhost:3000/confirm/" + token + "\">link</a> to activate your acount.</h2></br>\n        <h3>This link expires in 15mins</h3>\n        ";
-                    //email services
-                    (0, nodemailer_1.default)(Email, body);
-                    res.status(201).send({ msg: 'A mail has been sent to you for verification!!!' });
-                    return [3 /*break*/, 6];
+                    if (!(process.env.CONDITION !== 'test')) return [3 /*break*/, 6];
+                    return [4 /*yield*/, (0, nodemailer_1.default)(Email, body)];
                 case 5:
-                    res.status(404).send({ msg: 'Please provide a valid email address' });
+                    _b.sent();
                     _b.label = 6;
-                case 6: return [3 /*break*/, 8];
+                case 6:
+                    res.status(201).send({ msg: 'A mail has been sent to you for verification!!!' });
+                    return [3 /*break*/, 8];
                 case 7:
-                    res.status(404).send({ msg: 'Email already exists' });
+                    res.status(404).send({ msg: 'Please provide a valid email address' });
                     _b.label = 8;
                 case 8: return [3 /*break*/, 10];
                 case 9:
+                    res.status(404).send({ msg: 'Email already exists' });
+                    _b.label = 10;
+                case 10: return [3 /*break*/, 12];
+                case 11:
                     err_1 = _b.sent();
                     console.log(err_1);
-                    res.status(404).send({ msg: 'Invalid Token!!!' });
+                    res.status(404).send({ msg: 'Error!!!' });
                     return [2 /*return*/];
-                case 10: return [2 /*return*/];
+                case 12: return [2 /*return*/];
             }
         });
     });
@@ -131,23 +120,18 @@ function confirmUsers(req, res, next) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     decoded = jsonwebtoken_1.default.verify(req.params.token, secret);
-                    console.log(decoded, "decoded");
                     args = decoded.args;
-                    if (!decoded) {
+                    if (!args) {
                         throw new Error("Thrown here");
                     }
-                    console.log(args, "fagvhdbjklsaKDAVB");
                     return [4 /*yield*/, signupModel_1.default.create(args)];
                 case 1:
                     _a.sent();
-                    console.log(decoded, "1234567");
                     res.status(201).send({ msg: 'Created Successful!!!' });
-                    console.log("decoded");
                     return [3 /*break*/, 3];
                 case 2:
                     err_2 = _a.sent();
-                    console.log(err_2);
-                    res.status(404).send({ msg: 'Error!!!' });
+                    res.status(404).send({ msg: 'Invalid Token!!!' });
                     return [2 /*return*/];
                 case 3: return [2 /*return*/];
             }

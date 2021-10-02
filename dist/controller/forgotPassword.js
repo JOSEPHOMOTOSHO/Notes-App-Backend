@@ -55,7 +55,7 @@ exports.getEmailFromUser = getEmailFromUser;
 //Function to send a reset password link to the user's email address
 function resetPasswordLink(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, user, validatorSchema, validator, token_1, link, Email, body, err_1;
+        var email, user, validatorSchema, validator, token_1, Email, link, body, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -79,22 +79,27 @@ function resetPasswordLink(req, res, next) {
                     if (!user) {
                         return [2 /*return*/, res
                                 .status(404)
-                                .json({ status: 'Not found', message: 'User not found' })];
+                                .json({
+                                status: 'Not found',
+                                message: 'User not found'
+                            })];
                     }
                     token_1 = jsonwebtoken_1.default.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
-                    link = req.protocol + "://localhost:3000/password/reset/" + token_1;
                     Email = email;
-                    body = "\n    <div>Click the link below to change your password</div><br/>\n    <div>" + link + "</div>\n    ";
+                    link = req.protocol + "://localhost:3000/password/reset/" + token_1;
+                    body = "\n    <div>Click the link below to reset your password</div><br/>\n    <div>" + link + "</div>\n    ";
                     return [4 /*yield*/, (0, nodemailer_1.default)(Email, body)];
                 case 3:
                     _a.sent();
                     return [2 /*return*/, res.status(200).render('fakeEmailView', { link: link })];
                 case 4:
                     err_1 = _a.sent();
-                    console.log('forgotPasswordLink =>', err_1);
                     res
                         .status(500)
-                        .json({ status: 'Server Error', message: 'Unable to process request' });
+                        .json({
+                        status: 'Server Error',
+                        message: 'Unable to process request'
+                    });
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
@@ -116,7 +121,6 @@ function displayNewPasswordForm(req, res) {
             }
             try {
                 verified = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
-                console.log(verified);
                 res.render('resetPassword', { token: token });
             }
             catch (err) {
@@ -169,7 +173,10 @@ function processNewPasswordFromUser(req, res, next) {
                     console.log('forgotPassword =>', err_2);
                     res
                         .status(500)
-                        .json({ status: 'Service Error', message: 'Unable to process request' });
+                        .json({
+                        status: 'Service Error',
+                        message: 'Unable to process request'
+                    });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }

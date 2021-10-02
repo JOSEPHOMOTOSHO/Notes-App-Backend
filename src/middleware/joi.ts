@@ -1,7 +1,6 @@
 import joi from "joi"
 import jwt from 'jsonwebtoken';
 import { objJoi } from "../interfaces/interface";
-const emailValidator = require('deep-email-validator');
 
 
 export async function joiValidateSignup(validate:String){
@@ -29,9 +28,6 @@ export const signToken = async (args:objJoi) => {
   });
 };
 
-export async function isEmailValid(email: string) {
-  return emailValidator.validate(email);
-}
 
 
 
