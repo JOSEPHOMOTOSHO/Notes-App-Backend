@@ -1,17 +1,23 @@
 import express, {Request, Response, NextFunction} from "express"
 const router = express.Router();
 const passport = require('passport');
-import changePassword from '../controller/changePassword';
+// import changePassword from '../controller/changePassword';
 import authorization from '../auth/authorization-passport';
-import { confirmUsers, createUsers } from '../controller/signupContoller';
+// import { confirmUsers, createUsers } from '../controller/signupContoller';
 import { upload } from '../middleware/cloudimage'
-import { updateUser } from '../controller/updateprofile';
+// import { updateUser } from '../controller/updateprofile';
 import {
   processNewPasswordFromUser,
   resetPasswordLink,
   getEmailFromUser,
   displayNewPasswordForm,
-} from '../controller/forgotPassword';
+  updateUser,
+  confirmUsers,
+  createUsers,
+  changePassword,
+} from '../controller/users';
+
+import { joiValidateSignup } from "../middleware/joi";
 
 // Welcome Page
 router.get('/welcome',  (req, res) => res.send('Protected Route'+req.user));
@@ -39,7 +45,7 @@ router.get('/profile',  function(req:Request, res:Response, next:NextFunction) {
     res.send(req.user)
   });
 
-  router.post('/signup', createUsers);
+  router.post('/signup', joiValidateSignup, createUsers);
 
   router.get('/confirm/:token', confirmUsers);
 
