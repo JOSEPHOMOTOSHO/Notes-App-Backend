@@ -50,7 +50,7 @@ async function resetPasswordLink(
     );
 
     const Email = email;
-    const link = `${req.protocol}://localhost:3000/password/reset/${token}`;
+    const link = `${req.protocol}://localhost:3000/users/password/reset/${token}`;
     const body = `
     <div>Click the link below to reset your password</div><br/>
     <div>${link}</div>

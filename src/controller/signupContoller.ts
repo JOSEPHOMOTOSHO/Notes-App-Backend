@@ -36,7 +36,7 @@ export async function createUsers(
         let token = await signToken(newUsers);
         const Email = email;
         const body = `
-        <h2>Please click on the given <a href="http://localhost:3000/confirm/${token}">link</a> to activate your acount.</h2></br>
+        <h2>Please click on the given <a href="http://localhost:3000/users/confirm/${token}">link</a> to activate your acount.</h2></br>
         <h3>This link expires in 15mins</h3>
         `
         //email services

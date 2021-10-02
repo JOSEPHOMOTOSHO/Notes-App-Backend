@@ -4,17 +4,12 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 const dotenv = require("dotenv").config()
-import changePassword from './routes/changePassword'
-import forgotPassword from './routes/forgotPassword'
-import signupRoute from './routes/signup';
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
 import session from 'express-session'
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
-import editProfile from './routes/editprofile'
-
 require('./controller/userController')(passport)
 
 require('./config/passport')(passport)
@@ -43,17 +38,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.set('view engine', 'ejs')
-// app.set("views", path.resolve( path.join(__dirname,"../", 'views')))
-
 
 app.use(session({
   secret:process.env.SESSION_SECRET!,
   resave: true,
   saveUninitialized:true,
 }))
-
-app.use('/users', editProfile)
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -74,18 +64,10 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session())
 
-//app.get('/', (req:express.Request, res:express.Response)=>{res.render("signinpage")});
-
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
-app.use('/', signupRoute);
 app.use('/users', indexRouter);
-app.use('/password', forgotPassword)
-app.use('/changePassword', changePassword)
 app.use('/testing', router)
-
-
-// app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
@@ -108,6 +90,4 @@ app.use(function (
   res.send(err.message);
 });
 
-// const port = 5050;
-// app.listen(port, () => console.log(`Server is running on port ${port}`));
 export default app
