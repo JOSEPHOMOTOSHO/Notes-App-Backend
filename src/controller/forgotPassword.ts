@@ -71,6 +71,7 @@ async function resetPasswordLink(
 //Function to get get new password from the user
 async function displayNewPasswordForm(req: Request, res: Response) {
   const token = req.params.token;
+
   if (!token) {
     res.status(401).json({
       status: '401 Unauthorized',
@@ -114,7 +115,14 @@ async function processNewPasswordFromUser(
   }
 
   try {
-    const { password, token } = req.body;
+    const { password, confirmPassword, token } = req.body;
+    if (password !== confirmPassword) {
+      res
+        .status(400)
+        .json({
+          status: 'Client error',
+          message: 'Password does not match' });
+    }
 
     const check = jwt.verify(
       token,

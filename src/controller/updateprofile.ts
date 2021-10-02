@@ -4,6 +4,9 @@ const cloudinary = require('cloudinary').v2;
 export async function updateUser(req: Request, res: Response): Promise<void> {
   let id = req.params._id;
   let img_Url;
+  if(Object.keys(req.body).length === 0){
+    res.status(404).json({message: "Please Input all fields"})
+  }else{
   if (req.file) {
     const { url } = await cloudinary.uploader.upload(req.file?.path);
     img_Url = url;
@@ -32,5 +35,6 @@ export async function updateUser(req: Request, res: Response): Promise<void> {
       });
     }
   });
+ }
 }
 
