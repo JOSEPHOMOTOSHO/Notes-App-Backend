@@ -3,15 +3,14 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+const dotenv = require("dotenv").config()
 import changePassword from './routes/changePassword'
 import forgotPassword from './routes/forgotPassword'
-import signIn from './routes/signin';
 import signupRoute from './routes/signup';
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
 import session from 'express-session'
-const dotenv = require("dotenv").config()
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
 import editProfile from './routes/editprofile'
