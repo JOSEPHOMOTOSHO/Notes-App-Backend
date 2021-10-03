@@ -14,6 +14,9 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
   const  folderId  = req.params.folderId;
   const { title, body, tags } = req.body;
   let user:{id?:string} = req.user
+  let createdBy
+  if(user) createdBy = user.id;
+  else createdBy = req.body.createdBy
 
   try {
     const folderExist = await Folder.findById(folderId);    
@@ -23,13 +26,14 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
         body,
         tags,
         folderId,
-        createdBy : user.id
+        createdBy
       };
       await Note.create(note)
       res.send('sucessfully added')
     }
   } catch (err: any) {
-    res.status(400).json({
+    console.log(err, 'err')
+    res.status(404).json({
       error: err.message,
     });
   }
