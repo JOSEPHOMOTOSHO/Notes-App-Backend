@@ -1,7 +1,7 @@
 import mongoose, { ObjectId } from 'mongoose';
 import { JwtPayload } from "jsonwebtoken";
 import { Request } from 'express';
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 interface RequestInterface extends Request{
   user?: string | JwtPayload;
