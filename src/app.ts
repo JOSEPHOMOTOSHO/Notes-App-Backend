@@ -13,6 +13,7 @@ const passportSetup = require('./config/passport-config')
 require('./controller/userController')(passport)
 import noteRoute from './routes/noteRoute';
 require('./config/passport')(passport)
+const folderRoutes = require ('./routes/folder')
 
 
 const authRouter = require('./routes/auth');
@@ -69,6 +70,7 @@ app.use('/auth', authRouter);
 app.use('/users', indexRouter);
 app.use('/testing', router)
 app.use('/note', noteRoute)
+app.use('/folder',folderRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

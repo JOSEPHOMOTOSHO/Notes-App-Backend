@@ -1,6 +1,7 @@
+import mongoose, { ObjectId } from 'mongoose';
 import { JwtPayload } from "jsonwebtoken";
 import { Request } from 'express';
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 interface RequestInterface extends Request{
   user?: string | JwtPayload;
@@ -27,6 +28,11 @@ export interface objInt {
   googleId: string;
   avatar:string
   facebookId:string;
+}
+export interface notificationsInterface {
+  content : string;
+  noteId: ObjectId;
+  userId: ObjectId;
 }
 
 export interface objJoi{
