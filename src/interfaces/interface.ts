@@ -1,3 +1,4 @@
+import mongoose, { ObjectId } from 'mongoose';
 import { JwtPayload } from "jsonwebtoken";
 import { Request } from 'express';
 
@@ -26,6 +27,11 @@ export interface objInt {
   googleId: string;
   avatar:string
   facebookId:string;
+}
+export interface notificationsInterface {
+  content : string;
+  noteId: ObjectId;
+  userId: ObjectId;
 }
 
 export interface objJoi{
