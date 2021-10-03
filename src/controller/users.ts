@@ -300,6 +300,38 @@ async function updateUser(req: Request, res: Response): Promise<void> {
         
     });
 
+
+    //to get all notes
+
+    app.get('/index' , (req:Request,res:Response,next:NextFunction)=>{
+        Notes.find({}).exec((err:Error,document:String)=> {
+          if(err) console.log(err);
+             document.forEach((value:Number) => {
+              console.log(document);
+           })
+         res.render('view',{data:document})
+        })
+      })
+
+
+
+    //Edit a notes
+    app.get('/updatepage/:__id',(req:Response,res:Request)=>{
+        console.log('id for get request: ' + req.id);
+        Notes.findById(req.id,(err:Error,document:string)=>{
+          console.log(document);
+          res.render('updatepage',{data:document});
+        })
+      })
+      
+      app.post('/updatepage',(req:Request,res:Response,next:NextFunction)=>{
+        console.log('id: ' + req.id);
+        Notes.findByIdAndUpdate(req.id , {title : req.body.title , description: req.body.description },{useFindAndModify:false}
+          ,(err:Error,document:String)=>{
+      console.log('updated');
+      })
+      res.redirect('/index');
+      })
 }
   
   export {
@@ -312,3 +344,7 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     displayNewPasswordForm,
     processNewPasswordFromUser,
   };
+
+
+  //Note.find().sort({"idate":-1}).limit(1).forEach(printjson);
+ //note.find().skip(db.test.count()-1).forEach(printjson)

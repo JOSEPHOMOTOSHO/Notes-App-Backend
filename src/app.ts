@@ -16,7 +16,7 @@ require('./config/passport')(passport)
 
 
 const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
+// const profileRouter = require('./routes/profile');
 const indexRouter = require('./routes/index')
 
 const app = express();
@@ -65,7 +65,7 @@ app.use(passport.initialize());
 app.use(passport.session())
 
 app.use('/auth', authRouter);
-app.use('/profile', profileRouter);
+// app.use('/profile', profileRouter);
 app.use('/users', indexRouter);
 app.use('/testing', router)
 
@@ -89,5 +89,7 @@ app.use(function (
   res.status(err.status || 500);
   res.send(err.message);
 });
+
+
 
 export default app
