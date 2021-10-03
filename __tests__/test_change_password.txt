@@ -27,7 +27,7 @@ describe("TEST FOR CHANGE PASSWORD", ()=>{
             })
 
         await request(app)
-                .post("/changePassword/changePassword")
+                .post("/users/changePassword")
                 .send({ oldPassword:"12345678", newPassword: "87654321", confirmPassword: "87654321"})
                 .expect(302)
     });

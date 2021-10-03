@@ -30,7 +30,7 @@ const token = jwt.sign(
 );
     
 const Email = "chidimmaifeh@gmail.com";
-    const link = `localhost:3000/password/reset/${token}`;
+    const link = `localhost:3000/users/reset/${token}`;
     const body = `
     <div>Click the link below to reset your password</div><br/>
     <div>${link}</div>
@@ -39,7 +39,7 @@ const Email = "chidimmaifeh@gmail.com";
 describe('TEST FOR ENDPOINT: FORGOT PASSWORD ROUTE - POST /password/recovery-email', () => {
     test("if email not exist in database", async () => {
             await request(app)
-        .post(`/password/recovery-email`)
+        .post(`/users/recovery-email`)
         .send({
           "email": "chidimmaifeh@gmail.com"
         })
@@ -55,14 +55,14 @@ describe('TEST FOR ENDPOINT: FORGOT PASSWORD ROUTE - POST /password/recovery-ema
         })
     
         await request(app)
-        .post("/password/recovery-email")
+        .post("/users/recovery-email")
         .send({ email: 'chidimmaifeh@gmail.com'})
         .expect(200)
     });
     
     test('User should be unable to reset Password if email is invalid', async () => {
         await request(app)
-        .post("/password/recovery-email")
+        .post("/users/recovery-email")
         .send({ email: 'c@g.c'})
         .expect(404)
     });
@@ -72,7 +72,7 @@ describe('TEST FOR ENDPOINT: FORGOT PASSWORD ROUTE - POST /password/recovery-ema
 describe('TEST FOR ENDPOINT: FORGOT PASSWORD ROUTE - POST /password/reset/', () => {
     test('User should be unable to reset Password if token is invalid', async () => {
     await request(app)
-    .get("/password/reset/")
+    .get("/users/reset/")
     .send({
         "password":"12345678",
         "confirmPassword":"12345678",
@@ -83,7 +83,7 @@ describe('TEST FOR ENDPOINT: FORGOT PASSWORD ROUTE - POST /password/reset/', () 
     
     test('User should be unable to reset Password if password does not match', async () => {
         await request(app)
-        .post("/password/reset")
+        .post("/users/reset")
         .send({ token: null,
             password: "1888889", 
             confirmPassword: "12345678"})
