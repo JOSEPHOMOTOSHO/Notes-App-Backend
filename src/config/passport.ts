@@ -20,7 +20,7 @@ module.exports = function(passport:Authenticator) {
             //Match User
             try{
                let user =  await Users.findOne({email:email})
-
+                console.log(user)
                if(!user){
                    return done(null, false, { message: 'Email is not in use'});
                }else{

@@ -44,3 +44,8 @@ export interface DatabaseUserInterface {
 export interface Use{
   id?: string
 }
+export interface NoteFolder {
+  title: string;
+  createdBy:string;
+  Notes:[];
+}

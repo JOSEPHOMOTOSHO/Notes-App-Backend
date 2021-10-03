@@ -16,7 +16,7 @@ import {
   createUsers,
   changePassword,
 } from '../controller/users';
-
+import { createFolder } from '../controller/folderController'
 import { joiValidateSignup } from "../middleware/joi";
 
 // Welcome Page
@@ -57,5 +57,7 @@ router.get('/profile',  function(req:Request, res:Response, next:NextFunction) {
   router.get('/reset/:token', displayNewPasswordForm);
   router.post('/reset', processNewPasswordFromUser);
   router.post('/changePassword', authorization, changePassword)
+  
+
 
 module.exports = router;

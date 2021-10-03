@@ -7,7 +7,7 @@ const dotenv = require("dotenv").config()
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
-import session from 'express-session'
+import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
 require('./controller/userController')(passport)
@@ -16,8 +16,8 @@ require('./config/passport')(passport)
 
 
 const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
 const indexRouter = require('./routes/index')
+const folderRoutes = require ('./routes/folder')
 
 const app = express();
 // run();
@@ -63,11 +63,11 @@ app.use(cors());
 //Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session())
-
+ 
 app.use('/auth', authRouter);
-app.use('/profile', profileRouter);
 app.use('/users', indexRouter);
-app.use('/testing', router)
+app.use('/testing', router);
+app.use('/folder', folderRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

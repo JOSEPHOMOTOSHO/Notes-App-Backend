@@ -44,7 +44,7 @@ const UsersSchema = new mongoose.Schema<objInt>(
   },
   {
     timestamps: true,
-  }
+  }  
 );
 UsersSchema.pre('save', async function (next: () => void) {
   if (!this.isModified('password')) return next();
