@@ -1,26 +1,27 @@
-import mongoose from 'mongoose'
-import notesUsers from '../model/signupModel';
-import {  NoteFolder } from '../interfaces/interface'
+import mongoose from "mongoose";
+import notesUsers from "../model/signupModel";
+import { FolderInterface } from "../interfaces/interface";
 
-
-
-const NoteSchema = new mongoose.Schema<NoteFolder>(
+const folderSchema = new mongoose.Schema<FolderInterface>(
   {
-    title:{
+    title: {
       type: String,
-      required: [true, 'Name is needed'],
+      required: [true, "Name is needed"],
     },
-    createdBy:{
-        type: String,
-        required: [true, 'Id is required']
+    createdBy: {
+      type: String,
+      required: [true, "Id is required"],
     },
-    Notes:{
-        type: [],
-        required: [ true, '']
+    Notes: {
+      type: [],
+      required: [true, ""],
     },
-},  
+  },
   {
     timestamps: true,
-  });
+  }
+);
 
-export default mongoose.model('folders', NoteSchema);
+const Folder = mongoose.model<FolderInterface>("Folder", folderSchema);
+
+export default Folder;

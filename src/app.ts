@@ -11,11 +11,15 @@ import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
 require('./controller/userController')(passport)
-
+import noteRoute from './routes/noteRoute';
 require('./config/passport')(passport)
 
 
 const authRouter = require('./routes/auth');
+<<<<<<< HEAD
+=======
+// const profileRouter = require('./routes/profile');
+>>>>>>> ac280ed15e78b3877f7438fbb8e8f58dea4c8741
 const indexRouter = require('./routes/index')
 const folderRoutes = require ('./routes/folder')
 
@@ -65,9 +69,16 @@ app.use(passport.initialize());
 app.use(passport.session())
  
 app.use('/auth', authRouter);
+<<<<<<< HEAD
 app.use('/users', indexRouter);
 app.use('/testing', router);
 app.use('/folder', folderRoutes);
+=======
+// app.use('/profile', profileRouter);
+app.use('/users', indexRouter);
+app.use('/testing', router)
+app.use('/note', noteRoute)
+>>>>>>> ac280ed15e78b3877f7438fbb8e8f58dea4c8741
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

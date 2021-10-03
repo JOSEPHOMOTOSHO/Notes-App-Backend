@@ -1,5 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { Request } from 'express';
+import mongoose from "mongoose";
 
 interface RequestInterface extends Request{
   user?: string | JwtPayload;
@@ -44,7 +45,18 @@ export interface DatabaseUserInterface {
 export interface Use{
   id?: string
 }
-export interface NoteFolder {
+
+export interface NoteInterface extends mongoose.Document {
+  title: string;
+  body: string;
+  collaboratorId: [string];
+  createdBy: mongoose.Schema.Types.ObjectId;
+  tags: [string];
+  folderId: string;
+  softDelete: boolean;
+}
+
+export interface FolderInterface extends mongoose.Document {
   title: string;
   createdBy:string;
   Notes:[];
