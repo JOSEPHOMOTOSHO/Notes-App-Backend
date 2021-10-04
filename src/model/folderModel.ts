@@ -14,7 +14,7 @@ const folderSchema = new mongoose.Schema<FolderInterface>(
     },
     Notes: {
       type: [],
-      required: [true, ""],
+      // required: [true, ""],//required
     },
   },
   {

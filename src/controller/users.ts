@@ -6,6 +6,8 @@ import Joi, { func } from 'joi';
 import {  signToken } from '../middleware/joi';
 import notesUsers from '../model/signupModel';
 import sendEmail from '../nodemailer'
+import Folder from '../model/folderModel'
+
 const EmailValidator = require('email-deep-validator');
 const emailValidator = new EmailValidator();
 const secret: string = process.env.ACCESS_TOKEN_SECRET as string;
@@ -256,7 +258,14 @@ try {
     if (!args) {
         throw new Error("Thrown here");
     }
-    await notesUsers.create(args)
+    const user = await notesUsers.create(args)
+    await Folder.create([{
+        title: 'Trash',
+        createdBy: user._id
+    },{
+        title: 'Collaborator',
+        createdBy: user._id
+    }])
     res.status(201).send({ msg: 'Created Successful!!!' });
 } catch (err: any) {
     res.status(404).send({ msg: 'Invalid Token!!!' });
