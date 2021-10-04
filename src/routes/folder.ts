@@ -1,10 +1,6 @@
 import express, {Request, Response, NextFunction} from "express";
 import authorization  from '../auth/authorization-passport'
 const router = express.Router();
-router.post('/create',authorization, createFolder);
-
-module.exports= router;
-// import authorization  from '../auth/authorization-passport'
 import { createFolder, getNote, trashNote} from '../controller/folderController';  
 
 
