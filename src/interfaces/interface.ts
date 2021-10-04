@@ -60,10 +60,16 @@ export interface NoteInterface extends mongoose.Document {
   tags: [string];
   folderId: string;
   softDelete: boolean;
+  fileUpload:string
 }
 
 export interface FolderInterface extends mongoose.Document {
   title: string;
   createdBy:string;
   Notes:[];
+}
+
+export interface collabInt {
+  email : string;
+  id: string;
 }

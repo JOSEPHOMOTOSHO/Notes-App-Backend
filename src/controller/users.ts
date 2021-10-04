@@ -268,7 +268,7 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     let id = req.params._id;
     let img_Url;
     if(Object.keys(req.body).length === 0){
-        res.status(404).json({message: "Please Input all fields"})
+        res.status(404).json({message: "Please Input needed fields"})
         return
     }
     const user = await notesUsers.findById(id) as unknown as { [key: string]: string | boolean; };
@@ -302,7 +302,7 @@ async function updateUser(req: Request, res: Response): Promise<void> {
 
 }
   
-  export {
+export {
     confirmUsers,
     updateUser,
     createUsers,

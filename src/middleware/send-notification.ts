@@ -4,15 +4,17 @@ import Notification from '../model/notificationModel';
 
 async function sendNotification (email:string, content:string, notesID:string){
 
-    const isUser = notesUsers.findOne({email:email})
+    const isUser = await notesUsers.findOne({email})
     if(isUser){
         const notification = {
-            content : content,
-            userId: isUser.id,
-            notesId: notesID
+            content: content,
+            userId: isUser._id,
+            noteId: notesID
         }
-        Notification.create(notification)
+      const not = await Notification.create(notification)
         return
     }
-    const emailBody = "";
+
 }
+
+export {sendNotification}
