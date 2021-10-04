@@ -57,6 +57,7 @@ router.get('/profile',  function(req:Request, res:Response, next:NextFunction) {
   router.get('/reset/:token', displayNewPasswordForm);
   router.post('/reset', processNewPasswordFromUser);
   router.post('/changePassword', authorization, changePassword)
+ 
 
 
   
