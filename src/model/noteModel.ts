@@ -33,6 +33,7 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
     softDelete: {
       default: false,
     },
+    fileUpload: { type: String },
   },
   { 
     timestamps: true 

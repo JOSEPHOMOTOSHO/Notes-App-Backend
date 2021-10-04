@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import passport from 'passport';
 // import userController from './user.controller';
 
@@ -21,4 +21,5 @@ router.get('/fail', (req, res) => {
 router.get('/', (req, res) => {
   res.send('Success');
 });
+
 export = router;

@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import RequestInterface, { obj } from '../interfaces/interface';
+import RequestInterface, { obj, NoteInterface } from '../interfaces/interface';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import Joi from 'joi';
+import Joi, { func } from 'joi';
 import {  signToken } from '../middleware/joi';
 import notesUsers from '../model/signupModel';
 import sendEmail from '../nodemailer'
@@ -268,7 +268,7 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     let id = req.params._id;
     let img_Url;
     if(Object.keys(req.body).length === 0){
-        res.status(404).json({message: "Please Input all fields"})
+        res.status(404).json({message: "Please Input needed fields"})
         return
     }
     const user = await notesUsers.findById(id) as unknown as { [key: string]: string | boolean; };
@@ -301,8 +301,19 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     });
 
 }
+ 
+
+
+
+
+
+
+
+
+
+
   
-  export {
+export {
     confirmUsers,
     updateUser,
     createUsers,
@@ -311,4 +322,5 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     resetPasswordLink,
     displayNewPasswordForm,
     processNewPasswordFromUser,
-  };
+};
+
