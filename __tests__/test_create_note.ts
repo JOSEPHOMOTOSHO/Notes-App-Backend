@@ -68,29 +68,29 @@ describe('TEST FOR ENDPOINT: CREATE NOTE ROUTE - POST /note/:folderId', () => {
         //.expect(200)
     });   
     
-    // test("User should be able to create a note if folder exist", async () => {
-    //     await request(app)
-    //     .post(`/note/${userDetails._id}`)
-    //     .send({
-    //         title: "Note two",
-    //         body: "we are strong",
-    //         tags: "working",
-    //         createdBy : userDetails._id
-    //     });
-    //     //.expect(200)
-    // }); 
+    test("User should be able to create a note if folder exist", async () => {
+        await request(app)
+        .post(`/note/${userDetails._id}`)
+        .send({
+            title: "Note two",
+            body: "we are strong",
+            tags: "working",
+            createdBy : userDetails._id
+        });
+        //.expect(200)
+    }); 
 
-    // test("User should be unable to create a note if folder does not exist", async () => {
-    //     await request(app)
-    //     .post(`/note/${userDetails._id}`)
-    //     .send({
-    //         title: "Note two",
-    //         body: "we are strong",
-    //         tags: "working",
-    //         createdBy : userDetails._id
-    //     });
+    test("User should be unable to create a note if folder does not exist", async () => {
+        await request(app)
+        .post(`/note/${userDetails._id}`)
+        .send({
+            title: "Note two",
+            body: "we are strong",
+            tags: "working",
+            createdBy : userDetails._id
+        });
         //.expect(404)
-    //}); 
+    }); 
       
   });
 
