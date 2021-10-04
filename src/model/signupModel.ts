@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { objInt } from '../interfaces/interface';
+const salt: string = process.env.SALT as string;
+
 const UsersSchema = new mongoose.Schema<objInt>(
   {
     firstName: {
@@ -26,7 +28,7 @@ const UsersSchema = new mongoose.Schema<objInt>(
     },
     password: {
       type: String,
-      minlength: [7, 'Password length should not be less than 5'],
+      minlength: [7, 'Password length should not be less than 7'],
     },
     location: {
       type: String,
@@ -48,7 +50,7 @@ const UsersSchema = new mongoose.Schema<objInt>(
 );
 UsersSchema.pre('save', async function (next: () => void) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, +salt);
   next();
 });
 
