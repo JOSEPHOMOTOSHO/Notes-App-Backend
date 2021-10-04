@@ -19,6 +19,7 @@ const folderRoutes = require ('./routes/folder')
 const authRouter = require('./routes/auth');
 // const profileRouter = require('./routes/profile');
 const indexRouter = require('./routes/index')
+const getAndEditRoutes = require('./routes/getAndEditRoute')
 
 const app = express();
 // run();
@@ -71,6 +72,7 @@ app.use('/users', indexRouter);
 app.use('/testing', router)
 app.use('/note', noteRoute)
 app.use('/folder',folderRoutes)
+app.use('/sprint2',getAndEditRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
@@ -92,5 +94,7 @@ app.use(function (
   res.status(err.status || 500);
   res.send(err.message);
 });
+
+
 
 export default app
