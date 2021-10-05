@@ -13,7 +13,7 @@ const cloudinary = require('cloudinary').v2;
 const secret: string = process.env.ACCESS_TOKEN_SECRET as string;
 
 
-export async function postCollab(
+export async function inviteCollborator(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -22,15 +22,17 @@ export async function postCollab(
     const { email } = req.body;
     let id =  req.params.noteId
     let finder = await notesUsers.findOne({email})
+    if (req.user.email === email) return res.status(404).send({msg: "Note owner cannot be a Collaborator"}) 
     if(finder) {
-        let noteFinder = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:true})  
+      console.log(`123rt4esd`)
+      let noteFinder = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:false})  
       
-        if (noteFinder.collaboratorId.includes(finder._id)) return res.status(404).send({msg: "Already a Collaborator"}) 
+      if (noteFinder.collaboratorId.includes(finder._id)) return res.status(404).send({msg: "Already a Collaborator"}) 
         
-        let content = `You have been added as a contributor to this note ${noteFinder.title}`
-        sendNotification(email, content, noteFinder._id)
-        res.status(201).send({ msg: 'Notification Sent' });
-        return
+      let content = `You have been added as a contributor to  ${noteFinder.title} note`
+      sendNotification(email, content, noteFinder._id)
+      res.status(201).send({ msg: 'Notification Sent' });
+      return
     }
     const { validDomain }= await emailValidator.verify(email)
     if (!validDomain) {
@@ -53,12 +55,13 @@ export async function postCollab(
     res.status(201).json({ msg: 'A mail has been sent to you to register!!!',token:token});
     return
   } catch (err: any) {
+    console.log(err, "ertyu")
     res.status(404).send({ msg: 'Error!!!' });
     return;
   }
 }
 
-export async function confirmCollab(
+export async function confirmCollaborator(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -89,15 +92,36 @@ export async function confirmCollab(
     }
 }
 
-export async function removeCollab(
+export async function removeCollaborator(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
     let finder = await Note.findByIdAndUpdate(req.params.id, { "$pull": {collaboratorId:req.user._id}}, {new:true}) 
-    let content = `You have Successfully been removed from this note ${finder.title}`
+    let content = `You have Successfully been removed from ${finder.title} note`
     await sendNotification(req.user.email, content, finder._id)
+    res.status(201).send({ msg: 'Removed Successful!!!' });
+  } catch (err: any) {
+    res.status(404).send({ msg: 'Error!!!' });
+    return;
+  }
+}
+
+export async function adminRemoveCollaborator(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { email } = req.body;
+    let id =  req.params.id
+    let finder = await notesUsers.findOne({email})
+    if(!finder) res.status(404).send({error: "Not a user"})
+    if (email === req.user.email) return res.status(404).send({msg: "Note Owner cannot be remove"})
+    let result = await Note.findByIdAndUpdate(id, { "$pull": {collaboratorId:finder._id}}, {new:true}) 
+    let content = `Collaborator has been Successfully removed from ${finder.title} note`
+    await sendNotification(email, content, finder._id)
     res.status(201).send({ msg: 'Removed Successful!!!' });
   } catch (err: any) {
     res.status(404).send({ msg: 'Error!!!' });
@@ -113,12 +137,12 @@ export async function uploadFile(
     try {
       let id = req.params.upId;
       let upload_Url;
-      const user = await Note.findById(id) as unknown as { [key: string]: string | boolean; };
+      const user = await Note.findById(id) as unknown as { [key: string]: string | boolean };
       upload_Url = user.fileUpload;
       if (req.file) {
          const result = await cloudinary.uploader.upload(req.file?.path);
          upload_Url = result.url;
-         res.status(200).send(result)
+         res.status(200).send(result.url)
          return
       }
     } catch (err: any) {
@@ -129,7 +153,9 @@ export async function uploadFile(
 
 export async function getNotification (req: Request, res: Response): Promise<void> {
     const userId = req.user.id
+    console.log(userId)
   let notifications = await Notification.find({userId})
+  console.log(notifications)
   if(notifications.length === 0){
      res.status(200).send('You dont have any notifications at the moment')
      return 
@@ -137,3 +163,5 @@ export async function getNotification (req: Request, res: Response): Promise<voi
   res.status(200).json(notifications)
   return 
 }
+
+

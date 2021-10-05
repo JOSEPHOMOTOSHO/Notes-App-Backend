@@ -10,19 +10,16 @@ import cors from 'cors';
 import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
-require('./controller/userController')(passport)
-import noteRoute from './routes/noteRoute';
+require('./controller/user-Controller')(passport)
 require('./config/passport')(passport)
-const folderRoutes = require ('./routes/folder')
-const collabRoutes = require ('./routes/collabRoute')
+
 
 const app = express();
+
+//importing routes
+const notesRoutes = require ('./routes/notes')
 const authRouter = require('./routes/auth');
-// const profileRouter = require('./routes/profile');
 const indexRouter = require('./routes/index')
-const getAndEditRoutes = require('./routes/getAndEditRoute')
-const noteRoutes = require('./routes/folder');
-const deleteRoutes = require('./routes/folder')
 
 
 
@@ -70,18 +67,12 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session())
  
+app.use('/notes',notesRoutes);
 app.use('/auth', authRouter);
-// app.use('/profile', profileRouter);
 app.use('/users', indexRouter);
 app.use('/testing', router)
-app.use('/note', noteRoute)
-app.use('/folder',folderRoutes)
-app.use('/cont',collabRoutes)
-app.use('/sprint2',getAndEditRoutes)
-app.use('/note', noteRoute);
-app.use('/folder',folderRoutes);
-app.use('/getNote', noteRoutes);
-app.use('/notes',deleteRoutes);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

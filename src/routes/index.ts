@@ -18,7 +18,7 @@ import {
 } from '../controller/users';
 
 import { joiValidateSignup } from '../middleware/joi';
-import { createFolder } from '../controller/folderController'
+import { createFolder } from '../controller/folder-Controller'
 
 // Welcome Page
 router.get('/welcome', (req, res) => res.send('Protected Route' + req.user));

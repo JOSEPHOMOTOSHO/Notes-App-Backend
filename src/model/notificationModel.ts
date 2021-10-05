@@ -18,12 +18,12 @@ const NotificationSchema = new Schema(
     },
     noteId: {
         type: Schema.Types.ObjectId,
-        ref: 'Notes',
+        ref: 'notes',
       required: [true, 'NoteId is needed'],
     },
     userId: {
        type: Schema.Types.ObjectId, 
-       ref: 'noteUsers',
+       ref: 'noteusers',
       required: [true, 'UserId is needed'],
     },
     

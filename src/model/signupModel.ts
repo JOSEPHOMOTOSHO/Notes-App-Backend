@@ -54,4 +54,4 @@ UsersSchema.pre('save', async function (next: () => void) {
   next();
 });
 
-export default mongoose.model('notesUsers', UsersSchema);
+export default mongoose.model('notesusers', UsersSchema);

@@ -76,7 +76,7 @@ export interface NoteInterface extends mongoose.Document {
 
 export interface FolderInterface extends mongoose.Document {
   title: string;
-  createdBy:string;
+  createdBy:ObjectId;
   Notes:[];
 }
 
