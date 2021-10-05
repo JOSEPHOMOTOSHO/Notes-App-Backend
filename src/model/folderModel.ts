@@ -9,13 +9,16 @@ const folderSchema = new mongoose.Schema<FolderInterface>(
       required: [true, "Name is needed"],
     },
     createdBy: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "noteUsers",
       required: [true, "Id is required"],
     },
-    Notes: {
-      type: [],
-      required: [true, ""],
-    },
+    Notes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Note",
+      },
+    ],
   },
   {
     timestamps: true,

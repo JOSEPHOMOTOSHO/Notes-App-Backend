@@ -5,12 +5,12 @@ const passport = require("passport")
 
 
 router.get('/google/redirect', passport.authenticate('google'), function(req:Request, res:Response, next:NextFunction) {
-    res.redirect('/profile/')
+    res.redirect('/users/profile/')
 });
  
 router.get('/goal',  function(req:Request, res:Response, next:NextFunction) {
-// res.send('gkjr')
-res.redirect('/profile/')
+
+res.redirect('/users/profile/')
 })
 
 router.get('/google', passport.authenticate('google',{

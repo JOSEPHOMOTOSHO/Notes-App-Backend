@@ -7,19 +7,22 @@ const dotenv = require("dotenv").config()
 import router from './routes/userRoutes';
 import passport from 'passport';
 import cors from 'cors';
-import session from 'express-session'
+import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
-require('./controller/userController')(passport)
-import noteRoute from './routes/noteRoute';
+require('./controller/user-Controller')(passport)
 require('./config/passport')(passport)
 
 
+const app = express();
+
+//importing routes
+const notesRoutes = require ('./routes/notes')
 const authRouter = require('./routes/auth');
-// const profileRouter = require('./routes/profile');
 const indexRouter = require('./routes/index')
 
-const app = express();
+
+
 // run();
 
 declare module "express" {
@@ -63,12 +66,13 @@ app.use(cors());
 //Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session())
-
+ 
+app.use('/notes',notesRoutes);
 app.use('/auth', authRouter);
-// app.use('/profile', profileRouter);
 app.use('/users', indexRouter);
 app.use('/testing', router)
-app.use('/note', noteRoute)
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
@@ -90,5 +94,7 @@ app.use(function (
   res.status(err.status || 500);
   res.send(err.message);
 });
+
+
 
 export default app

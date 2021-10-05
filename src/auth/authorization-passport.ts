@@ -6,6 +6,7 @@ function authorization(req: Request, res: Response, next: NextFunction) {
     console.log("user not found: ",req.user)
     res.redirect('/users');
   } else {
+    console.log(req.user.id)
     next();
   }
 }
