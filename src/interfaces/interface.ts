@@ -3,8 +3,19 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
 // import mongoose from "mongoose";
 
-interface RequestInterface extends Request {
-  user?: string | JwtPayload;
+// declare module "express" {
+//   interface Request {
+//     // user?: string | JwtPayload;
+//     user?: any; 
+//       flash?: any,
+//       isAuthenticated?:any,
+//   }
+// }
+
+
+interface RequestInterface extends Request{
+  user?: string | JwtPayload 
+ 
 }
 
 export default RequestInterface;
@@ -65,12 +76,20 @@ export interface NoteInterface extends mongoose.Document {
 
 export interface FolderInterface extends mongoose.Document {
   title: string;
-  createdBy: string;
-  Notes: [];
+  createdBy:ObjectId;
+  Notes:[];
 }
 
 export interface collabInt {
   email: string;
   id: string;
+}  
+export interface NotesInterface extends mongoose.Document {
+  title: string;
+  body: string;
+  tags: [string];
+  folderId: string;
+  softDelete:Boolean;
+  collaboratorId: [string];
+  createdBy: mongoose.Schema.Types.ObjectId;
 }
-

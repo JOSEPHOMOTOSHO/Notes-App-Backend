@@ -14,7 +14,7 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
     collaboratorId: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "noteUsers",
+        ref: "notesusers",
       },
     ],
     tags: {
@@ -23,7 +23,7 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "noteUsers",
+      ref: "notesusers",
       required: true,
     },
     folderId: {
@@ -31,7 +31,9 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
       required: true,
     },
     softDelete: {
+      type: Boolean,
       default: false,
+      required: true,
     },
     fileUpload: { type: String },
   },

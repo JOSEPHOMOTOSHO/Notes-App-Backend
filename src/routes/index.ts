@@ -18,6 +18,7 @@ import {
 } from '../controller/users';
 
 import { joiValidateSignup } from '../middleware/joi';
+import { createFolder } from '../controller/folder-Controller'
 
 // Welcome Page
 router.get('/welcome', (req, res) => res.send('Protected Route' + req.user));
@@ -63,6 +64,14 @@ router.post('/recovery-email', resetPasswordLink);
 router.get('/reset/:token', displayNewPasswordForm);
 router.post('/reset', processNewPasswordFromUser);
 router.post('/changePassword', authorization, changePassword);
+
+  router.get('/recovery-email', getEmailFromUser);
+  router.post('/recovery-email', resetPasswordLink);
+  
+  router.get('/reset/:token', displayNewPasswordForm);
+  router.post('/reset', processNewPasswordFromUser);
+  router.post('/changePassword', authorization, changePassword)
+  
 
 
 module.exports = router;
