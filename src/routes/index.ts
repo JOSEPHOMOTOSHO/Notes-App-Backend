@@ -60,9 +60,6 @@ router.put('/:_id', upload, updateUser);
 router.get('/recovery-email', getEmailFromUser);
 router.post('/recovery-email', resetPasswordLink);
 
-router.get('/recovery-email', getEmailFromUser);
-router.post('/recovery-email', resetPasswordLink);
-
 router.get('/reset/:token', displayNewPasswordForm);
 router.post('/reset', processNewPasswordFromUser);
 router.post('/changePassword', authorization, changePassword);
