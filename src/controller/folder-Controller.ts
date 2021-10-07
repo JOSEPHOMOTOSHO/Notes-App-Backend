@@ -14,6 +14,7 @@ declare module "express" {
 // create folders
 export const createFolder = async (req: Request, res: Response) => {
   //created by related to the user id from the usermodel/ schema
+  console.log(req)
   const { _id: createdBy } = req.user as { [key: string]: string };
 
   //title as folder name from the folder schema

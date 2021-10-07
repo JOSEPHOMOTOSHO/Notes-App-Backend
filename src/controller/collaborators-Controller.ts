@@ -24,7 +24,7 @@ export async function inviteCollborator(
     let finder = await notesUsers.findOne({email})
     if (req.user.email === email) return res.status(404).send({msg: "Note owner cannot be a Collaborator"}) 
     if(finder) {
-      console.log(`123rt4esd`)
+      // console.log(`123rt4esd`)
       let noteFinder = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:false})  
       
       if (noteFinder.collaboratorId.includes(finder._id)) return res.status(404).send({msg: "Already a Collaborator"}) 

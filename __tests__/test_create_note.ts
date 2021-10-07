@@ -39,7 +39,7 @@ describe('TEST FOR ENDPOINT: CREATE NOTE ROUTE - POST /note/:folderId', () => {
 
   test('A user that is not logged in should not be able to create a folder', async () => {
     await request(app)
-      .post(`/folder/create`)
+      .post(`/notes/createFolder`)
       .send({
         title: 'folder one',
       })
@@ -57,7 +57,7 @@ describe('TEST FOR ENDPOINT: CREATE NOTE ROUTE - POST /note/:folderId', () => {
 
   test('User should be able to create a note if folder exist', async () => {
     await request(app)
-      .post(`/note/${folderId}`)
+      .post(`/notes/${folderId}`)
       .send({
         title: 'Note two',
         body: 'we are strong',
