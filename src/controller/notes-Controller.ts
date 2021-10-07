@@ -1,12 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Folder from '../model/folderModel';
 import Note from '../model/noteModel';
-<<<<<<< HEAD
 import {canEdit} from '../middleware/can-user-edit'
 import { AsyncResource } from 'async_hooks';
-=======
 import noteUsers from '../model/signupModel';
->>>>>>> b951a9f5170b84cc59d285b29a6901ce0d57e99b
 
 declare module 'express' {
   interface Request {
@@ -33,15 +30,10 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
   // else createdBy = req.body.createdBy
 
   try {
-<<<<<<< HEAD
     const folderExist = await Folder.findById(folderId);    
     const noteExist = await Note.findOne({folderId, title, softDelete: false});    
     if(noteExist)return res.status(400).send({message: "A note with this title already exist in this folder please choose a different title"})
     if ( !noteExist && folderExist  ) {
-=======
-    const folderExist = await Folder.findById(folderId);
-    if (folderExist) {
->>>>>>> b951a9f5170b84cc59d285b29a6901ce0d57e99b
       const note = {
         title,
         body,
@@ -49,13 +41,8 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
         folderId,
         createdBy,
       };
-<<<<<<< HEAD
       let noteCreated = await Note.create(note)
       return res.status(201).json({noteCreated, message: "Notes created successfully"})
-=======
-      let noteCreated = await Note.create(note);
-      return res.status(201).json({ noteCreated });
->>>>>>> b951a9f5170b84cc59d285b29a6901ce0d57e99b
     }
   } catch (err: any) {
     // console.log(err, 'err');
@@ -166,7 +153,6 @@ async function sortByDesc(req: Request, res: Response, next: NextFunction) {
     return res.status(404).send('Invalid Sort');
   }
 
-<<<<<<< HEAD
   console.log("Input from url",input)
   const searchObj = {
     $and: [
@@ -177,12 +163,6 @@ async function sortByDesc(req: Request, res: Response, next: NextFunction) {
 const updateByLatest = await Note.find(searchObj).sort(result)
 //const updateByLatest = await Note.find({updatedAt:"1"})
 //let latest = updateByLatest[0]
-=======
-  // console.log('Input from url', input);
-  const updateByLatest = await Note.find().sort(result);
-  //const updateByLatest = await Note.find({updatedAt:"1"})
-  //let latest = updateByLatest[0]
->>>>>>> b951a9f5170b84cc59d285b29a6901ce0d57e99b
 
   // console.log('Latest Update', updateByLatest);
   if (updateByLatest.length === 0) {
@@ -191,7 +171,6 @@ const updateByLatest = await Note.find(searchObj).sort(result)
   return res.status(201).json(updateByLatest);
 }
 
-<<<<<<< HEAD
 export async function sortByTitle(req:Request,res:Response,next:NextFunction){
   let searchObj = req.body.sort
 
@@ -236,38 +215,6 @@ const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
 export { 
   editNotes,
   createNote, 
-=======
-export async function sortByTitle(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  // console.log('34');
-  let searchObj = req.body.sort;
-  // console.log(req.user.id);
-  // console.log(req.body.sort);
-  if (req.body.sort !== undefined) {
-    searchObj = {
-      $and: [
-        { title: { $regex: req.body.sort, $options: 'i' } },
-        { createdBy: req.user.id },
-      ],
-    };
-  }
-  // console.log(req.user.id);
-  // console.log(req.body.sort);
-  const searchResult = await Note.find(searchObj);
-  // console.log(sea?rchResult);
-  if (searchResult.length === 0)
-    return res
-      .status(200)
-      .json({ message: 'No note matches your search criteria' });
-  res.status(200).send(searchResult);
-}
-
-export {
-  createNote,
->>>>>>> b951a9f5170b84cc59d285b29a6901ce0d57e99b
   getCollaborators,
   getCollaboratorsNotes,
   sortByDesc,

@@ -1,30 +1,21 @@
-import Notification from '../src/model/notificationModel';
-import notesusers from '../src/model/signupModel';
-import mongoose from 'mongoose';
-import jest from 'jest'
 import app from '../src/app';
 import supertest from 'supertest';
 import { collabToken, signToken } from '../src/middleware/joi';
 import userModel from '../src/model/signupModel'
-import { resetPasswordLink } from '../src/controller/users'
 import jwt from 'jsonwebtoken'
-
+import {beforeAll, afterEach, afterAll, describe, test, expect} from "@jest/globals";
 import {
   startConnection,
   clearConnectedDatabase,
   closeDatabaseConnection,
 } from '../mongodb_memory_server/database_memory';
-import sendEmail from '../src/nodemailer'
-import {beforeAll, afterEach, afterAll, describe, test, expect} from "@jest/globals";
-import { RequestHeaderFieldsTooLarge } from 'http-errors';
+
 let request = supertest.agent()
-// Connect to database memory before running any tests.
+
 beforeAll(async () => {
-    
     request = supertest.agent(app)
     await startConnection()
-},25000);
-// afterEach(async () => await clearConnectedDatabase());
+},250000);
 afterAll(async () => await closeDatabaseConnection());
 
 
@@ -85,7 +76,7 @@ describe("TEST FOR NOTES", () => {
         })
     })
 
-    test("Successful creation of a new user", async() => {
+    test("Successful creation of new user2", async() => {
         const sampleData = {
             firstName:"Chi",
             lastName:"Chi",
@@ -120,7 +111,7 @@ describe("TEST FOR NOTES", () => {
         })
     })
 
-    test("Successful confirmation of a new user", async() => {
+    test("Successful confirmation of new user2", async() => {
         const sampleData = {
             firstName:"Chi",
             lastName:"Chi",
@@ -471,31 +462,21 @@ describe("TEST FOR NOTES", () => {
         .expect((res) => {
             expect(res.body).toHaveProperty('title','newww1')
             expect(res.body).toHaveProperty('body','how far')
-        //   expect(res.body.msg).toBe('A mail has been sent to you to register!!!')
         })
     })
 
     test('Get all collaborators on a note', async()=>{
-        await request
-        .get(`/notes/${id}/collaborators`)
-        .set('Accept', 'application/json')
-        .expect(200)
-      })
-
-    // test('Get all notes of a collaborator', async()=>{
-    //     // const sampleData = {
-    //     //   email: 'christian.mgbekwute@decagon.dev',
-    //     //   password: '12345678',
-    //     // };
-    // //     await request
-    // //       .post('/users/login')
-    // //       .send(sampleData)
-    // //       .set('Accept', 'application/json')
-    //     await request
-    //     .get(`/notes/collaborators/notes`)
-    //     .set('Accept', 'application/json')
-    //     .expect(200)
-    // })
+      await request
+      .get(`/notes/${id}/collaborators`)
+      .set('Accept', 'application/json')
+      .expect(200)
+    })
+    test('Get all notes of a collaborator', async()=>{
+      await request
+      .get(`/notes/collaborators/notes`)
+      .set('Accept', 'application/json')
+      .expect(200)
+    })
 
     test("Delete a note", async() => {
         let newFolder = await request.post("/notes/createFolder").send({title:"testFolderz"})
