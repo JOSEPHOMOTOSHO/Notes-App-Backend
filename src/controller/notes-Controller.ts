@@ -73,7 +73,11 @@ async function getCollaborators(
 ): Promise<string[] | any> {
   const { noteId } = req.params;
   try {
-    const note = await Note.findById(noteId).populate('collaboratorId');
+    const note = await Note.findById(noteId).populate('collaboratorId', {
+      firstName: 1,
+      lastName: 1,
+      email: 1,
+    });
 
     if (!note) return res.status(404).json({ error: 'Note does not exist' });
 
