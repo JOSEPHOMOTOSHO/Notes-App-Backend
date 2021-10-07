@@ -15,6 +15,7 @@ const cloudinary = require('cloudinary').v2;
 
 async function changePassword(req: RequestInterface, res: Response) {
     const user_id = req.user as JwtPayload;
+    console.log(user_id, "chabgeP")
     let { oldPassword, newPassword, confirmPassword } = req.body;
     if (newPassword !== confirmPassword) {
       res
@@ -103,7 +104,9 @@ try {
     <div>${link}</div>
     `;
 
-    await sendEmail(Email, body);
+    if (process.env.CONDITION !== "test"){
+        await sendEmail(Email, body)
+    }
     return res.status(200).render('fakeEmailView', { link });
 
 } catch (err) {
@@ -236,7 +239,8 @@ try {
     <h3>This link expires in 15mins</h3>
     `
         //email services
-    if (process.env.CONDITION !== 'test'){
+        console.log("CHIMERIE:",process.env.CONDITION !== "test")
+    if (process.env.CONDITION !== "test"){
         await sendEmail(Email, body)
     }
     res.status(201).send({ msg: 'A mail has been sent to you for verification!!!' });   
@@ -310,16 +314,6 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     });
 
 }
- 
-
-
-
-
-
-
-
-
-
 
   
 export {

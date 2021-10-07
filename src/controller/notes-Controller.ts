@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Folder from '../model/folderModel';
 import Note from '../model/noteModel';
+import {canEdit} from '../middleware/can-user-edit'
+import { AsyncResource } from 'async_hooks';
 
 declare module "express" {
   interface Request {
@@ -20,7 +22,9 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
 
   try {
     const folderExist = await Folder.findById(folderId);    
-    if (folderExist) {
+    const noteExist = await Note.findOne({folderId, title, softDelete: false});    
+    if(noteExist)return res.status(400).send({message: "A note with this title already exist in this folder please choose a different title"})
+    if ( !noteExist && folderExist  ) {
       const note = {
         title,
         body,
@@ -29,7 +33,7 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
         createdBy
       };
       let noteCreated = await Note.create(note)
-      return res.status(201).json({noteCreated})
+      return res.status(201).json({noteCreated, message: "Notes created successfully"})
     }
   } catch (err: any) {
     console.log(err, 'err')
@@ -89,7 +93,13 @@ async function sortByDesc(req:Request,res:Response,next:NextFunction){
   }
 
   console.log("Input from url",input)
-const updateByLatest = await Note.find().sort(result)
+  const searchObj = {
+    $and: [
+        { createdBy: req.user.id},
+        { softDelete: false },
+    ]
+}
+const updateByLatest = await Note.find(searchObj).sort(result)
 //const updateByLatest = await Note.find({updatedAt:"1"})
 //let latest = updateByLatest[0]
 
@@ -101,27 +111,48 @@ return res.status(201).json(updateByLatest);
 }
 
 export async function sortByTitle(req:Request,res:Response,next:NextFunction){
-  console.log('34')
   let searchObj = req.body.sort
-  console.log(req.user.id)
-  console.log(req.body.sort)
+
   if(req.body.sort !== undefined){
       searchObj = {
               $and: [
                   { title: { $regex: req.body.sort, $options: "i" }},
                   { createdBy: req.user.id},
+                  { softDelete: false },
               ]
           }
   }
   console.log(req.user.id)
   console.log(req.body.sort)
-const searchResult = await Note.find(searchObj)
+const searchResult = await Note.find(searchObj).sort("-updatedAt")
 console.log(searchResult)
 if(searchResult.length === 0 ) return res.status(200).json({message:"No note matches your search criteria"})
 res.status(200).send(searchResult)
 };
 
+
+const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
+  const {noteId} = req.params
+  const {newBody} = req.body
+
+  let userid = req.user._id
+
+  let isAllowed = await canEdit(userid , noteId)
+  if(!isAllowed){
+    return res.status(401).send({error:"You are not authorized to edit this note"})
+  }
+  
+  const update = await Note.findByIdAndUpdate(noteId , {body:newBody})
+  if(!update){
+    return res.status(404).send({error:"An error occurred while updating"})
+  }
+
+  return res.status(200).send({message:"Note has been sucessfully updated"})
+
+}
+
 export { 
+  editNotes,
   createNote, 
   getCollaborators,
   sortByDesc,

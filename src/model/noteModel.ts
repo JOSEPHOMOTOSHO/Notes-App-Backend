@@ -35,7 +35,9 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
       default: false,
       required: true,
     },
-    fileUpload: { type: String },
+    fileUpload: [
+      { type: String },
+    ],
   },
   { 
     timestamps: true 

@@ -8,7 +8,6 @@ import User from '../model/signupModel';
 
 // passport.serializeUser((user,done))
 
-
 passport.serializeUser((user:Use, done:Function)=>{
     done(null, user.id);
   });

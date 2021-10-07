@@ -53,28 +53,14 @@ router.get(
 );
 
 router.post('/signup', joiValidateSignup, createUsers);
-
 router.get('/confirm/:token', confirmUsers);
-
 router.put('/:_id', upload, updateUser);
-
 router.get('/recovery-email', getEmailFromUser);
 router.post('/recovery-email', resetPasswordLink);
-
-router.get('/recovery-email', getEmailFromUser);
-router.post('/recovery-email', resetPasswordLink);
-
 router.get('/reset/:token', displayNewPasswordForm);
 router.post('/reset', processNewPasswordFromUser);
 router.post('/changePassword', authorization, changePassword);
 
-  router.get('/recovery-email', getEmailFromUser);
-  router.post('/recovery-email', resetPasswordLink);
-  
-  router.get('/reset/:token', displayNewPasswordForm);
-  router.post('/reset', processNewPasswordFromUser);
-  router.post('/changePassword', authorization, changePassword)
-  
 
 
 module.exports = router;
