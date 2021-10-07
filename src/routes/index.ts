@@ -44,6 +44,7 @@ router.get('/logout', (req: Request, res: Response) => {
   req.flash('success_msg', 'You are logged out');
   res.redirect('/users');
 });
+
 router.get(
   '/profile',
   function (req: Request, res: Response, next: NextFunction) {
@@ -61,19 +62,16 @@ router.put('/:_id', upload, updateUser);
 router.get('/recovery-email', getEmailFromUser);
 router.post('/recovery-email', resetPasswordLink);
 
-router.get('/recovery-email', getEmailFromUser);
-router.post('/recovery-email', resetPasswordLink);
-
 router.get('/reset/:token', displayNewPasswordForm);
 router.post('/reset', processNewPasswordFromUser);
 router.post('/changePassword', authorization, changePassword);
 
-  router.get('/recovery-email', getEmailFromUser);
-  router.post('/recovery-email', resetPasswordLink);
+  // router.get('/recovery-email', getEmailFromUser);
+  // router.post('/recovery-email', resetPasswordLink);
   
-  router.get('/reset/:token', displayNewPasswordForm);
-  router.post('/reset', processNewPasswordFromUser);
-  router.post('/changePassword', authorization, changePassword)
+  // router.get('/reset/:token', displayNewPasswordForm);
+  // router.post('/reset', processNewPasswordFromUser);
+  // router.post('/changePassword', authorization, changePassword)
   
 
 
