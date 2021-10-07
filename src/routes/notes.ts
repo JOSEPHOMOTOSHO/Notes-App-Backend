@@ -16,7 +16,6 @@ router.get('/getNotification', getNotification);
 router.get('/:_id',authorization, getNote);
 router.get('/delete/:_id',authorization, trashNote);
 router.post('/createNote/:folderId', createNote);//user id should be attached as well
-// router.get('/:noteId/collaborators', getCollaborators)
 router.get('/:noteId/collaborators', authorization, getCollaborators);
 router.get('/collaborators/notes', authorization, getCollaboratorsNotes);
 router.get('/getAllNote/:folderId',  getAllNotes)
