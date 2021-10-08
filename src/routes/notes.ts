@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express, { Router, Response, Request } from 'express';
 import authorization from '../auth/authorization-passport';
 import { createNote, getCollaborators, sortByDesc, sortByTitle, getAllNotes  } from '../controller/notes-Controller';
 import { createFolder, getNote, trashNote} from '../controller/folder-Controller'; 
@@ -8,6 +8,9 @@ import { upload } from '../middleware/cloudimage';
 
 const router = Router();
 router.use(authorization)
+router.get('/testss', (req:Request,res:Response)=>{
+    res.send(req.user)
+})
 router.get('/desc', sortByDesc)
 router.post('/search', sortByTitle);
 router.post('/createFolder', createFolder);
