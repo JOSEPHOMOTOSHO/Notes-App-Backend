@@ -1,5 +1,6 @@
 import passport from 'passport';
 import { Strategy as FacebookStrategy, Profile } from 'passport-facebook';
+import {Use, DatabaseUserInterface} from '../interfaces/interface'
 // const  strategy = require('passport-facebook')
 
 import notesUsers from '../model/signupModel';
@@ -7,12 +8,14 @@ import notesUsers from '../model/signupModel';
 // const FacebookStrategy = strategy.Strategy;
 
 export = (passport: passport.Authenticator) => {
-  passport.serializeUser(function (user, done) {
-    done(null, user);
+  passport.serializeUser(function (user: Use, done: Function) {
+    done(null, user.id);
   });
 
-  passport.deserializeUser(function (obj, done) {
-    done(null, obj as any);
+  passport.deserializeUser(function(id:string, done:Function) {
+    notesUsers.findById(id, function(user:DatabaseUserInterface) {
+      done(null, user);
+    });
   });
 
   passport.use(

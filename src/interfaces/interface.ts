@@ -1,5 +1,5 @@
 import mongoose, { ObjectId } from 'mongoose';
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
 // import mongoose from "mongoose";
 
@@ -18,13 +18,13 @@ interface RequestInterface extends Request{
  
 }
 
-export default RequestInterface
+export default RequestInterface;
 
-export interface obj{
-  firstName:string,
-  lastName:string,
-  email:string,
-  password:string
+export interface obj {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
 
 export interface objInt {
@@ -32,35 +32,35 @@ export interface objInt {
   lastName: string;
   email: string;
   password: string;
-  location:string;
-  gender:string;
-  role:string;
-  about:string;
+  location: string;
+  gender: string;
+  role: string;
+  about: string;
   googleId: string;
-  avatar:string
-  facebookId:string;
+  avatar: string;
+  facebookId: string;
 }
 export interface notificationsInterface {
-  content : string;
+  content: string;
   noteId: ObjectId;
   userId: ObjectId;
 }
 
-export interface objJoi{
-  firstName:string,
-  lastName:string,
-  email:string,
-  password:string
+export interface objJoi {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
 
 export interface DatabaseUserInterface {
-  email : string;
+  email: string;
   password: string;
   id: string;
 }
 
-export interface Use{
-  id?: string
+export interface Use {
+  id?: string;
 }
 
 export interface NoteInterface extends mongoose.Document {
@@ -71,7 +71,7 @@ export interface NoteInterface extends mongoose.Document {
   tags: [string];
   folderId: string;
   softDelete: boolean;
-  fileUpload:string
+  fileUpload: string;
 }
 
 export interface FolderInterface extends mongoose.Document {
@@ -81,7 +81,7 @@ export interface FolderInterface extends mongoose.Document {
 }
 
 export interface collabInt {
-  email : string;
+  email: string;
   id: string;
 }  
 export interface NotesInterface extends mongoose.Document {

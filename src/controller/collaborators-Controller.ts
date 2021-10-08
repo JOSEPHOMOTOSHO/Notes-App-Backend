@@ -24,7 +24,6 @@ export async function inviteCollborator(
     let finder = await notesUsers.findOne({email})
     if (req.user.email === email) return res.status(404).send({msg: "Note owner cannot be a Collaborator"}) 
     if(finder) {
-      console.log(`123rt4esd`)
       let noteFinder = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:false})  
       
       if (noteFinder.collaboratorId.includes(finder._id)) return res.status(404).send({msg: "Already a Collaborator"}) 
@@ -117,7 +116,7 @@ export async function adminRemoveCollaborator(
     const { email } = req.body;
     let id =  req.params.id
     let finder = await notesUsers.findOne({email})
-    if(!finder) res.status(404).send({error: "Not a user"})
+    if(!finder) return res.status(404).send({error: "Not a user"})
     if (email === req.user.email) return res.status(404).send({msg: "Note Owner cannot be remove"})
     let result = await Note.findByIdAndUpdate(id, { "$pull": {collaboratorId:finder._id}}, {new:true}) 
     let content = `Collaborator has been Successfully removed from ${finder.title} note`
