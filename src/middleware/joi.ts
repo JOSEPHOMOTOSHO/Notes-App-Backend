@@ -53,7 +53,7 @@ export async function joiValidateCollab(req:Request, res:Response, next:NextFunc
 
 export const collabToken = async (args:collabInt) => {
   return jwt.sign({ args }, secret, {
-    expiresIn: days,
+    expiresIn: '24h',
   });
 };
 
