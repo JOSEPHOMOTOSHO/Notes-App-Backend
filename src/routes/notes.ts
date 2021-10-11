@@ -31,7 +31,7 @@ router.get('/restoredelete/:_id', restoreNote);
 router.get('/permanentdelete/:_id', permanentlyDeleteNote);
 router.post('/createNote/:folderId', createNote);
 router.get('/:noteId/collaborators', getCollaborators);
-router.get('/collaborators/notes', getCollaboratorsNotes);
+router.get('/collaborators/notes', getCollaboratorsNotes);  
 router.get('/getAllNote/:folderId',  getAllNotes)
 router.post('/invite/:noteId', inviteCollborator);
 router.post('/collab/:token', joiValidateCollab, confirmCollaborator);

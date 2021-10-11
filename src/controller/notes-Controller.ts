@@ -183,10 +183,9 @@ export async function sortByTitle(req:Request,res:Response,next:NextFunction){
               ]
           }
   }
-  console.log(req.user.id)
-  console.log(req.body.sort)
+  
 const searchResult = await Note.find(searchObj).sort("-updatedAt")
-console.log(searchResult)
+
 if(searchResult.length === 0 ) return res.status(200).json({message:"No note matches your search criteria"})
 res.status(200).send(searchResult)
 };
@@ -194,7 +193,7 @@ res.status(200).send(searchResult)
 
 const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
   const {noteId} = req.params
-  const {newBody} = req.body
+  const {body, tags} = req.body
 
   let userid = req.user._id
 
@@ -203,7 +202,7 @@ const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
     return res.status(401).send({error:"You are not authorized to edit this note"})
   }
   
-  const update = await Note.findByIdAndUpdate(noteId , {body:newBody})
+  const update = await Note.findByIdAndUpdate(noteId , {body, tags})
   if(!update){
     return res.status(404).send({error:"An error occurred while updating"})
   }

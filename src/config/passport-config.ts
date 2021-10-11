@@ -24,14 +24,9 @@ passport.use(
         clientSecret : process.env.SECRET,
         callbackURL:'/auth/google/redirect',
     },async(accessToken:string, refreshToken:string, profile:Profile, done:Function)=>{
-          console.log("1")
-          console.log(profile.id)
         let previousUser = await User.findOne({googleId:profile.id})
-        console.log("2")
-        // console.log(previousUser)
-        // console.log(previousUser.googleId)
          if(previousUser){
-            // console.log(previousUser);
+
             done(null, previousUser)
 
         }else{

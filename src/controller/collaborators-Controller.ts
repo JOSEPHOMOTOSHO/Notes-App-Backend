@@ -44,18 +44,18 @@ export async function inviteCollborator(
         id
     }
     let token = await collabToken(user);
+    const subject = 'Invitation to Collaborate on  Note'
     const body = `
-    <h2>Please click on the given <a href="http://localhost:3000/collab/${token}">link</a> to register your acount.</h2>
+    <h2>Please click on the given <a href="http://localhost:3000/notes/collab/${token}">link</a> to register your acount.</h2>
     `
     //email services
     if (process.env.CONDITION !== 'test'){
-      await sendEmail(email, body)
+      await sendEmail(subject, email, body)
     }
     res.status(201).json({ msg: 'A mail has been sent to you to register!!!',token:token});
     return
   } catch (err: any) {
-    console.log(err, "ertyu")
-    res.status(404).send({ msg: 'Error!!!' });
+    res.status(404).send({ error: err.message });
     return;
   }
 }
@@ -86,7 +86,7 @@ export async function confirmCollaborator(
         res.status(201).send({ msg: 'Created Successful!!!' });
 
     } catch (err: any) {
-        res.status(404).send({ msg: 'Confirmation Error!!!' });
+        res.status(404).send({ error: err.message });
         return;
     }
 }
@@ -102,7 +102,7 @@ export async function removeCollaborator(
     await sendNotification(req.user.email, content, finder._id)
     res.status(201).send({ msg: 'Removed Successful!!!' });
   } catch (err: any) {
-    res.status(404).send({ msg: 'Error!!!' });
+    res.status(404).send({ error: err.message });
     return;
   }
 }
@@ -123,7 +123,7 @@ export async function adminRemoveCollaborator(
     await sendNotification(email, content, finder._id)
     res.status(201).send({ msg: 'Removed Successful!!!' });
   } catch (err: any) {
-    res.status(404).send({ msg: 'Error!!!' });
+    res.status(404).send({ error: err.message });
     return;
   }
 }
@@ -135,30 +135,27 @@ export async function uploadFile(
   ){
     try {
       let id = req.params.upId;
-      let upload_Url;
-      const user = await Note.findById(id) as unknown as { [key: string]: string | boolean };
-      upload_Url = user.fileUpload;
       if (req.file) {
          const result = await cloudinary.uploader.upload(req.file?.path);
-         upload_Url = result.url;
-         res.status(200).send(result.url)
+         let user = await Note.findByIdAndUpdate(id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
+         res.status(200).send(user)
          return
       }
+      return res.status(404).send({ error: "Please input a file"});
     } catch (err: any) {
-      res.status(404).send({ msg: 'Error!!!' });
+      res.status(404).send({ error: err.message });
       return;
     }
 }
 
 export async function getNotification (req: Request, res: Response): Promise<void> {
     const userId = req.user.id
-    console.log(userId)
   let notifications = await Notification.find({userId})
   console.log(notifications)
-  if(notifications.length === 0){
-     res.status(200).send('You dont have any notifications at the moment')
-     return 
-  }
+  // if(notifications.length === 0){
+  //    res.status(200).send('You dont have any notifications at the moment')
+  //    return 
+  // }
   res.status(200).json(notifications)
   return 
 }

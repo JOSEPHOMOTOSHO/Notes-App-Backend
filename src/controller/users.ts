@@ -101,6 +101,7 @@ async function resetPasswordLink(
     );
 
     const Email = email;
+    const subject = 'Reset Password'
     const link = `${req.protocol}://localhost:3000/users/password/reset/${token}`;
     const body = `
     <div>Click the link below to reset your password</div><br/>
@@ -108,7 +109,7 @@ async function resetPasswordLink(
     `;
 
     if (process.env.CONDITION !== "test"){
-        await sendEmail(Email, body)
+        await sendEmail(subject, Email, body)
     }
     return res.status(200).render('fakeEmailView', { link });
   } catch (err) {
@@ -226,6 +227,7 @@ async function createUsers(req: Request, res: Response, next: NextFunction) {
       password,
     };
     let token = await signToken(newUsers);
+    const subject = 'Please Verify Your Account'
     const Email = email;
     const body = `
     <h2>Please click on the given <a href="http://localhost:3000/users/confirm/${token}">link</a> to activate your acount.</h2></br>
@@ -233,7 +235,7 @@ async function createUsers(req: Request, res: Response, next: NextFunction) {
     `
         //email services
     if (process.env.CONDITION !== "test"){
-        await sendEmail(Email, body)
+        await sendEmail(subject, Email, body)
     }
     res
       .status(201)

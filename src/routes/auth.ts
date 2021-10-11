@@ -9,7 +9,6 @@ router.get('/google/redirect', passport.authenticate('google'), function(req:Req
 });
  
 router.get('/goal',  function(req:Request, res:Response, next:NextFunction) {
-
 res.redirect('/users/profile/')
 })
 

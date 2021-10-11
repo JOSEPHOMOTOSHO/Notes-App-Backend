@@ -15,7 +15,7 @@ let request = supertest.agent()
 beforeAll(async () => {
     request = supertest.agent(app)
     await startConnection()
-},250000);
+},10000);
 afterAll(async () => await closeDatabaseConnection());
 
 
@@ -352,10 +352,8 @@ describe("TEST FOR NOTES", () => {
         .set("Accept", "application/json")
         .expect(200)
         .expect((res) => {
-            // console.log(res)
             expect(Array.isArray(res.body)).toBe(true)
             expect(res.body.length).toBeGreaterThan(0)
-        //   expect(res.body.msg).toBe('Notification Sent')
         })
     })
     test("Successful removal as collaborator", async() => {
@@ -390,20 +388,6 @@ describe("TEST FOR NOTES", () => {
         })
     })
 
-    // test("Edit a note", async() => {
-    //     const sampleData = {
-    //       newBody: "We are React",
-    //     }
-    //     await request
-    //     .put(`/editnote/${id}`)
-    //     .send(sampleData)
-    //     .set("Accept", "application/json")
-    //     .expect(200)
-    //     .expect((res) => {
-    //       expect(res.body.msg).toBe('Note has been sucessfully updated')
-    //     })
-    // })
-
     test("get all note", async() => {
         let newFolder = await request.post("/notes/createFolder").send({title:"testFolder5"})
         let FolderId = newFolder.body.folder._id
@@ -435,7 +419,6 @@ describe("TEST FOR NOTES", () => {
         .set("Accept", "application/json")
         .expect(200)
         .expect((res) => {
-            // console.log(res.body)
           expect(Array.isArray(res.body)).toBe(true)
           expect(res.body.length).toBe(3)
         })
@@ -444,7 +427,6 @@ describe("TEST FOR NOTES", () => {
     test("Get a note", async() => {
         let newFolder = await request.post("/notes/createFolder").send({title:"testFolder6"})
         let FolderId = newFolder.body.folder._id
-        console.log(FolderId)
         let note = await request
         .post(`/notes/createNote/${FolderId}`)
         .send({
@@ -481,7 +463,6 @@ describe("TEST FOR NOTES", () => {
     test("Delete a note", async() => {
         let newFolder = await request.post("/notes/createFolder").send({title:"testFolderz"})
         let FolderId = newFolder.body.folder._id
-        console.log(FolderId)
         let note = await request
         .post(`/notes/createNote/${FolderId}`)
         .send({
@@ -491,7 +472,6 @@ describe("TEST FOR NOTES", () => {
         })
 
         let noteId = note.body.noteCreated._id
-        console.log(noteId)
 
         await request
         .get(`/notes/delete/${noteId}`)
@@ -501,4 +481,36 @@ describe("TEST FOR NOTES", () => {
           expect(res.body.message).toBe('Note Successfully Deleted')
         })
     })
+    test("Edit a note", async() => {
+      let newFolder = await request.post("/notes/createFolder").send({title:"edit note folder"})
+      let FolderId = newFolder.body.folder._id
+      let note = await request
+      .post(`/notes/createNote/${FolderId}`)
+      .send({
+          "title":"edit note", 
+          "body" : "how far", 
+          "tags" : ["yeah"] 
+      })
+
+      let noteId = note.body.noteCreated._id
+
+      await request
+      .put(`/notes/editnote/${noteId}`)
+      .send({body:"new body",tags:["new","note"]})
+      .set("Accept", "application/json")
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.message).toBe('Note has been sucessfully updated')
+      })
+
+      await request
+      .get(`/notes/${noteId}`)
+      .set("Accept", "application/json")
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('body')
+        expect(res.body.body).toBe('new body')
+        expect(res.body.tags).toStrictEqual(["new","note"])
+      })
+  })
 })

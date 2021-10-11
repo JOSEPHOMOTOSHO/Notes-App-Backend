@@ -6,11 +6,11 @@ let transporter = nodemailer.createTransport({
         pass: 'Bobili001&23',
     }
 })
-const sendMail = (Email:string, body: string) => {
+const sendMail = (subject:string, Email:string, body: string) => {
     let mailOptions = {
         from: 'ajkshines001@gmail.com',
         to: Email,
-        subject: 'Successfully Signed up',
+        subject: subject,
         html: body
     }
     return transporter.sendMail(mailOptions, (err:any, data:any) => {

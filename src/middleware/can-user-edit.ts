@@ -10,7 +10,7 @@ export const canEdit = async(user:string, note:string)=>{
     
     let ownerId = (noteDetails.createdBy).toString() as unknown as string
 
-    const isOwner= ownerId == user.toString()
+    const isOwner = ownerId == user.toString()
     
     if(collaborator || isOwner){
         return true
