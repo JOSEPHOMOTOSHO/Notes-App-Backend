@@ -43,3 +43,15 @@ jobs:
           CLOUDINARY_SECRET_KEY: ${{secrets.CLOUDINARY_SECRET_KEY}}
           CLOUDINARY_CLOUD_NAME: ${{secrets.CLOUDINARY_CLOUD_NAME}}
           COLLAB_ACCESS: ${{secrets.COLLAB_ACCESS}}
+  deploy:
+    
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "notesxd"
+          heroku_email: "chiemerieanaebo405@gmail.com"
