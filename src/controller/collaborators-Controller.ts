@@ -152,10 +152,10 @@ export async function getNotification (req: Request, res: Response): Promise<voi
     const userId = req.user.id
   let notifications = await Notification.find({userId})
   console.log(notifications)
-  // if(notifications.length === 0){
-  //    res.status(200).send('You dont have any notifications at the moment')
-  //    return 
-  // }
+  if(notifications.length === 0){
+     res.status(200).send('You dont have any notifications at the moment')
+     return 
+  }
   res.status(200).json(notifications)
   return 
 }
