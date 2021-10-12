@@ -30,3 +30,16 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: jest
+        env:
+          ACCESS_TOKEN_SECRET: ${{secrets.ACCESS_TOKEN_SECRET}}
+          ACCESS_EXPIRES: ${{secrets.ACCESS_EXPIRES}}
+          CLIENT_ID:  ${{secrets.CLIENT_ID}}
+          CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          CALLBACK_URL: ${{secrets.CALLBACK_URL}}
+          SECRET: ${{secrets.SECRET}}
+          CLIENT_ID_GOOGLE: ${{secrets.CLIENT_ID_GOOGLE}}
+          SESSION_SECRET: ${{secrets.SESSION_SECRET}}
+          CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
+          CLOUDINARY_SECRET_KEY: ${{secrets.CLOUDINARY_SECRET_KEY}}
+          CLOUDINARY_CLOUD_NAME: ${{secrets.CLOUDINARY_CLOUD_NAME}}
+          COLLAB_ACCESS: ${{secrets.COLLAB_ACCESS}}
