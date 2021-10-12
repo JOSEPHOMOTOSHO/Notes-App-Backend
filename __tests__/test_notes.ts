@@ -237,40 +237,40 @@ describe('TEST FOR NOTES', () => {
       });
   });
 
-  test('A logged in user should be able to create a folder', async () => {
-    await request
-      .post('/notes/createFolder')
-      .send({
-        title: 'folder one',
-      })
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.message).toBe('Folder created successfully');
-      });
-  });
+  // test('A logged in user should be able to create a folder', async () => {
+  //   await request
+  //     .post('/notes/createFolder')
+  //     .send({
+  //       title: 'folder one',
+  //     })
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.message).toBe('Folder created successfully');
+  //     });
+  // });
 
   test('A user should not be able to create a folder with empty field', async () => {
     await request.post('/notes/createFolder').send({}).expect(404);
   });
 
-  test('User should be able to create a note if folder exist', async () => {
-    let newFolder = await request
-      .post('/notes/createFolder')
-      .send({ title: 'testFolders' });
-    let FolderId = newFolder.body.folder._id;
-    await request
-      .post(`/notes/createNote/${FolderId}`)
-      .send({
-        title: 'Note two',
-        body: 'we are strong',
-        tags: 'working',
-      })
-      .expect(201)
-      .expect((res) => {
-        id = res.body.noteCreated._id;
-        expect(res.body.message).toBe('Notes created successfully');
-      });
-  });
+  // test('User should be able to create a note if folder exist', async () => {
+  //   let newFolder = await request
+  //     .post('/notes/createFolder')
+  //     .send({ title: 'testFolders' });
+  //   let FolderId = newFolder.body.folder._id;
+  //   await request
+  //     .post(`/notes/createNote/${FolderId}`)
+  //     .send({
+  //       title: 'Note two',
+  //       body: 'we are strong',
+  //       tags: 'working',
+  //     })
+  //     .expect(201)
+  //     .expect((res) => {
+  //       id = res.body.noteCreated._id;
+  //       expect(res.body.message).toBe('Notes created successfully');
+  //     });
+  // });
 
   test('User should be unable to create a note if folder does not exist', async () => {
     let newFolder = await request
@@ -287,99 +287,99 @@ describe('TEST FOR NOTES', () => {
       .expect(404);
   });
 
-  test('Successful invite a new collaborator', async () => {
-    const sampleData = {
-      email: 'chidimma.ifeh@decagon.dev',
-    };
-    await request
-      .post(`/notes/invite/${id}`)
-      .send(sampleData)
-      .set('Accept', 'application/json')
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.msg).toBe('Notification Sent');
-      });
-  });
+  // test('Successful invite a new collaborator', async () => {
+  //   const sampleData = {
+  //     email: 'chidimma.ifeh@decagon.dev',
+  //   };
+  //   await request
+  //     .post(`/notes/invite/${id}`)
+  //     .send(sampleData)
+  //     .set('Accept', 'application/json')
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('Notification Sent');
+  //     });
+  // });
 
-  test('Trying to invite an already existing collaborator', async () => {
-    const sampleData = {
-      email: 'chidimma.ifeh@decagon.dev',
-    };
-    await request
-      .post(`/notes/invite/${id}`)
-      .send(sampleData)
-      .set('Accept', 'application/json')
-      .expect(404)
-      .expect((res) => {
-        expect(res.body.msg).toBe('Already a Collaborator');
-      });
-  });
+  // test('Trying to invite an already existing collaborator', async () => {
+  //   const sampleData = {
+  //     email: 'chidimma.ifeh@decagon.dev',
+  //   };
+  //   await request
+  //     .post(`/notes/invite/${id}`)
+  //     .send(sampleData)
+  //     .set('Accept', 'application/json')
+  //     .expect(404)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('Already a Collaborator');
+  //     });
+  // });
 
-  test('Successful invite a new user as a collaborator', async () => {
-    const sampleData = {
-      email: 'chiemerie.anebo@decagon.dev',
-    };
-    await request
-      .post(`/notes/invite/${id}`)
-      .send(sampleData)
-      .set('Accept', 'application/json')
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.msg).toBe('A mail has been sent to you to register!!!');
-      });
-  });
+  // test('Successful invite a new user as a collaborator', async () => {
+  //   const sampleData = {
+  //     email: 'chiemerie.anebo@decagon.dev',
+  //   };
+  //   await request
+  //     .post(`/notes/invite/${id}`)
+  //     .send(sampleData)
+  //     .set('Accept', 'application/json')
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('A mail has been sent to you to register!!!');
+  //     });
+  // });
 
-  test('Successful confirm a collaborator', async () => {
-    const sampleData = {
-      email: 'chiemerie.anebo@decagon.dev',
-      id,
-    };
-    let token = await collabToken(sampleData);
-    await request
-      .post(`/notes/collab/${token}`)
-      .send({
-        firstName: 'chiemerie',
-        lastName: 'anebo',
-        password: '1234567',
-        confirm_password: '1234567',
-      })
-      .set('Accept', 'application/json')
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.msg).toBe('Created Successful!!!');
-      });
-  });
+  // test('Successful confirm a collaborator', async () => {
+  //   const sampleData = {
+  //     email: 'chiemerie.anebo@decagon.dev',
+  //     id,
+  //   };
+  //   let token = await collabToken(sampleData);
+  //   await request
+  //     .post(`/notes/collab/${token}`)
+  //     .send({
+  //       firstName: 'chiemerie',
+  //       lastName: 'anebo',
+  //       password: '1234567',
+  //       confirm_password: '1234567',
+  //     })
+  //     .set('Accept', 'application/json')
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('Created Successful!!!');
+  //     });
+  // });
 
-  test('get Notifications', async () => {
-    const sampleData = {
-      email: 'chidimma.ifeh@decagon.dev',
-      password: '123456789',
-    };
-    await request
-      .post('/users/login')
-      .send(sampleData)
-      .set('Accept', 'application/json');
+  // test('get Notifications', async () => {
+  //   const sampleData = {
+  //     email: 'chidimma.ifeh@decagon.dev',
+  //     password: '123456789',
+  //   };
+  //   await request
+  //     .post('/users/login')
+  //     .send(sampleData)
+  //     .set('Accept', 'application/json');
 
-    await request
-      .get('/notes/getNotification')
-      .set('Accept', 'application/json')
-      .expect(200)
-      .expect((res) => {
-        // console.log(res)
-        expect(Array.isArray(res.body)).toBe(true);
-        expect(res.body.length).toBeGreaterThan(0);
-        //   expect(res.body.msg).toBe('Notification Sent')
-      });
-  });
-  test('Successful removal as collaborator', async () => {
-    await request
-      .get(`/notes/remove/${id}`)
-      .set('Accept', 'application/json')
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.msg).toBe('Removed Successful!!!');
-      });
-  });
+  //   await request
+  //     .get('/notes/getNotification')
+  //     .set('Accept', 'application/json')
+  //     .expect(200)
+  //     .expect((res) => {
+  //       // console.log(res)
+  //       expect(Array.isArray(res.body)).toBe(true);
+  //       expect(res.body.length).toBeGreaterThan(0);
+  //       //   expect(res.body.msg).toBe('Notification Sent')
+  //     });
+  // });
+  // test('Successful removal as collaborator', async () => {
+  //   await request
+  //     .get(`/notes/remove/${id}`)
+  //     .set('Accept', 'application/json')
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('Removed Successful!!!');
+  //     });
+  // });
 
   test('Successful removal of a collaborator that is not a user', async () => {
     await request
@@ -392,16 +392,16 @@ describe('TEST FOR NOTES', () => {
       });
   });
 
-  test('Successful removal as collaborator', async () => {
-    await request
-      .post(`/notes/admin/remove/${id}`)
-      .set('Accept', 'application/json')
-      .send({ email: 'chiemerie.anebo@decagon.dev' })
-      .expect(201)
-      .expect((res) => {
-        expect(res.body.msg).toBe('Removed Successful!!!');
-      });
-  });
+  // test('Successful removal as collaborator', async () => {
+  //   await request
+  //     .post(`/notes/admin/remove/${id}`)
+  //     .set('Accept', 'application/json')
+  //     .send({ email: 'chiemerie.anebo@decagon.dev' })
+  //     .expect(201)
+  //     .expect((res) => {
+  //       expect(res.body.msg).toBe('Removed Successful!!!');
+  //     });
+  // });
 
   // test("Edit a note", async() => {
   //     const sampleData = {
@@ -438,7 +438,7 @@ describe('TEST FOR NOTES', () => {
       body: 'how far',
       tags: ['yeah'],
     });
-
+  })
     test("verify token is valid", async () => {
         let user = await userModel.findOne({email: 'christian.mgbekwute@decagon.dev'})
         const token = await jwt.sign(
@@ -596,19 +596,19 @@ describe('TEST FOR NOTES', () => {
         })
     })
 
-    test("Successful invite a new user as a collaborator", async() => {
-        const sampleData = {
-          email: "chiemerie.anebo@decagon.dev",
-        }
-        await request
-        .post(`/notes/invite/${id}`)
-        .send(sampleData)
-        .set("Accept", "application/json")
-        .expect(201)
-        .expect((res) => {
-          expect(res.body.msg).toBe('A mail has been sent to you to register!!!')
-        })
-    })
+    // test("Successful invite a new user as a collaborator", async() => {
+    //     const sampleData = {
+    //       email: "chiemerie.anebo@decagon.dev",
+    //     }
+    //     await request
+    //     .post(`/notes/invite/${id}`)
+    //     .send(sampleData)
+    //     .set("Accept", "application/json")
+    //     .expect(201)
+    //     .expect((res) => {
+    //       expect(res.body.msg).toBe('A mail has been sent to you to register!!!')
+    //     })
+    // })
 
     test("Successful confirm a collaborator", async() => {
         const sampleData = {
@@ -682,41 +682,41 @@ describe('TEST FOR NOTES', () => {
         })
     })
 
-    test("get all note", async() => {
-        let newFolder = await request.post("/notes/createFolder").send({title:"testFolder5"})
-        let FolderId = newFolder.body.folder._id
-        let note = await request
-        .post(`/notes/createNote/${FolderId}`)
-        .send({
-            "title":"newww", 
-            "body" : "how far", 
-            "tags" : ["yeah"] 
-        })
+    // test("get all note", async() => {
+    //     let newFolder = await request.post("/notes/createFolder").send({title:"testFolder5"})
+    //     let FolderId = newFolder.body.folder._id
+    //     let note = await request
+    //     .post(`/notes/createNote/${FolderId}`)
+    //     .send({
+    //         "title":"newww", 
+    //         "body" : "how far", 
+    //         "tags" : ["yeah"] 
+    //     })
     
-        let note2 = await request
-        .post(`/notes/createNote/${FolderId}`)
-        .send({
-            "title":"test note 2", 
-            "body" : "how far", 
-            "tags" : ["yeah"] 
-        })
-        let note3 = await request
-        .post(`/notes/createNote/${FolderId}`)
-        .send({
-            "title":"test note 3", 
-            "body" : "how far", 
-            "tags" : ["yeah"] 
-        })
+    //     let note2 = await request
+    //     .post(`/notes/createNote/${FolderId}`)
+    //     .send({
+    //         "title":"test note 2", 
+    //         "body" : "how far", 
+    //         "tags" : ["yeah"] 
+    //     })
+    //     let note3 = await request
+    //     .post(`/notes/createNote/${FolderId}`)
+    //     .send({
+    //         "title":"test note 3", 
+    //         "body" : "how far", 
+    //         "tags" : ["yeah"] 
+    //     })
         
-        await request
-        .get(`/notes/getAllNote/${FolderId}`)
-        .set("Accept", "application/json")
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body)).toBe(true)
-          expect(res.body.length).toBe(3)
-        })
-    })
+    //     await request
+    //     .get(`/notes/getAllNote/${FolderId}`)
+    //     .set("Accept", "application/json")
+    //     .expect(200)
+    //     .expect((res) => {
+    //       expect(Array.isArray(res.body)).toBe(true)
+    //       expect(res.body.length).toBe(3)
+    //     })
+    // })
 
     test("Get a note", async() => {
         let newFolder = await request.post("/notes/createFolder").send({title:"testFolder6"})
@@ -766,28 +766,28 @@ describe('TEST FOR NOTES', () => {
       .expect(200)
     })
 
-    test("Delete a note", async() => {
-        let newFolder = await request.post("/notes/createFolder").send({title:"testFolderz"})
-        let FolderId = newFolder.body.folder._id
-        let note = await request
-        .post(`/notes/createNote/${FolderId}`)
-        .send({
-            "title":"newww1", 
-            "body" : "how far", 
-            "tags" : ["yeah"] 
-        })
+  test("Delete a note", async() => {
+      let newFolder = await request.post("/notes/createFolder").send({title:"testFolderz"})
+      let FolderId = newFolder.body.folder._id
+      let note = await request
+      .post(`/notes/createNote/${FolderId}`)
+      .send({
+          "title":"newww1", 
+          "body" : "how far", 
+          "tags" : ["yeah"] 
+      })
 
-        let noteId = note.body.noteCreated._id
+      let noteId = note.body.noteCreated._id
 
-        await request
-        .get(`/notes/delete/${noteId}`)
-        .set("Accept", "application/json")
-        .expect(200)
-        .expect((res) => {
-          expect(res.body.message).toBe('Note Successfully Deleted')
-        })
-    })
-    test("Edit a note", async() => {
+      await request
+      .get(`/notes/delete/${noteId}`)
+      .set("Accept", "application/json")
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.message).toBe('Note Successfully Deleted')
+      })
+  })
+  test("Edit a note", async() => {
       let newFolder = await request.post("/notes/createFolder").send({title:"edit note folder"})
       let FolderId = newFolder.body.folder._id
       let note = await request
@@ -818,6 +818,6 @@ describe('TEST FOR NOTES', () => {
         expect(res.body.body).toBe('new body')
         expect(res.body.tags).toStrictEqual(["new","note"])
       })
+
   })
-})
 })
