@@ -16,6 +16,7 @@ router.get('/tests', function (req, res) {
     // let id = req.user.id
     res.send(req.user.id);
 });
+router.get('/getfolder', folder_Controller_1.getFolder);
 router.get('/desc', notes_Controller_1.sortByDesc);
 router.post('/search', notes_Controller_1.sortByTitle);
 router.post('/createFolder', folder_Controller_1.createFolder); //authorization required

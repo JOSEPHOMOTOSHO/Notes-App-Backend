@@ -48,6 +48,10 @@ app.use(session({
   saveUninitialized:true,
 }))
 
+app.get('/',(req,res)=>{
+  res.status(200).send('welcome to notexd app')
+})
+
 app.use(passport.initialize());
 app.use(passport.session());
 

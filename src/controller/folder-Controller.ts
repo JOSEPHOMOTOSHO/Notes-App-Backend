@@ -36,6 +36,28 @@ export const createFolder = async (req: Request, res: Response) => {
     res.status(404).json({ error: message });
   }
 };
+//get folders
+export const getFolder = async (req: Request, res: Response) => {
+  //created by related to the user id from the usermodel/ schema
+  const { _id: createdBy } = req.user 
+  console.log(createdBy)
+  //title as folder name from the folder schema
+  const { title } = req.body;
+
+  try {
+    // create a folder in the folder schema =====> database=====>having the createdby and title
+
+    const folderList = await folders.find({createdBy});
+
+    if(folderList.length === 0) return res.status(400).json({ message: "You dont have any folder"})
+    
+    return res.status(200).json(folderList)
+    //unforseen errors...
+  } catch (err: any) {
+    const message = err.message || err;
+    res.status(404).json({ error: message });
+  }
+};
 
 //get a note
 export const getNote = async (req: Request, res: Response) => {

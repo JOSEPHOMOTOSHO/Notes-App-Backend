@@ -35,6 +35,9 @@ app.use((0, express_session_1.default)({
     resave: true,
     saveUninitialized: true,
 }));
+app.get('/', function (req, res) {
+    res.status(200).send('welcome to notexd app');
+});
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 //Connect flash
