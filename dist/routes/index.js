@@ -37,7 +37,7 @@ router.post('/login', function (req, res, next) {
             req.logIn(user, function (err) {
                 if (err)
                     throw err;
-                res.send("Successfully Authenticated");
+                res.send("Successfully Authenticated" + user);
                 console.log(req.user);
             });
         }
