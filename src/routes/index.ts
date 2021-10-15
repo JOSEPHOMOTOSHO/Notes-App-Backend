@@ -39,14 +39,17 @@ router.post('/login', (req, res, next) => {
 //   })(req, res, next);
     passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
-    if (!user) res.send("No User Exists");
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send("Successfully Authenticated");
-        console.log(req.user);
-      });
+    if (!user) {
+      return res.status(401).send("No User Exists");
     }
+      res.status(200).send('sucessful')
+      //     else {
+//       req.logIn(user, (err) => {
+//         if (err) throw err;
+//         res.send("Successfully Authenticated");
+//         console.log(req.user);
+//       });
+//     }
   })(req, res, next);
 });
 
