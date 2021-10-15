@@ -16,7 +16,6 @@ var express_session_1 = __importDefault(require("express-session"));
 var flash = require('connect-flash');
 var passportSetup = require('./config/passport-config');
 require('./controller/user-Controller')(passport_1.default);
-require('./config/passport')(passport_1.default);
 var app = (0, express_1.default)();
 //importing routes
 var notesRoutes = require('./routes/notes');
@@ -28,7 +27,10 @@ app.set('view engine', 'ejs');
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3001",
+    credentials: true,
+}));
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
@@ -38,8 +40,10 @@ app.use((0, express_session_1.default)({
 app.get('/', function (req, res) {
     res.status(200).send('welcome to notexd app');
 });
+app.use((0, cookie_parser_1.default)('secretcode'));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
+require('./config/passport')(passport_1.default);
 //Connect flash
 app.use(flash());
 //GLobal Vars
@@ -48,13 +52,9 @@ app.use(function (req, res, next) {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
-app.use((0, cors_1.default)({
-    origin: "http://localhost:3001",
-    credentials: true,
-}));
 //Initialize Passport
-app.use(passport_1.default.initialize());
-app.use(passport_1.default.session());
+// app.use(passport.initialize());
+// app.use(passport.session())
 app.use('/notes', notesRoutes);
 app.use('/auth', authRouter);
 app.use('/users', indexRouter);

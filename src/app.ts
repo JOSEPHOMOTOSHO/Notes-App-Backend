@@ -11,7 +11,7 @@ import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
 require('./controller/user-Controller')(passport)
-require('./config/passport')(passport)
+
 
 
 const app = express();
@@ -39,7 +39,12 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:3001", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
@@ -51,10 +56,10 @@ app.use(session({
 app.get('/',(req,res)=>{
   res.status(200).send('welcome to notexd app')
 })
-
+app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
-
+require('./config/passport')(passport) 
 //Connect flash
 app.use(flash())
 
@@ -65,17 +70,13 @@ app.use((req:Request, res:Response, next:NextFunction)=>{
   next();
 })
 
-app.use(
-  cors({
-    origin: "http://localhost:3001", // <-- location of the react app were connecting to
-    credentials: true,
-  })
-);
+
 
 //Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session())
- 
+// app.use(passport.initialize());
+// app.use(passport.session())
+
+
 app.use('/notes',notesRoutes);
 app.use('/auth', authRouter);
 app.use('/users', indexRouter);
