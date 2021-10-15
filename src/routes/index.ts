@@ -32,12 +32,26 @@ router.get(
 );
 
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/users/profile/',
-    failureRedirect: '/users/login',
-    failureFlash: true,
-  })(req, res, next);
-});
+  //   passport.authenticate('local', {
+  //     successRedirect: '/users/profile/',
+  //     failureRedirect: '/users/login',
+  //     failureFlash: true,
+  //   })(req, res, next);
+      passport.authenticate("local", (err:Error, user:any, info: any) => {
+      if (err) throw err;
+      if (!user) {
+        return res.status(401).send("No User Exists");
+      }
+        res.status(200).send('sucessful')
+        //     else {
+  //       req.logIn(user, (err) => {
+  //         if (err) throw err;
+  //         res.send("Successfully Authenticated");
+  //         console.log(req.user);
+  //       });
+  //     }
+    })(req, res, next);
+  });
 
 router.get('/logout', (req: Request, res: Response) => {
   req.logout();
