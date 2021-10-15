@@ -44,6 +44,9 @@ app.use((0, cookie_parser_1.default)('secretcode'));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 require('./config/passport')(passport_1.default);
+app.get("/emerie", function (req, res) {
+    res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+});
 //Connect flash
 app.use(flash());
 //GLobal Vars

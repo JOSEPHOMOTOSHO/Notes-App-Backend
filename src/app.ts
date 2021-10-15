@@ -60,6 +60,10 @@ app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport) 
+
+app.get("/emerie", (req, res) => {
+  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+});
 //Connect flash
 app.use(flash())
 
