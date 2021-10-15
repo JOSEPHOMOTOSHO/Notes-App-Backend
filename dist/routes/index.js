@@ -21,20 +21,26 @@ router.get('/login', function (req, res, next) {
     res.status(400).send(message[0]);
 });
 router.post('/login', function (req, res, next) {
+    //   passport.authenticate('local', {
+    //     successRedirect: '/users/profile/',
+    //     failureRedirect: '/users/login',
+    //     failureFlash: true,
+    //   })(req, res, next);
     passport.authenticate("local", function (err, user, info) {
         if (err)
             throw err;
         if (!user) {
             return res.status(401).send("No User Exists");
         }
-        res.status(200).send('sucessful');
-        //     else {
-        //       req.logIn(user, (err) => {
-        //         if (err) throw err;
-        //         res.send("Successfully Authenticated");
-        //         console.log(req.user);
-        //       });
-        //     }
+        // res.status(200).send('sucessful')
+        else {
+            req.logIn(user, function (err) {
+                if (err)
+                    throw err;
+                res.send("Successfully Authenticated");
+                console.log(req.user);
+            });
+        }
     })(req, res, next);
 });
 router.get('/logout', function (req, res) {

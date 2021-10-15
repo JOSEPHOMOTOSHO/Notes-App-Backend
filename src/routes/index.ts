@@ -42,14 +42,14 @@ router.post('/login', (req, res, next) => {
       if (!user) {
         return res.status(401).send("No User Exists");
       }
-        res.status(200).send('sucessful')
-        //     else {
-  //       req.logIn(user, (err) => {
-  //         if (err) throw err;
-  //         res.send("Successfully Authenticated");
-  //         console.log(req.user);
-  //       });
-  //     }
+        // res.status(200).send('sucessful')
+        else {
+        req.logIn(user, (err) => {
+          if (err) throw err;
+          res.send("Successfully Authenticated");
+          console.log(req.user);
+        });
+      }
     })(req, res, next);
   });
 
