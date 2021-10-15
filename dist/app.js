@@ -16,6 +16,7 @@ var express_session_1 = __importDefault(require("express-session"));
 var flash = require('connect-flash');
 var passportSetup = require('./config/passport-config');
 require('./controller/user-Controller')(passport_1.default);
+var FileStore = require('session-file-store')(express_session_1.default);
 var app = (0, express_1.default)();
 //importing routes
 var notesRoutes = require('./routes/notes');
@@ -33,6 +34,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 app.use((0, express_session_1.default)({
+    store: new FileStore,
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
