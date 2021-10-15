@@ -40,7 +40,7 @@ app.use((0, express_session_1.default)({
 app.get('/', function (req, res) {
     res.status(200).send('welcome to notexd app');
 });
-app.use((0, cookie_parser_1.default)('secretcode'));
+app.use((0, cookie_parser_1.default)(process.env.SESSION_SECRET));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 require('./config/passport')(passport_1.default);
