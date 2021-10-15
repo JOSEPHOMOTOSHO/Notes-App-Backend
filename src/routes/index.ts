@@ -5,7 +5,14 @@ const passport = require('passport');
 import authorization from '../auth/authorization-passport';
 // import { confirmUsers, createUsers } from '../controller/signupContoller';
 import { upload } from '../middleware/cloudimage';
+import { collabToken } from '../middleware/joi';
+import jwt from 'jsonwebtoken';
 // import { updateUser } from '../controller/updateprofile';
+
+const secret: string = process.env.ACCESS_TOKEN_SECRET as string;
+const min: string =process.env.ACCESS_EXPIRES as string;
+const days: string =process.env.COLLAB_ACCESS as string;
+
 import {
   processNewPasswordFromUser,
   resetPasswordLink,
@@ -37,19 +44,24 @@ router.post('/login', (req, res, next) => {
   //     failureRedirect: '/users/login',
   //     failureFlash: true,
   //   })(req, res, next);
-      passport.authenticate("local", (err:Error, user:any, info: any) => {
+      passport.authenticate("local", async(err:Error, user:any, info: any) => {
       if (err) throw err;
       if (!user) {
         return res.status(401).send("No User Exists");
       }
-        // res.status(200).send('sucessful')
-        else {
+      
+      let token = await collabToken(user._id);
+
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.send("Successfully Authenticated" + user);
-          console.log(req.user);
+
+          res.status(200).json({
+            msg : 'succesfully Authenticated',
+            token : token,
+            user : user
+          });
+
         });
-      }
     })(req, res, next);
   });
 
