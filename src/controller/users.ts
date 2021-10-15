@@ -230,7 +230,7 @@ async function createUsers(req: Request, res: Response, next: NextFunction) {
     const subject = 'Please Verify Your Account'
     const Email = email;
     const body = `
-    <h2>Please click on the given <a href="http://localhost:3000/changepassword/${token}">link</a> to activate your acount.</h2></br>
+    <h2>Please click on the given <a href="http://localhost:3000/redirect/${token}">link</a> to activate your acount.</h2></br>
     <h3>This link expires in 15mins</h3>
     `
         //email services

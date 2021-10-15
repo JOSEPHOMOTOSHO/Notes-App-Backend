@@ -58,7 +58,6 @@ router.post('/login', (req, res, next) => {
           res.status(200).json({
             msg : 'succesfully Authenticated',
             token : token,
-            user : user
           });
 
         });
