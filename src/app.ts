@@ -11,7 +11,7 @@ import session from 'express-session';
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-config')
 require('./controller/user-Controller')(passport)
-const FileStore = require('session-file-store')(session)
+// const FileStore = require('session-file-store')(session)
 
 
 const app = express();
@@ -48,7 +48,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  store: new FileStore,
+  // store: new FileStore,
   secret:process.env.SESSION_SECRET!,
   resave: true,
   saveUninitialized:true,
