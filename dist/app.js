@@ -48,7 +48,10 @@ app.use(function (req, res, next) {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3001",
+    credentials: true,
+}));
 //Initialize Passport
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());

@@ -21,11 +21,6 @@ router.get('/login', function (req, res, next) {
     res.status(400).send(message[0]);
 });
 router.post('/login', function (req, res, next) {
-    //   passport.authenticate('local', {
-    //     successRedirect: '/users/profile/',
-    //     failureRedirect: '/users/login',
-    //     failureFlash: true,
-    //   })(req, res, next);
     passport.authenticate("local", function (err, user, info) {
         if (err)
             throw err;
