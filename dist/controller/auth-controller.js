@@ -39,44 +39,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.signOut = exports.signIn = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var signupModel_1 = __importDefault(require("../model/signupModel"));
-//Function to authorization the routes with password
-function authorization(req, res, next) {
-    return __awaiter(this, void 0, void 0, function () {
-        var token, secret, decoded, currentUser, err_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    token = req.user || req.headers["authorization"];
-                    secret = process.env.ACCESS_TOKEN_SECRET;
-                    if (!token)
-                        return [2 /*return*/, res.status(401).json({ error: "Login Required" })];
-                    console.log(token);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 4, , 5]);
-                    if (req.user) {
-                        return [2 /*return*/, next()];
-                    }
-                    if (!req.headers["authorization"]) return [3 /*break*/, 3];
-                    decoded = jsonwebtoken_1.default.verify(token, secret);
-                    return [4 /*yield*/, signupModel_1.default.findById(decoded._id)];
-                case 2:
-                    currentUser = _a.sent();
-                    req.user = currentUser;
-                    next();
-                    _a.label = 3;
-                case 3: return [3 /*break*/, 5];
-                case 4:
-                    err_1 = _a.sent();
-                    res.status(400).json({
-                        error: err_1,
-                    });
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
-            }
-        });
+// import { sendMail } from "../services/email-service";
+var signIn = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, userEmail, password, user, secret, token, _b, _id, _c, firstName, _d, lastName, _e, email, _f, about, _g, location_1, err_1;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
+            case 0:
+                _a = req.body, userEmail = _a.email, password = _a.password;
+                _h.label = 1;
+            case 1:
+                _h.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, signupModel_1.default.validateCredentials(userEmail, password)];
+            case 2:
+                user = _h.sent();
+                secret = process.env.ACCESS_TOKEN_SECRET;
+                token = jsonwebtoken_1.default.sign({ _id: user._id }, secret);
+                res.cookie("tko", token, {
+                    maxAge: 1000 * 60 * 60,
+                    httpOnly: false,
+                });
+                _b = user._id, _id = _b === void 0 ? "" : _b, _c = user.firstName, firstName = _c === void 0 ? "" : _c, _d = user.lastName, lastName = _d === void 0 ? "" : _d, _e = user.email, email = _e === void 0 ? "" : _e, _f = user.about, about = _f === void 0 ? "" : _f, _g = user.location, location_1 = _g === void 0 ? "" : _g;
+                res.status(200).json({
+                    user: { _id: _id, firstName: firstName, lastName: lastName, email: email, about: about, location: location_1 },
+                    token: token
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                err_1 = _h.sent();
+                res.status(400).json({
+                    error: err_1,
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
     });
-}
-exports.default = authorization;
+}); };
+exports.signIn = signIn;
+var signOut = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        res.clearCookie("tko");
+        return [2 /*return*/, res.status(200).json({
+                message: "signed out successfully",
+            })];
+    });
+}); };
+exports.signOut = signOut;

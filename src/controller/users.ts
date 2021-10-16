@@ -27,10 +27,14 @@ async function changePassword(req: RequestInterface, res: Response) {
     }
   
     const user = await notesUsers.findById(user_id);
+    if(!user){
+      return res.status(404).json({message: 'User doesnt exist'})
+    }
     const validPassword = bcrypt.compareSync(oldPassword, user.password);
     const newPasswords = await bcrypt.hash(newPassword, 10);
   
     try {
+     
       if (validPassword) {
         const updatedPassword = await notesUsers.findByIdAndUpdate(
           user._id,
@@ -187,7 +191,7 @@ async function processNewPasswordFromUser(
       { new: true }
     );
 
-    const { id, name, email } = updatedUser;
+    // const { id, name, email } = updatedUser;
 
     // return res.redirect('/');
     return res.status(200).json({
@@ -273,7 +277,7 @@ async function confirmUsers(req: Request, res: Response, next: NextFunction) {
 }
 
 async function updateUser(req: Request, res: Response): Promise<void> {
-  let id = req.params._id;
+  let id = req.user._id;
   let img_Url;
   if (Object.keys(req.body).length === 0) {
     res.status(404).json({ message: 'Please Input needed fields' });

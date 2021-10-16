@@ -27,7 +27,7 @@ export interface obj {
   password: string;
 }
 
-export interface objInt {
+export interface objInt extends mongoose.Document{
   firstName: string;
   lastName: string;
   email: string;

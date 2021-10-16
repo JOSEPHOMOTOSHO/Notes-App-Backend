@@ -184,7 +184,7 @@ function adminRemoveCollaborator(req, res, next) {
                     _a.trys.push([0, 4, , 5]);
                     email = req.body.email;
                     id = req.params.id;
-                    return [4 /*yield*/, signupModel_1.default.findOne({ email: email })];
+                    return [4 /*yield*/, noteModel_1.default.findOne({ email: email })];
                 case 1:
                     finder = _a.sent();
                     if (!finder)

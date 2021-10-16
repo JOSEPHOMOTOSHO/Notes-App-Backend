@@ -23,6 +23,7 @@
     "email-deep-validator": "^3.3.0",
     "express": "~4.17.1",
     "express-session": "~1.17.2",
+    "express-validator": "^6.13.0",
     "http-errors": "~1.8.0",
     "joi": "~17.4.2",
     "jsonwebtoken": "~8.5.1",

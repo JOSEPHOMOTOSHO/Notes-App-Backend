@@ -68,6 +68,7 @@ app.get("/emerie", (req, res) => {
 //Connect flash
 app.use(flash())
 
+
 //GLobal Vars
 app.use((req:Request, res:Response, next:NextFunction)=>{
   res.locals.success_msg = req.flash('sucess_msg');

@@ -115,7 +115,7 @@ export async function adminRemoveCollaborator(
   try {
     const { email } = req.body;
     let id =  req.params.id
-    let finder = await notesUsers.findOne({email})
+    let finder = await Note.findOne({email})
     if(!finder) return res.status(404).send({error: "Not a user"})
     if (email === req.user.email) return res.status(404).send({msg: "Note Owner cannot be remove"})
     let result = await Note.findByIdAndUpdate(id, { "$pull": {collaboratorId:finder._id}}, {new:true}) 

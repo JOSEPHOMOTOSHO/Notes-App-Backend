@@ -71,6 +71,9 @@ function changePassword(req, res) {
                     return [4 /*yield*/, signupModel_1.default.findById(user_id)];
                 case 1:
                     user = _b.sent();
+                    if (!user) {
+                        return [2 /*return*/, res.status(404).json({ message: 'User doesnt exist' })];
+                    }
                     validPassword = bcryptjs_1.default.compareSync(oldPassword, user.password);
                     return [4 /*yield*/, bcryptjs_1.default.hash(newPassword, 10)];
                 case 2:
@@ -199,7 +202,7 @@ exports.displayNewPasswordForm = displayNewPasswordForm;
 //Function to process the new password from the user
 function processNewPasswordFromUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var ValidateSchema, validator, _a, password, confirmPassword, token, check, hashedPassword, updatedUser, id, name_1, email, err_3;
+        var ValidateSchema, validator, _a, password, confirmPassword, token, check, hashedPassword, updatedUser, err_3;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -229,7 +232,7 @@ function processNewPasswordFromUser(req, res, next) {
                     return [4 /*yield*/, signupModel_1.default.findByIdAndUpdate(check.userId, { password: hashedPassword }, { new: true })];
                 case 2:
                     updatedUser = _b.sent();
-                    id = updatedUser.id, name_1 = updatedUser.name, email = updatedUser.email;
+                    // const { id, name, email } = updatedUser;
                     // return res.redirect('/');
                     return [2 /*return*/, res.status(200).json({
                             status: 'Successful',
@@ -354,7 +357,7 @@ function updateUser(req, res) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    id = req.params._id;
+                    id = req.user._id;
                     if (Object.keys(req.body).length === 0) {
                         res.status(404).json({ message: 'Please Input needed fields' });
                         return [2 /*return*/];

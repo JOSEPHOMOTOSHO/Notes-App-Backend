@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { objInt } from '../interfaces/interface';
+import { StdioNull } from 'child_process';
 const salt: string = process.env.SALT as string;
+
+interface UserModel extends mongoose.Model<objInt> {
+	validateCredentials(email: string, password: string): objInt;
+}
 
 const UsersSchema = new mongoose.Schema<objInt>(
   {
@@ -54,4 +59,18 @@ UsersSchema.pre('save', async function (next: () => void) {
   next();
 });
 
-export default mongoose.model('notesusers', UsersSchema);
+UsersSchema.statics.validateCredentials = async (email, password) => {
+	const user = await User.findOne({ email });
+	if (!user) throw new Error("Invalid Login Credentials");
+
+	const isMatch = await bcrypt.compare(password, user.password);
+	if (!isMatch) throw new Error("Invalid Login Credentials");
+
+	return user;
+};
+
+const User = mongoose.model<objInt, UserModel>("notesusers", UsersSchema);
+
+// export default mongoose.model('notesusers', UsersSchema);
+
+export default User;

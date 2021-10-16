@@ -102,4 +102,24 @@ UsersSchema.pre('save', function (next) {
         });
     });
 });
-exports.default = mongoose_1.default.model('notesusers', UsersSchema);
+UsersSchema.statics.validateCredentials = function (email, password) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, isMatch;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, User.findOne({ email: email })];
+            case 1:
+                user = _a.sent();
+                if (!user)
+                    throw new Error("Invalid Login Credentials");
+                return [4 /*yield*/, bcryptjs_1.default.compare(password, user.password)];
+            case 2:
+                isMatch = _a.sent();
+                if (!isMatch)
+                    throw new Error("Invalid Login Credentials");
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+var User = mongoose_1.default.model("notesusers", UsersSchema);
+// export default mongoose.model('notesusers', UsersSchema);
+exports.default = User;

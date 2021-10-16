@@ -1,34 +1,30 @@
-import express, { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken'
+import express, { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import User from "../model/signupModel";
 
 //Function to authorization the routes with password
 async function authorization(req: Request, res: Response, next: NextFunction) {
-  const token = req.user ||req.query.token || req.headers["x-access-token"]
-    if(!token){
-    return res.redirect('/users');
-  } 
-  if(req.user){
-    next()
-  }
-  if(req.headers["x-access-token"]){
-    
-    let secret =  process.env.ACCESS_TOKEN_SECRET as string
-    const decoded:any = jwt.verify(token, secret);
-    if (!decoded.args) {
-      
-        throw new Error("Thrown here");
+  const token = req.user || req.headers["authorization"];
+  const secret = process.env.ACCESS_TOKEN_SECRET as string;
+  if (!token) return res.status(401).json({ error: "Login Required" });
+  console.log(token)
+  try {
+    if (req.user) {
+     return next();
     }
-    let currentUser = await User.findById(decoded.args)
- 
-    req.user = currentUser
-   
-    next()
+    if (req.headers["authorization"]) {
+      const decoded: any = jwt.verify(token, secret);
+      const currentUser = await User.findById(decoded._id);
+      req.user = currentUser;
+
+      next();
+    }
+  } catch (err) {
+    res.status(400).json({
+      error: err,
+    });
   }
- 
-  
 }
 
-//muaze
 
 export default authorization;
