@@ -353,7 +353,7 @@ exports.confirmUsers = confirmUsers;
 function updateUser(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var id, img_Url, user, url;
+        var id, img_Url, user, url, newDetails;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -373,16 +373,17 @@ function updateUser(req, res) {
                     img_Url = url;
                     _b.label = 3;
                 case 3:
-                    signupModel_1.default.findByIdAndUpdate(id, {
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName,
-                        email: req.body.email,
-                        gender: req.body.gender,
+                    newDetails = {
+                        firstName: req.body.firstName.trim() || user.firstName,
+                        lastName: req.body.lastName.trim() || user.lastName,
+                        email: req.body.email.trim() || user.email,
+                        gender: req.body.gender.trim() || user.gender,
                         role: req.body.role,
                         about: req.body.about,
                         location: req.body.location,
                         avatar: img_Url,
-                    }, function (err) {
+                    };
+                    signupModel_1.default.findByIdAndUpdate(id, newDetails, function (err) {
                         if (err) {
                             return res.status(404).json({
                                 message: err.message,

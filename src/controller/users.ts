@@ -291,20 +291,17 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     const { url } = await cloudinary.uploader.upload(req.file?.path);
     img_Url = url;
   }
-
-  notesUsers.findByIdAndUpdate(
-    id,
-    {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      gender: req.body.gender,
-      role: req.body.role,
-      about: req.body.about,
-      location: req.body.location,
-      avatar: img_Url,
-    },
-    (err: any) => {
+let newDetails = {
+  firstName: req.body.firstName.trim() || user.firstName,
+  lastName: req.body.lastName.trim() || user.lastName,
+  email: req.body.email.trim() || user.email,
+  gender: req.body.gender.trim() || user.gender,
+  role: req.body.role,
+  about: req.body.about,
+  location: req.body.location,
+  avatar: img_Url,
+}
+  notesUsers.findByIdAndUpdate(id,newDetails,(err: any) => {
       if (err) {
         return res.status(404).json({
           message: err.message,
