@@ -69,6 +69,7 @@ var signIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _k.sent();
+                 console.log(err_1.message);
                 res.status(400).json({
                     error: err_1.message,
                 });
