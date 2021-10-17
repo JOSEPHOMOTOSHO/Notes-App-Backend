@@ -22,6 +22,7 @@ const signIn = async (req: Request, res: Response) => {
 			user:{_id, firstName, lastName, email, about, location, gender, avatar},
 			token });
 	} catch (err:any) {
+		console.log(err.message)
 		res.status(400).json({
 			error: err.message,
 		});
