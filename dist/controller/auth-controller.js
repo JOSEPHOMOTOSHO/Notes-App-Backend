@@ -44,31 +44,31 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var signupModel_1 = __importDefault(require("../model/signupModel"));
 // import { sendMail } from "../services/email-service";
 var signIn = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userEmail, password, user, secret, token, _b, _id, _c, firstName, _d, lastName, _e, email, _f, about, _g, location_1, err_1;
-    return __generator(this, function (_h) {
-        switch (_h.label) {
+    var _a, userEmail, password, user, secret, token, _b, _id, _c, firstName, _d, lastName, _e, email, _f, about, _g, location_1, _h, gender, err_1;
+    return __generator(this, function (_j) {
+        switch (_j.label) {
             case 0:
                 _a = req.body, userEmail = _a.email, password = _a.password;
-                _h.label = 1;
+                _j.label = 1;
             case 1:
-                _h.trys.push([1, 3, , 4]);
+                _j.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, signupModel_1.default.validateCredentials(userEmail, password)];
             case 2:
-                user = _h.sent();
+                user = _j.sent();
                 secret = process.env.ACCESS_TOKEN_SECRET;
                 token = jsonwebtoken_1.default.sign({ _id: user._id }, secret);
                 res.cookie("tko", token, {
                     maxAge: 1000 * 60 * 60,
                     httpOnly: false,
                 });
-                _b = user._id, _id = _b === void 0 ? "" : _b, _c = user.firstName, firstName = _c === void 0 ? "" : _c, _d = user.lastName, lastName = _d === void 0 ? "" : _d, _e = user.email, email = _e === void 0 ? "" : _e, _f = user.about, about = _f === void 0 ? "" : _f, _g = user.location, location_1 = _g === void 0 ? "" : _g;
+                _b = user._id, _id = _b === void 0 ? "" : _b, _c = user.firstName, firstName = _c === void 0 ? "" : _c, _d = user.lastName, lastName = _d === void 0 ? "" : _d, _e = user.email, email = _e === void 0 ? "" : _e, _f = user.about, about = _f === void 0 ? "" : _f, _g = user.location, location_1 = _g === void 0 ? "" : _g, _h = user.gender, gender = _h === void 0 ? "" : _h;
                 res.status(200).json({
-                    user: { _id: _id, firstName: firstName, lastName: lastName, email: email, about: about, location: location_1 },
+                    user: { _id: _id, firstName: firstName, lastName: lastName, email: email, about: about, location: location_1, gender: gender },
                     token: token
                 });
                 return [3 /*break*/, 4];
             case 3:
-                err_1 = _h.sent();
+                err_1 = _j.sent();
                 res.status(400).json({
                     error: err_1,
                 });

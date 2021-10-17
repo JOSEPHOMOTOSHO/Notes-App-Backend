@@ -16,10 +16,10 @@ const signIn = async (req: Request, res: Response) => {
 			maxAge: 1000 * 60 * 60,
 			httpOnly: false,
 		});
-		const {_id="", firstName="", lastName="", email="", about="", location=""} = user
+		const {_id="", firstName="", lastName="", email="", about="", location="", gender=""} = user
 		
 		res.status(200).json({ 
-			user:{_id, firstName, lastName, email, about, location},
+			user:{_id, firstName, lastName, email, about, location, gender},
 			token });
 	} catch (err) {
 		res.status(400).json({
