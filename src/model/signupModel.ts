@@ -47,7 +47,11 @@ const UsersSchema = new mongoose.Schema<objInt>(
     about: {
       type: String,
     },
-    avatar: { type: String },
+    avatar: { 
+      type: String, 
+      default: "https://res.cloudinary.com/sarmueil/image/upload/v1634479074/mstwee5tpggz6v5e15vk.jpg",
+      required: true
+    },
   },
   {
     timestamps: true,

@@ -80,7 +80,11 @@ var UsersSchema = new mongoose_1.default.Schema({
     about: {
         type: String,
     },
-    avatar: { type: String },
+    avatar: {
+        type: String,
+        default: "https://res.cloudinary.com/sarmueil/image/upload/v1634479074/mstwee5tpggz6v5e15vk.jpg",
+        required: true
+    },
 }, {
     timestamps: true,
 });

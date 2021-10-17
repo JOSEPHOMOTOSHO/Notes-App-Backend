@@ -279,10 +279,10 @@ async function confirmUsers(req: Request, res: Response, next: NextFunction) {
 async function updateUser(req: Request, res: Response): Promise<void> {
   let id = req.user._id;
   let img_Url;
-  if (Object.keys(req.body).length === 0) {
-    res.status(404).json({ message: 'Please Input needed fields' });
-    return;
-  }
+  // if (Object.keys(req.body).length === 0) {
+  //   res.status(404).json({ message: 'Please Input needed fields' });
+  //   return;
+  // }
   const user = (await notesUsers.findById(id)) as unknown as {
     [key: string]: string | boolean;
   };
@@ -291,6 +291,11 @@ async function updateUser(req: Request, res: Response): Promise<void> {
     const { url } = await cloudinary.uploader.upload(req.file?.path);
     img_Url = url;
   }
+  req.body.firstName = " "
+  req.body.lastName = " "
+  req.body.email = " "
+  req.body.gender = " "
+
 let newDetails = {
   firstName: req.body.firstName.trim() || user.firstName,
   lastName: req.body.lastName.trim() || user.lastName,

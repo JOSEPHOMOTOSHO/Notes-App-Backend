@@ -358,10 +358,6 @@ function updateUser(req, res) {
             switch (_b.label) {
                 case 0:
                     id = req.user._id;
-                    if (Object.keys(req.body).length === 0) {
-                        res.status(404).json({ message: 'Please Input needed fields' });
-                        return [2 /*return*/];
-                    }
                     return [4 /*yield*/, signupModel_1.default.findById(id)];
                 case 1:
                     user = (_b.sent());
@@ -373,6 +369,10 @@ function updateUser(req, res) {
                     img_Url = url;
                     _b.label = 3;
                 case 3:
+                    req.body.firstName = " ";
+                    req.body.lastName = " ";
+                    req.body.email = " ";
+                    req.body.gender = " ";
                     newDetails = {
                         firstName: req.body.firstName.trim() || user.firstName,
                         lastName: req.body.lastName.trim() || user.lastName,
