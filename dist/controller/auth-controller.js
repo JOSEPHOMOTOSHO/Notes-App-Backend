@@ -70,7 +70,7 @@ var signIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 3:
                 err_1 = _k.sent();
                 res.status(400).json({
-                    error: err_1,
+                    error: err_1.message,
                 });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

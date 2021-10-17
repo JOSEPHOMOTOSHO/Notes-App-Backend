@@ -21,9 +21,9 @@ const signIn = async (req: Request, res: Response) => {
 		res.status(200).json({ 
 			user:{_id, firstName, lastName, email, about, location, gender, avatar},
 			token });
-	} catch (err) {
+	} catch (err:any) {
 		res.status(400).json({
-			error: err,
+			error: err.message,
 		});
 	}
 };
