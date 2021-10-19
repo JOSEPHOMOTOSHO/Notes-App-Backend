@@ -353,7 +353,7 @@ exports.confirmUsers = confirmUsers;
 function updateUser(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var id, img_Url, user, url, newDetails;
+        var id, img_Url, user, url, fname, lname, emil, gend, newDetails;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -369,15 +369,15 @@ function updateUser(req, res) {
                     img_Url = url;
                     _b.label = 3;
                 case 3:
-                    req.body.firstName = " ";
-                    req.body.lastName = " ";
-                    req.body.email = " ";
-                    req.body.gender = " ";
+                    fname = req.body.firstName || " ";
+                    lname = req.body.lastName || " ";
+                    emil = req.body.email || " ";
+                    gend = req.body.gender || " ";
                     newDetails = {
-                        firstName: req.body.firstName.trim() || user.firstName,
-                        lastName: req.body.lastName.trim() || user.lastName,
-                        email: req.body.email.trim() || user.email,
-                        gender: req.body.gender.trim() || user.gender,
+                        firstName: fname.trim() || user.firstName,
+                        lastName: lname.trim() || user.lastName,
+                        email: emil.trim() || user.email,
+                        gender: gend.trim() || user.gender,
                         role: req.body.role,
                         about: req.body.about,
                         location: req.body.location,

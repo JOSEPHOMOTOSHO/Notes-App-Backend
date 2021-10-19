@@ -149,7 +149,11 @@ async function sortByDesc(req: Request, res: Response, next: NextFunction) {
     result = '-updatedAt';
   } else if (input === 'descending') {
     result = 'updatedAt';
-  } else {
+  } else if (input === 'title'){
+    result = 'title'
+  }else if (input === 'untitle'){
+    result = '-title'
+  }else {
     return res.status(404).send('Invalid Sort');
   }
 
