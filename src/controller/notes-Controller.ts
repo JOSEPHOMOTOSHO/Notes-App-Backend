@@ -133,9 +133,9 @@ const getAllNotes = async (req: Request, res: Response) => {
       createdBy: req.user.id,
     }).sort('-updatedAt');
 
-    if (notes.length === 0) {
-      return res.status(404).send('No Notes found');
-    }
+    // if (notes.length === 0) {
+    //   return res.status(404).send('No Notes found');
+    // }
     return res.status(200).json(notes);
   } catch (err: any) {
     const message = err.message || err;
@@ -215,6 +215,24 @@ const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
   return res.status(200).send({message:"Note has been sucessfully updated"})
 
 }
+const getTrash =  async(req:Request,res:Response,next:NextFunction)=>{
+  let id  = req.user._id
+
+  let searchObj = {
+      $and: [
+        { createdBy: req.user.id},
+        { softDelete: true },
+    ]
+    
+}
+
+const trashResult = await Note.find(searchObj)
+if(trashResult){
+  return res.status(200).send(trashResult)
+}
+return res.status(500).send('An error Occured')
+console.log(trashResult)
+}
 
 export { 
   editNotes,
@@ -223,5 +241,6 @@ export {
   getCollaboratorsNotes,
   sortByDesc,
   getAllNotes,
+  getTrash
   // sortByTitle
 };

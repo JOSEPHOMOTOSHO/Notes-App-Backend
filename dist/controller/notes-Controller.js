@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllNotes = exports.sortByDesc = exports.getCollaboratorsNotes = exports.getCollaborators = exports.createNote = exports.editNotes = exports.sortByTitle = void 0;
+exports.getTrash = exports.getAllNotes = exports.sortByDesc = exports.getCollaboratorsNotes = exports.getCollaborators = exports.createNote = exports.editNotes = exports.sortByTitle = void 0;
 var folderModel_1 = __importDefault(require("../model/folderModel"));
 var noteModel_1 = __importDefault(require("../model/noteModel"));
 var can_user_edit_1 = require("../middleware/can-user-edit");
@@ -193,7 +193,7 @@ var getAllNotes = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 2:
                 notes = _a.sent();
                 // if (notes.length === 0) {
-                //     return [2 /*return*/, res.status(404).send('No Notes found')];
+                //   return res.status(404).send('No Notes found');
                 // }
                 return [2 /*return*/, res.status(200).json(notes)];
             case 3:
@@ -311,3 +311,26 @@ var editNotes = function (req, res, next) { return __awaiter(void 0, void 0, voi
     });
 }); };
 exports.editNotes = editNotes;
+var getTrash = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, searchObj, trashResult;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.user._id;
+                searchObj = {
+                    $and: [
+                        { createdBy: req.user.id },
+                        { softDelete: true },
+                    ]
+                };
+                return [4 /*yield*/, noteModel_1.default.find(searchObj)];
+            case 1:
+                trashResult = _a.sent();
+                if (trashResult) {
+                    return [2 /*return*/, res.status(200).send(trashResult)];
+                }
+                return [2 /*return*/, res.status(500).send('An error Occured')];
+        }
+    });
+}); };
+exports.getTrash = getTrash;

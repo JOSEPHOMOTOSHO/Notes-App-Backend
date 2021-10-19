@@ -1,7 +1,7 @@
 
 import express, {Request,Response, Router } from 'express';
 import authorization from '../auth/authorization-passport';
-import { createNote, getCollaborators, getCollaboratorsNotes, sortByDesc, sortByTitle, getAllNotes , editNotes } from '../controller/notes-Controller';
+import { createNote, getTrash, getCollaborators, getCollaboratorsNotes, sortByDesc, sortByTitle, getAllNotes , editNotes } from '../controller/notes-Controller';
 import { createFolder, getNote, trashNote, getFolder, restoreNote, permanentlyDeleteNote} from '../controller/folder-Controller'; 
 import { confirmCollaborator, inviteCollborator, removeCollaborator,  uploadFile, getNotification, adminRemoveCollaborator } from '../controller/collaborators-Controller';
 import { joiValidateCollab } from '../middleware/joi';
@@ -20,6 +20,7 @@ router.get('/tests', (req:Request, res)=>{
     // let id = req.user.id
     res.send(req.user.id)
 })
+router.get('/gettrash', getTrash);
 router.get('/getfolder', getFolder);
 router.get('/desc', sortByDesc)
 router.post('/search', sortByTitle);
