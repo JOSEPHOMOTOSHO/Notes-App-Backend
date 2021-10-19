@@ -73,9 +73,12 @@ function createNote(req, res, next) {
                         folderId: folderId,
                         createdBy: createdBy,
                     };
-                    return [4 /*yield*/, noteModel_1.default.create(note)];
+                    return [4 /*yield*/, noteModel_1.default.create(note)
+                        // await Folder.findByIdAndUpdate(folderExist._id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
+                    ];
                 case 4:
                     noteCreated = _b.sent();
+                    // await Folder.findByIdAndUpdate(folderExist._id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
                     return [2 /*return*/, res.status(201).json({ noteCreated: noteCreated, message: "Notes created successfully" })];
                 case 5: return [3 /*break*/, 7];
                 case 6:
@@ -236,15 +239,18 @@ function sortByDesc(req, res, next) {
                         //const updateByLatest = await Note.find({updatedAt:"1"})
                         //let latest = updateByLatest[0]
                         // console.log('Latest Update', updateByLatest);
+                        // if (updateByLatest.length === 0) {
+                        //   return res.status(200).send('No Notes found');
+                        // }
                     ];
                 case 1:
                     updateByLatest = _a.sent();
                     //const updateByLatest = await Note.find({updatedAt:"1"})
                     //let latest = updateByLatest[0]
                     // console.log('Latest Update', updateByLatest);
-                    if (updateByLatest.length === 0) {
-                        return [2 /*return*/, res.status(404).send('No Notes found')];
-                    }
+                    // if (updateByLatest.length === 0) {
+                    //   return res.status(200).send('No Notes found');
+                    // }
                     return [2 /*return*/, res.status(201).json(updateByLatest)];
             }
         });

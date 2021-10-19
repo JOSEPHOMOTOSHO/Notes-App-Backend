@@ -33,7 +33,7 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
     const folderExist = await Folder.findById(folderId);    
     const noteExist = await Note.findOne({folderId, title, softDelete: false});    
     if(noteExist)return res.status(400).send({message: "A note with this title already exist in this folder please choose a different title"})
-    if ( !noteExist && folderExist  ) {
+    if ( !noteExist && folderExist) {
       const note = {
         title,
         body,
@@ -42,6 +42,7 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
         createdBy,
       };
       let noteCreated = await Note.create(note)
+      // await Folder.findByIdAndUpdate(folderExist._id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
       return res.status(201).json({noteCreated, message: "Notes created successfully"})
     }
   } catch (err: any) {
@@ -169,9 +170,9 @@ const updateByLatest = await Note.find(searchObj).sort(result)
 //let latest = updateByLatest[0]
 
   // console.log('Latest Update', updateByLatest);
-  if (updateByLatest.length === 0) {
-    return res.status(404).send('No Notes found');
-  }
+  // if (updateByLatest.length === 0) {
+  //   return res.status(200).send('No Notes found');
+  // }
   return res.status(201).json(updateByLatest);
 }
 
