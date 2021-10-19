@@ -192,9 +192,9 @@ var getAllNotes = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     }).sort('-updatedAt')];
             case 2:
                 notes = _a.sent();
-                if (notes.length === 0) {
-                    return [2 /*return*/, res.status(404).send('No Notes found')];
-                }
+                // if (notes.length === 0) {
+                //     return [2 /*return*/, res.status(404).send('No Notes found')];
+                // }
                 return [2 /*return*/, res.status(200).json(notes)];
             case 3:
                 err_4 = _a.sent();
@@ -236,7 +236,7 @@ function sortByDesc(req, res, next) {
                         ]
                     };
                     return [4 /*yield*/, noteModel_1.default.find(searchObj).sort(result)
-                        //const updateByLatest = await Note.find({updatedAt:"1"})
+                        // const updateByLatest = await Note.find({updatedAt:"1"})
                         //let latest = updateByLatest[0]
                         // console.log('Latest Update', updateByLatest);
                         // if (updateByLatest.length === 0) {
@@ -245,7 +245,7 @@ function sortByDesc(req, res, next) {
                     ];
                 case 1:
                     updateByLatest = _a.sent();
-                    //const updateByLatest = await Note.find({updatedAt:"1"})
+                    // const updateByLatest = await Note.find({updatedAt:"1"})
                     //let latest = updateByLatest[0]
                     // console.log('Latest Update', updateByLatest);
                     // if (updateByLatest.length === 0) {

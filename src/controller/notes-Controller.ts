@@ -166,7 +166,7 @@ async function sortByDesc(req: Request, res: Response, next: NextFunction) {
     ]
 }
 const updateByLatest = await Note.find(searchObj).sort(result)
-//const updateByLatest = await Note.find({updatedAt:"1"})
+// const updateByLatest = await Note.find({updatedAt:"1"})
 //let latest = updateByLatest[0]
 
   // console.log('Latest Update', updateByLatest);
