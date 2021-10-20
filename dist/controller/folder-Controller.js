@@ -109,7 +109,7 @@ var getFolder = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 exports.getFolder = getFolder;
 //get a note
 var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, owner, userid, err_3, message;
+    var _id, note, owner, ownerId, userid, err_3, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -117,14 +117,18 @@ var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, noteModel_1.default.findById(_id).populate('createdBy').populate('collaboratorId')];
+                return [4 /*yield*/, noteModel_1.default.findById(_id).populate('createdBy').populate('collaboratorId')
+                    // console.log(note)
+                ];
             case 2:
                 note = _a.sent();
+                // console.log(note)
                 if (!note)
                     return [2 /*return*/, res.status(404).json({ error: "Note not found" })];
                 owner = note.createdBy;
+                ownerId = owner.id;
                 userid = req.user.id;
-                if (owner != userid)
+                if (ownerId != userid)
                     return [2 /*return*/, res
                             .status(404)
                             .json({ error: "You are not authorized to view this note" })];
