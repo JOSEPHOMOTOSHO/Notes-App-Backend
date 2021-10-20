@@ -31,9 +31,9 @@ async function createNote(req: Request, res: Response, next: NextFunction) {
 
   try {
     const folderExist = await Folder.findById(folderId);    
-    const noteExist = await Note.findOne({folderId, title, softDelete: false});    
-    if(noteExist)return res.status(400).send({message: "A note with this title already exist in this folder please choose a different title"})
-    if ( !noteExist && folderExist) {
+    // const noteExist = await Note.findOne({folderId, title, softDelete: false});    
+    // if(noteExist)return res.status(400).send({message: "A note with this title already exist in this folder please choose a different title"})
+    if (folderExist) {
       const note = {
         title,
         body,

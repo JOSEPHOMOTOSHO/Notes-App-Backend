@@ -46,7 +46,7 @@ var can_user_edit_1 = require("../middleware/can-user-edit");
 //Function to create notes
 function createNote(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var folderId, _a, title, body, tags, user, createdBy, folderExist, noteExist, note, noteCreated, err_1;
+        var folderId, _a, title, body, tags, user, createdBy, folderExist, note, noteCreated, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -56,16 +56,11 @@ function createNote(req, res, next) {
                     createdBy = user.id;
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 6, , 7]);
+                    _b.trys.push([1, 5, , 6]);
                     return [4 /*yield*/, folderModel_1.default.findById(folderId)];
                 case 2:
                     folderExist = _b.sent();
-                    return [4 /*yield*/, noteModel_1.default.findOne({ folderId: folderId, title: title, softDelete: false })];
-                case 3:
-                    noteExist = _b.sent();
-                    if (noteExist)
-                        return [2 /*return*/, res.status(400).send({ message: "A note with this title already exist in this folder please choose a different title" })];
-                    if (!(!noteExist && folderExist)) return [3 /*break*/, 5];
+                    if (!folderExist) return [3 /*break*/, 4];
                     note = {
                         title: title,
                         body: body,
@@ -76,19 +71,19 @@ function createNote(req, res, next) {
                     return [4 /*yield*/, noteModel_1.default.create(note)
                         // await Folder.findByIdAndUpdate(folderExist._id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
                     ];
-                case 4:
+                case 3:
                     noteCreated = _b.sent();
                     // await Folder.findByIdAndUpdate(folderExist._id, { "$addToSet": {fileUpload:result.url}}, {new:true}) 
                     return [2 /*return*/, res.status(201).json({ noteCreated: noteCreated, message: "Notes created successfully" })];
-                case 5: return [3 /*break*/, 7];
-                case 6:
+                case 4: return [3 /*break*/, 6];
+                case 5:
                     err_1 = _b.sent();
                     // console.log(err, 'err');
                     res.status(404).json({
                         error: err_1.message,
                     });
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
         });
     });
