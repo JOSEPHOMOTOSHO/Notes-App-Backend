@@ -259,16 +259,7 @@ async function confirmUsers(req: Request, res: Response, next: NextFunction) {
       throw new Error('Thrown here');
     }
     const user = await notesUsers.create(args);
-    await folders.create([
-      {
-        title: 'Trash',
-        createdBy: user._id,
-      },
-      {
-        title: 'Collaborator',
-        createdBy: user._id,
-      },
-    ]);
+    
     res.status(201).send({ msg: 'Created Successful!!!' });
   } catch (err: any) {
     res.status(404).send({ msg: 'Invalid Token!!!' });

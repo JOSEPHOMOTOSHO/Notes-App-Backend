@@ -46,7 +46,6 @@ var joi_1 = __importDefault(require("joi"));
 var joi_2 = require("../middleware/joi");
 var signupModel_1 = __importDefault(require("../model/signupModel"));
 var nodemailer_1 = __importDefault(require("../nodemailer"));
-var folderModel_1 = __importDefault(require("../model/folderModel"));
 var EmailValidator = require('email-deep-validator');
 var emailValidator = new EmailValidator();
 var secret = process.env.ACCESS_TOKEN_SECRET;
@@ -317,7 +316,7 @@ function confirmUsers(req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
+                    _a.trys.push([0, 2, , 3]);
                     decoded = jsonwebtoken_1.default.verify(req.params.token, secret);
                     args = decoded.args;
                     if (!args) {
@@ -326,25 +325,13 @@ function confirmUsers(req, res, next) {
                     return [4 /*yield*/, signupModel_1.default.create(args)];
                 case 1:
                     user = _a.sent();
-                    return [4 /*yield*/, folderModel_1.default.create([
-                            {
-                                title: 'Trash',
-                                createdBy: user._id,
-                            },
-                            {
-                                title: 'Collaborator',
-                                createdBy: user._id,
-                            },
-                        ])];
-                case 2:
-                    _a.sent();
                     res.status(201).send({ msg: 'Created Successful!!!' });
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 3];
+                case 2:
                     err_5 = _a.sent();
                     res.status(404).send({ msg: 'Invalid Token!!!' });
                     return [2 /*return*/];
-                case 4: return [2 /*return*/];
+                case 3: return [2 /*return*/];
             }
         });
     });
