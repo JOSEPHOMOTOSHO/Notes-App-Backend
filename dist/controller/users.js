@@ -392,6 +392,7 @@ function updateUser(req, res) {
                         }
                         res.status(201).json({
                             message: 'Profile updated successfully!',
+                            data: newDetails
                         });
                     });
                     return [2 /*return*/];

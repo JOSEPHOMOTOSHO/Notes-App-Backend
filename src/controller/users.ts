@@ -288,6 +288,7 @@ async function updateUser(req: Request, res: Response): Promise<void> {
   };
   img_Url = user.avatar;
   if (req.file) {
+    
     const { url } = await cloudinary.uploader.upload(req.file?.path);
     img_Url = url;
   }
@@ -315,6 +316,7 @@ let newDetails = {
       }
       res.status(201).json({
         message: 'Profile updated successfully!',
+        data:newDetails
       });
     }
   );
