@@ -117,7 +117,7 @@ var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, noteModel_1.default.findById(_id)];
+                return [4 /*yield*/, noteModel_1.default.findById(_id).populate('createdBy').populate('collaboratorId')];
             case 2:
                 note = _a.sent();
                 if (!note)
