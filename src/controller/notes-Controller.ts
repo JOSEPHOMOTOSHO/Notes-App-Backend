@@ -198,7 +198,7 @@ res.status(200).send(searchResult)
 
 const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
   const {noteId} = req.params
-  const {body, tags} = req.body
+  const {title, body, tags} = req.body
 
   let userid = req.user._id
 
@@ -207,7 +207,7 @@ const editNotes = async(req:Request,res:Response,next:NextFunction)=>{
     return res.status(401).send({error:"You are not authorized to edit this note"})
   }
   
-  const update = await Note.findByIdAndUpdate(noteId , {body, tags})
+  const update = await Note.findByIdAndUpdate(noteId , {title, body, tags})
   if(!update){
     return res.status(404).send({error:"An error occurred while updating"})
   }

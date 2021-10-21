@@ -282,12 +282,12 @@ function sortByTitle(req, res, next) {
 exports.sortByTitle = sortByTitle;
 ;
 var editNotes = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var noteId, _a, body, tags, userid, isAllowed, update;
+    var noteId, _a, title, body, tags, userid, isAllowed, update;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 noteId = req.params.noteId;
-                _a = req.body, body = _a.body, tags = _a.tags;
+                _a = req.body, title = _a.title, body = _a.body, tags = _a.tags;
                 userid = req.user._id;
                 return [4 /*yield*/, (0, can_user_edit_1.canEdit)(userid, noteId)];
             case 1:
@@ -295,7 +295,7 @@ var editNotes = function (req, res, next) { return __awaiter(void 0, void 0, voi
                 if (!isAllowed) {
                     return [2 /*return*/, res.status(401).send({ error: "You are not authorized to edit this note" })];
                 }
-                return [4 /*yield*/, noteModel_1.default.findByIdAndUpdate(noteId, { body: body, tags: tags })];
+                return [4 /*yield*/, noteModel_1.default.findByIdAndUpdate(noteId, { title: title, body: body, tags: tags })];
             case 2:
                 update = _b.sent();
                 if (!update) {
