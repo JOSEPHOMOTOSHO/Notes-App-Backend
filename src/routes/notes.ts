@@ -9,6 +9,7 @@ import { upload } from '../middleware/cloudimage';
 
 
 const router = Router();
+router.post('/collab/:token', joiValidateCollab, confirmCollaborator);
 router.use(authorization)
 declare module "express" {
     interface Request {
@@ -36,7 +37,7 @@ router.get('/:noteId/collaborators', getCollaborators);
 router.get('/collaborators/notes', getCollaboratorsNotes);  
 router.get('/getAllNote/:folderId',  getAllNotes)
 router.post('/invite/:noteId', inviteCollborator);
-router.post('/collab/:token', joiValidateCollab, confirmCollaborator);
+
 router.get('/remove/:id', removeCollaborator);
 router.post('/admin/remove/:id', adminRemoveCollaborator);
 router.post('/upload/:upId',upload, uploadFile);

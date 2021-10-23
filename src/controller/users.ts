@@ -108,10 +108,9 @@ async function resetPasswordLink(
     const subject = 'Reset Password'
     const link = `${req.protocol}://localhost:3000/password/${token}`;
     const body = `
-    <div>Click the link below to reset your password</div><br/>
-    <div>${link}</div>
+    <div>Please click on the given <a href=${link}>link</a>  to reset your password</div>
     `;
-
+  
     if (process.env.CONDITION !== "test"){
         await sendEmail(subject, Email, body)
     }
