@@ -150,7 +150,7 @@ function resetPasswordLink(req, res, next) {
                     Email = email;
                     subject = 'Reset Password';
                     link = req.protocol + "://localhost:3000/password/" + token;
-                    body = "\n    <div>Please click on the given <a href=" + link + ">link</a>  to reset your password</div>\n    ";
+                    body = "\n    <h2>Please click on the given <a href=" + link + ">link</a>  to reset your password</h2>\n    ";
                     if (!(process.env.CONDITION !== "test")) return [3 /*break*/, 4];
                     return [4 /*yield*/, (0, nodemailer_1.default)(subject, Email, body)];
                 case 3:
