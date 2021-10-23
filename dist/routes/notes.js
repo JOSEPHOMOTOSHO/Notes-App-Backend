@@ -11,6 +11,7 @@ var collaborators_Controller_1 = require("../controller/collaborators-Controller
 var joi_1 = require("../middleware/joi");
 var cloudimage_1 = require("../middleware/cloudimage");
 var router = (0, express_1.Router)();
+router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_1.confirmCollaborator);
 router.use(authorization_passport_1.default);
 router.get('/tests', function (req, res) {
     // let id = req.user.id
@@ -32,7 +33,6 @@ router.get('/:noteId/collaborators', notes_Controller_1.getCollaborators);
 router.get('/collaborators/notes', notes_Controller_1.getCollaboratorsNotes);
 router.get('/getAllNote/:folderId', notes_Controller_1.getAllNotes);
 router.post('/invite/:noteId', collaborators_Controller_1.inviteCollborator);
-router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_1.confirmCollaborator);
 router.get('/remove/:id', collaborators_Controller_1.removeCollaborator);
 router.post('/admin/remove/:id', collaborators_Controller_1.adminRemoveCollaborator);
 router.post('/upload/:upId', cloudimage_1.upload, collaborators_Controller_1.uploadFile);
