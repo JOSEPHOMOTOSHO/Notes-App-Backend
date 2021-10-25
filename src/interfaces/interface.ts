@@ -68,6 +68,8 @@ export interface NoteInterface extends mongoose.Document {
   body: string;
   collaboratorId: [string];
   createdBy: mongoose.Schema.Types.ObjectId;
+  likes: [mongoose.Schema.Types.ObjectId];
+  comment: [mongoose.Schema.Types.ObjectId];
   tags: [string];
   folderId: string;
   softDelete: boolean;
@@ -76,8 +78,12 @@ export interface NoteInterface extends mongoose.Document {
 
 export interface FolderInterface extends mongoose.Document {
   title: string;
-  createdBy:ObjectId;
+  createdBy:mongoose.Schema.Types.ObjectId;
   Notes:[];
+}
+export interface CommentInterface extends mongoose.Document {
+  comment: string;
+  commenter:ObjectId;
 }
 
 export interface collabInt {

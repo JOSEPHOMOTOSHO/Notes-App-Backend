@@ -7,16 +7,21 @@ var express_1 = require("express");
 var authorization_passport_1 = __importDefault(require("../auth/authorization-passport"));
 var notes_Controller_1 = require("../controller/notes-Controller");
 var folder_Controller_1 = require("../controller/folder-Controller");
+var social_controller_1 = require("../controller/social-controller");
 var collaborators_Controller_1 = require("../controller/collaborators-Controller");
 var joi_1 = require("../middleware/joi");
 var cloudimage_1 = require("../middleware/cloudimage");
 var router = (0, express_1.Router)();
+router.get('/allnotes', social_controller_1.getNotes);
+router.get('/notesbytags', social_controller_1.notesByTags);
+router.get('/trendingNotes', social_controller_1.getTrendingNotes);
 router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_1.confirmCollaborator);
 router.use(authorization_passport_1.default);
 router.get('/tests', function (req, res) {
     // let id = req.user.id
     res.send(req.user.id);
 });
+router.get('/:id', social_controller_1.getComment);
 router.get('/gettrash', notes_Controller_1.getTrash);
 router.get('/getfolder', folder_Controller_1.getFolder);
 router.get('/desc', notes_Controller_1.sortByDesc);
@@ -24,7 +29,10 @@ router.post('/search', notes_Controller_1.sortByTitle);
 router.post('/createFolder', folder_Controller_1.createFolder); //authorization required
 router.get('/getNotification', collaborators_Controller_1.getNotification);
 router.get('/:_id', folder_Controller_1.getNote);
+router.get('/likes/:id', social_controller_1.getLikes);
 router.put('/editnote/:noteId', notes_Controller_1.editNotes);
+router.put('/addcomment/:noteId', social_controller_1.AddComment);
+router.put('/addlike/:noteId', social_controller_1.AddLikes);
 router.get('/delete/:_id', folder_Controller_1.trashNote);
 router.get('/restoredelete/:_id', folder_Controller_1.restoreNote);
 router.get('/permanentdelete/:_id', folder_Controller_1.permanentlyDeleteNote);

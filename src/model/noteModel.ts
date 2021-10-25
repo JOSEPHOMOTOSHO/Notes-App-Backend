@@ -26,6 +26,8 @@ const noteSchema = new mongoose.Schema<NoteInterface>(
       ref: "notesusers",
       required: true,
     },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'notesusers' }],
+    comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comments' }],
     folderId: {
       type: String,
       required: true,

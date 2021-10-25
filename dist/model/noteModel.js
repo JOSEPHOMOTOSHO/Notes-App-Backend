@@ -28,6 +28,8 @@ var noteSchema = new mongoose_1.default.Schema({
         ref: "notesusers",
         required: true,
     },
+    likes: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'notesusers' }],
+    comment: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'comments' }],
     folderId: {
         type: String,
         required: true,
