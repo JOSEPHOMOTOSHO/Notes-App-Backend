@@ -91,7 +91,7 @@ export async function getNotes(
 ) {
   try {
       console.log("here")
-    let finder = await Note.find().sort({createdAt:-1})
+    let finder = await Note.find().sort({createdAt:-1}).populate('createdBy') 
       if (!finder){
           return res.status(404).send({msg: "There is no available Note at the Moment"}); 
       }

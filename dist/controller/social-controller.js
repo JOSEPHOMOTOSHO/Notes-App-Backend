@@ -142,7 +142,7 @@ function getNotes(req, res, next) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     console.log("here");
-                    return [4 /*yield*/, noteModel_1.default.find().sort({ createdAt: -1 })];
+                    return [4 /*yield*/, noteModel_1.default.find().sort({ createdAt: -1 }).populate('createdBy')];
                 case 1:
                     finder = _a.sent();
                     if (!finder) {
