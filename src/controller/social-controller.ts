@@ -120,7 +120,7 @@ async function getLikes(req: Request, res: Response, ) {
     return res.status(200).json(likes)
 }
 async function getTrendingNotes(req: Request, res: Response, ) {
-    const notes : any = await Note.find({ "createdAt": { $gte: new Date((new Date().getTime() - (30 * 24 * 60 * 60 * 1000))) }})       
+    const notes : any = await Note.find({ "createdAt": { $gte: new Date((new Date().getTime() - (30 * 24 * 60 * 60 * 1000))) }}).populate('createdBy')      
     const trendingNotes = notes.sort((a:any,b:any) => {
     if(b.likes > a.likes ) return 1
     else return -1

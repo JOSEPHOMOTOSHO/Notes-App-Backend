@@ -206,7 +206,7 @@ function getTrendingNotes(req, res) {
         var notes, trendingNotes;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, noteModel_1.default.find({ "createdAt": { $gte: new Date((new Date().getTime() - (30 * 24 * 60 * 60 * 1000))) } })];
+                case 0: return [4 /*yield*/, noteModel_1.default.find({ "createdAt": { $gte: new Date((new Date().getTime() - (30 * 24 * 60 * 60 * 1000))) } }).populate('createdBy')];
                 case 1:
                     notes = _a.sent();
                     trendingNotes = notes.sort(function (a, b) {
