@@ -108,7 +108,7 @@ async function getCollaboratorsNotes(req: Request, res: Response) {
 
   try {
     const notes: any = await Note.find({ collaboratorId }).select(
-      '-collaboratorId -createdBy -softDelete -createdAt -updatedAt -__v -avatar'
+      '-collaboratorId -createdBy -softDelete -createdAt  -__v -avatar'
     );
 
     if (!notes) {

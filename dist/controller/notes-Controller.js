@@ -152,7 +152,7 @@ function getCollaboratorsNotes(req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, noteModel_1.default.find({ collaboratorId: collaboratorId }).select('-collaboratorId -createdBy -softDelete -createdAt -updatedAt -__v -avatar')];
+                    return [4 /*yield*/, noteModel_1.default.find({ collaboratorId: collaboratorId }).select('-collaboratorId -createdBy -softDelete -createdAt  -__v -avatar')];
                 case 2:
                     notes = _a.sent();
                     if (!notes) {
