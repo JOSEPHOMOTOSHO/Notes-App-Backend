@@ -68,11 +68,12 @@ export const getNote = async (req: Request, res: Response) => {
     const note = await notes.findById(_id).populate('createdBy').populate('collaboratorId')
     // console.log(note)
     if (!note) return res.status(404).json({ error: "Note not found" });
-    
+    let collaborator = note.collaboratorId.includes(req.user!.id)
+
     const owner: {id:string} = note.createdBy as unknown as {id:string};
     let ownerId = owner.id
     const userid = req.user!.id;
-    if (ownerId != userid )
+    if (ownerId != userid  || !collaborator)
       return res
         .status(404)
         .json({ error: "You are not authorized to view this note" });
