@@ -83,7 +83,7 @@ app.use((req:Request, res:Response, next:NextFunction)=>{
 // app.use(passport.initialize());
 // app.use(passport.session())
 
-app.use('/',baseRoutes);
+// app.use('/',baseRoutes);
 app.use('/notes',notesRoutes);
 app.use('/auth', authRouter);
 app.use('/users', indexRouter);
