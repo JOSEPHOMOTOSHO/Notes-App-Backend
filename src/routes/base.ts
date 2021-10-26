@@ -1,4 +1,3 @@
-
 import express, {Request,Response, Router } from 'express';
 import authorization from '../auth/authorization-passport';
 import {signIn, signOut} from '../controller/auth-controller'
@@ -12,10 +11,6 @@ import { joiValidateCollab } from '../middleware/joi';
 import { upload } from '../middleware/cloudimage';
 
 const router = Router();
-router.get('/allnotes', getNotes);
-router.get('/notesbytags',notesByTags)
-router.get('/trendingNotes',  getTrendingNotes)
-router.post('/collab/:token', joiValidateCollab, confirmCollaborator);
 router.use(authorization)
 declare module "express" {
     interface Request {
@@ -23,30 +18,16 @@ declare module "express" {
         isAuthenticated?:any,
     }
   }
+
 router.get('/getfolder', getFolder);
-router.get('/getNotification', getNotification);
-router.get('/comments/:id', getComment);
+router.get('/:id', getComment);
+router.get('/gettrash', getTrash);
 router.get('/desc', sortByDesc);
 router.post('/search', sortByTitle);
 router.post('/createFolder', createFolder);//authorization required
-router.get('/likes/:id',  getLikes);
-router.put('/editnote/:noteId', editNotes);
-router.put('/addcomment/:noteId', AddComment);
-router.put('/addlike/:noteId', AddLikes);
-router.get('/delete/:_id', trashNote);
-router.get('/restoredelete/:_id', restoreNote);
-router.get('/permanentdelete/:_id', permanentlyDeleteNote);
-router.post('/createNote/:folderId', createNote);
-router.get('/:noteId/collaborators', getCollaborators);
-router.get('/collaborators/notes', getCollaboratorsNotes);  
-router.get('/getAllNote/:folderId',  getAllNotes)
-router.post('/invite/:noteId', inviteCollborator);
-router.get('/remove/:id', removeCollaborator);
-router.post('/admin/remove/:id', adminRemoveCollaborator);
-router.post('/upload/:upId',upload, uploadFile);
-router.get('/tests', (req:Request, res)=>{
-    // let id = req.user.id
-    res.send(req.user.id)
-})
+router.get('/getNotification', getNotification);
 router.get('/:_id', getNote);
+router.get('/likes/:id',  getLikes);
+
+
 module.exports =  router;

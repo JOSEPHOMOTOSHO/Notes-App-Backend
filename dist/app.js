@@ -20,6 +20,7 @@ require('./controller/user-Controller')(passport_1.default);
 var app = (0, express_1.default)();
 //importing routes
 var notesRoutes = require('./routes/notes');
+var baseRoutes = require('./routes/base');
 var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
 // view engine setup
@@ -60,6 +61,7 @@ app.use(function (req, res, next) {
 //Initialize Passport
 // app.use(passport.initialize());
 // app.use(passport.session())
+app.use('/', baseRoutes);
 app.use('/notes', notesRoutes);
 app.use('/auth', authRouter);
 app.use('/users', indexRouter);

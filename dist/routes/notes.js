@@ -17,18 +17,12 @@ router.get('/notesbytags', social_controller_1.notesByTags);
 router.get('/trendingNotes', social_controller_1.getTrendingNotes);
 router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_1.confirmCollaborator);
 router.use(authorization_passport_1.default);
-router.get('/tests', function (req, res) {
-    // let id = req.user.id
-    res.send(req.user.id);
-});
-router.get('/:id', social_controller_1.getComment);
-router.get('/gettrash', notes_Controller_1.getTrash);
 router.get('/getfolder', folder_Controller_1.getFolder);
+router.get('/getNotification', collaborators_Controller_1.getNotification);
+router.get('/comments/:id', social_controller_1.getComment);
 router.get('/desc', notes_Controller_1.sortByDesc);
 router.post('/search', notes_Controller_1.sortByTitle);
 router.post('/createFolder', folder_Controller_1.createFolder); //authorization required
-router.get('/getNotification', collaborators_Controller_1.getNotification);
-router.get('/:_id', folder_Controller_1.getNote);
 router.get('/likes/:id', social_controller_1.getLikes);
 router.put('/editnote/:noteId', notes_Controller_1.editNotes);
 router.put('/addcomment/:noteId', social_controller_1.AddComment);
@@ -44,4 +38,9 @@ router.post('/invite/:noteId', collaborators_Controller_1.inviteCollborator);
 router.get('/remove/:id', collaborators_Controller_1.removeCollaborator);
 router.post('/admin/remove/:id', collaborators_Controller_1.adminRemoveCollaborator);
 router.post('/upload/:upId', cloudimage_1.upload, collaborators_Controller_1.uploadFile);
+router.get('/tests', function (req, res) {
+    // let id = req.user.id
+    res.send(req.user.id);
+});
+router.get('/:_id', folder_Controller_1.getNote);
 module.exports = router;

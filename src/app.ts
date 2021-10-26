@@ -18,6 +18,7 @@ const app = express();
 
 //importing routes
 const notesRoutes = require ('./routes/notes')
+const baseRoutes = require ('./routes/base')
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index')
 
@@ -82,7 +83,7 @@ app.use((req:Request, res:Response, next:NextFunction)=>{
 // app.use(passport.initialize());
 // app.use(passport.session())
 
-
+app.use('/',baseRoutes);
 app.use('/notes',notesRoutes);
 app.use('/auth', authRouter);
 app.use('/users', indexRouter);
