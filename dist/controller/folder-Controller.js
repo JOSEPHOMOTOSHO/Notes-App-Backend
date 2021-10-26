@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.permanentlyDeleteNote = exports.restoreNote = exports.trashNote = exports.getNote = exports.getFolder = exports.createFolder = void 0;
 var folderModel_1 = __importDefault(require("../model/folderModel"));
 var noteModel_1 = __importDefault(require("../model/noteModel"));
+var can_user_edit_1 = require("../middleware/can-user-edit");
 // create folders
 var createFolder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var createdBy, title, folderExist, folder, err_1, message;
@@ -109,7 +110,7 @@ var getFolder = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 exports.getFolder = getFolder;
 //get a note
 var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, collaborator, owner, ownerId, userid, err_3, message;
+    var _id, note, collaborator, isOwner, owner, ownerId, userid, err_3, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -126,13 +127,15 @@ var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 if (!note)
                     return [2 /*return*/, res.status(404).json({ error: "Note not found" })];
                 collaborator = note.collaboratorId.includes(req.user.id);
+                isOwner = (0, can_user_edit_1.canEdit)(req.user.id, note._id);
                 owner = note.createdBy;
                 ownerId = owner.id;
                 userid = req.user.id;
-                if (ownerId != userid || !collaborator)
+                if (!isOwner) {
                     return [2 /*return*/, res
                             .status(404)
                             .json({ error: "You are not authorized to view this note" })];
+                }
                 return [2 /*return*/, res.status(200).json(note)];
             case 3:
                 err_3 = _a.sent();

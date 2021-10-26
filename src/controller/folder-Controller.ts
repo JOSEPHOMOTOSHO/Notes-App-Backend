@@ -3,6 +3,7 @@ import folders from "../model/folderModel";
 import notesUsers from "../model/signupModel";
 import notes from "../model/noteModel";
 import mongoose, {ObjectId} from 'mongoose'
+import {canEdit }from '../middleware/can-user-edit'
 // import express, { User } from 'express'
 
 declare module "express" {
@@ -69,15 +70,17 @@ export const getNote = async (req: Request, res: Response) => {
     // console.log(note)
     if (!note) return res.status(404).json({ error: "Note not found" });
     let collaborator = note.collaboratorId.includes(req.user!.id)
+    let isOwner = canEdit(req.user.id, note._id)
 
     const owner: {id:string} = note.createdBy as unknown as {id:string};
     let ownerId = owner.id
     const userid = req.user!.id;
-    if (ownerId != userid  || !collaborator)
+    
+    if (!isOwner){
       return res
         .status(404)
         .json({ error: "You are not authorized to view this note" });
-
+    }
     return res.status(200).json(note);
   } catch (err: any) {
     const message = err.message || err;
