@@ -117,13 +117,7 @@ var getNoteUprotected = function (req, res) { return __awaiter(void 0, void 0, v
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, noteModel_1.default.findById(id).populate('createdBy').populate('collaboratorId')
-                        .populate({
-                        path: 'comment',
-                        populate: {
-                            path: 'commenter'
-                        }
-                    })
+                return [4 /*yield*/, noteModel_1.default.findById(id).populate('createdBy').populate('collaboratorId').populate('comment')
                     // console.log(note)
                 ];
             case 2:
