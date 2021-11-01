@@ -63,7 +63,13 @@ export const getNoteUprotected = async (req: Request, res: Response) => {
   //getting the req parameter and initilizing to the noteid
   const {id } = req.params;
   try {
-    const note = await notes.findById(id).populate('createdBy').populate('collaboratorId').populate('comment')
+    const note = await notes.findById(id).populate('createdBy').populate('collaboratorId')
+    .populate({
+      path: 'comment',
+      populate : {
+        path: 'commenter'
+      }
+    })
     // console.log(note)
     if (!note) return res.status(404).json({ error: "Note not found" });
     return res.status(200).json(note);
