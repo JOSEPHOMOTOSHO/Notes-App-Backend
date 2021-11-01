@@ -10,7 +10,7 @@ const commentSchema = new mongoose.Schema<CommentInterface>(
     },
     commenter: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "noteUsers",
+      ref: "notesusers",
       required: [true, "userId is required"],
     },
   },

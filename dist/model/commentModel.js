@@ -11,7 +11,7 @@ var commentSchema = new mongoose_1.default.Schema({
     },
     commenter: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "noteUsers",
+        ref: "notesusers",
         required: [true, "userId is required"],
     },
 }, { timestamps: true, });
