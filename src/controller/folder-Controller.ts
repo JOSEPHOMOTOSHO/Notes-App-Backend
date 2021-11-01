@@ -59,7 +59,19 @@ export const getFolder = async (req: Request, res: Response) => {
     res.status(404).json({ error: message });
   }
 };
-
+export const getNoteUprotected = async (req: Request, res: Response) => {
+  //getting the req parameter and initilizing to the noteid
+  const { _id } = req.params;
+  try {
+    const note = await notes.findById(_id).populate('createdBy').populate('collaboratorId')
+    // console.log(note)
+    if (!note) return res.status(404).json({ error: "Note not found" });
+    return res.status(200).json(note);
+  } catch (err: any) {
+    const message = err.message || err;
+    return res.status(404).json({ error: message });
+  }
+};
 //get a note
 export const getNote = async (req: Request, res: Response) => {
   //getting the req parameter and initilizing to the noteid

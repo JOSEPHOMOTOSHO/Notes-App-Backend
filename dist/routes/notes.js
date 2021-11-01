@@ -13,6 +13,7 @@ var joi_1 = require("../middleware/joi");
 var cloudimage_1 = require("../middleware/cloudimage");
 var router = (0, express_1.Router)();
 router.get('/allnotes', social_controller_1.getNotes);
+router.get('/getanote/:id', folder_Controller_1.getNoteUprotected);
 router.get('/notesbytags', social_controller_1.notesByTags);
 router.get('/trendingNotes', social_controller_1.getTrendingNotes);
 router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_1.confirmCollaborator);

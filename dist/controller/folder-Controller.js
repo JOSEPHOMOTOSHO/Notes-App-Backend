@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.permanentlyDeleteNote = exports.restoreNote = exports.trashNote = exports.getNote = exports.getFolder = exports.createFolder = void 0;
+exports.permanentlyDeleteNote = exports.restoreNote = exports.trashNote = exports.getNote = exports.getNoteUprotected = exports.getFolder = exports.createFolder = void 0;
 var folderModel_1 = __importDefault(require("../model/folderModel"));
 var noteModel_1 = __importDefault(require("../model/noteModel"));
 var can_user_edit_1 = require("../middleware/can-user-edit");
@@ -108,9 +108,36 @@ var getFolder = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getFolder = getFolder;
+var getNoteUprotected = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _id, note, err_3, message;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _id = req.params._id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, noteModel_1.default.findById(_id).populate('createdBy').populate('collaboratorId')
+                    // console.log(note)
+                ];
+            case 2:
+                note = _a.sent();
+                // console.log(note)
+                if (!note)
+                    return [2 /*return*/, res.status(404).json({ error: "Note not found" })];
+                return [2 /*return*/, res.status(200).json(note)];
+            case 3:
+                err_3 = _a.sent();
+                message = err_3.message || err_3;
+                return [2 /*return*/, res.status(404).json({ error: message })];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getNoteUprotected = getNoteUprotected;
 //get a note
 var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, collaborator, isOwner, owner, ownerId, userid, err_3, message;
+    var _id, note, collaborator, isOwner, owner, ownerId, userid, err_4, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -138,8 +165,8 @@ var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 }
                 return [2 /*return*/, res.status(200).json(note)];
             case 3:
-                err_3 = _a.sent();
-                message = err_3.message || err_3;
+                err_4 = _a.sent();
+                message = err_4.message || err_4;
                 return [2 /*return*/, res.status(404).json({ error: message })];
             case 4: return [2 /*return*/];
         }
@@ -148,7 +175,7 @@ var getNote = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
 exports.getNote = getNote;
 //delete note
 var trashNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, userid, owner, err_4, message;
+    var _id, note, userid, owner, err_5, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -175,8 +202,8 @@ var trashNote = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 res.status(200).json({ message: "Note Successfully Deleted" });
                 return [3 /*break*/, 5];
             case 4:
-                err_4 = _a.sent();
-                message = err_4.message || err_4;
+                err_5 = _a.sent();
+                message = err_5.message || err_5;
                 return [2 /*return*/, res.status(404).json({ error: message })];
             case 5: return [2 /*return*/];
         }
@@ -184,7 +211,7 @@ var trashNote = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.trashNote = trashNote;
 var restoreNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, userid, owner, err_5, message;
+    var _id, note, userid, owner, err_6, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -211,8 +238,8 @@ var restoreNote = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.status(200).json({ message: "Note Successfully Restored" });
                 return [3 /*break*/, 5];
             case 4:
-                err_5 = _a.sent();
-                message = err_5.message || err_5;
+                err_6 = _a.sent();
+                message = err_6.message || err_6;
                 return [2 /*return*/, res.status(404).json({ error: message })];
             case 5: return [2 /*return*/];
         }
@@ -220,7 +247,7 @@ var restoreNote = function (req, res) { return __awaiter(void 0, void 0, void 0,
 }); };
 exports.restoreNote = restoreNote;
 var permanentlyDeleteNote = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, userid, owner, err_6, message;
+    var _id, note, userid, owner, err_7, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -247,8 +274,8 @@ var permanentlyDeleteNote = function (req, res) { return __awaiter(void 0, void 
                 res.status(200).json({ message: "Note Permanently Deleted" });
                 return [3 /*break*/, 5];
             case 4:
-                err_6 = _a.sent();
-                message = err_6.message || err_6;
+                err_7 = _a.sent();
+                message = err_7.message || err_7;
                 return [2 /*return*/, res.status(404).json({ error: message })];
             case 5: return [2 /*return*/];
         }

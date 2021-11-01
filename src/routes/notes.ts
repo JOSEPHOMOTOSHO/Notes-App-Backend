@@ -5,7 +5,7 @@ import {signIn, signOut} from '../controller/auth-controller'
 import { signInValidator } from "../middleware/validators";
 import validate from "../middleware/validate";
 import { createNote, getTrash, getCollaborators, getCollaboratorsNotes, sortByDesc, sortByTitle, getAllNotes , editNotes } from '../controller/notes-Controller';
-import { createFolder, getNote, trashNote, getFolder, restoreNote, permanentlyDeleteNote} from '../controller/folder-Controller'; 
+import { createFolder, getNote, getNoteUprotected, trashNote, getFolder, restoreNote, permanentlyDeleteNote} from '../controller/folder-Controller'; 
 import { AddLikes, AddComment, getNotes, getComment,notesByTags, getTrendingNotes, getLikes } from '../controller/social-controller'; 
 import { confirmCollaborator, inviteCollborator, removeCollaborator,  uploadFile, getNotification, adminRemoveCollaborator } from '../controller/collaborators-Controller';
 import { joiValidateCollab } from '../middleware/joi';
@@ -13,6 +13,7 @@ import { upload } from '../middleware/cloudimage';
 
 const router = Router();
 router.get('/allnotes', getNotes);
+router.get('/getanote/:id', getNoteUprotected);
 router.get('/notesbytags',notesByTags)
 router.get('/trendingNotes',  getTrendingNotes)
 router.post('/collab/:token', joiValidateCollab, confirmCollaborator);
