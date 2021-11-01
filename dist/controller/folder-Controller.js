@@ -109,15 +109,15 @@ var getFolder = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.getFolder = getFolder;
 var getNoteUprotected = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, note, err_3, message;
+    var id, note, err_3, message;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _id = req.params._id;
+                id = req.params.id;
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, noteModel_1.default.findById(_id).populate('createdBy').populate('collaboratorId')
+                return [4 /*yield*/, noteModel_1.default.findById(id).populate('createdBy').populate('collaboratorId')
                     // console.log(note)
                 ];
             case 2:
