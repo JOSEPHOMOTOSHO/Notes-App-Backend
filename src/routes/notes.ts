@@ -26,6 +26,7 @@ declare module "express" {
   }
 router.get('/getfolder', getFolder);
 router.get('/getNotification', getNotification);
+router.get('/gettrash', getTrash);
 router.get('/comments/:id', getComment);
 router.get('/desc', sortByDesc);
 router.post('/search', sortByTitle);
