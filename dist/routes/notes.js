@@ -20,6 +20,7 @@ router.post('/collab/:token', joi_1.joiValidateCollab, collaborators_Controller_
 router.use(authorization_passport_1.default);
 router.get('/getfolder', folder_Controller_1.getFolder);
 router.get('/getNotification', collaborators_Controller_1.getNotification);
+router.get('/getNot/:id', notes_Controller_1.openNotification);
 router.get('/gettrash', notes_Controller_1.getTrash);
 router.get('/comments/:id', social_controller_1.getComment);
 router.get('/desc', notes_Controller_1.sortByDesc);

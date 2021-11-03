@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Folder from '../model/folderModel';
 import Note from '../model/noteModel';
+import Notification from '../model/notificationModel';
 import {canEdit} from '../middleware/can-user-edit'
 import { AsyncResource } from 'async_hooks';
 import noteUsers from '../model/signupModel';
@@ -19,6 +20,18 @@ interface collaboratorsDetailsInterface {
   email: string;
   // folderId: string;
 }
+
+export async function openNotification (req: Request, res: Response, next: NextFunction) {
+  const id = req.params.id
+  const notificationExist = await Notification.findById(id); 
+  if(notificationExist){
+    let updated = await Notification.findByIdAndUpdate(id,{opened:true})
+    res.status(200).json(updated)
+  }else{
+    res.status(400).send('We ecountered a problem while updating notification')
+  }
+}
+
 
 //Function to create notes
 async function createNote(req: Request, res: Response, next: NextFunction) {

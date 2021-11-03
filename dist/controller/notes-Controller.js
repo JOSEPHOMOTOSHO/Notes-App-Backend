@@ -39,10 +39,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrash = exports.getAllNotes = exports.sortByDesc = exports.getCollaboratorsNotes = exports.getCollaborators = exports.createNote = exports.editNotes = exports.sortByTitle = void 0;
+exports.getTrash = exports.getAllNotes = exports.sortByDesc = exports.getCollaboratorsNotes = exports.getCollaborators = exports.createNote = exports.editNotes = exports.sortByTitle = exports.openNotification = void 0;
 var folderModel_1 = __importDefault(require("../model/folderModel"));
 var noteModel_1 = __importDefault(require("../model/noteModel"));
+var notificationModel_1 = __importDefault(require("../model/notificationModel"));
 var can_user_edit_1 = require("../middleware/can-user-edit");
+function openNotification(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id, notificationExist, updated;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.params.id;
+                    return [4 /*yield*/, notificationModel_1.default.findById(id)];
+                case 1:
+                    notificationExist = _a.sent();
+                    if (!notificationExist) return [3 /*break*/, 3];
+                    return [4 /*yield*/, notificationModel_1.default.findByIdAndUpdate(id, { opened: true })];
+                case 2:
+                    updated = _a.sent();
+                    res.status(200).json(updated);
+                    return [3 /*break*/, 4];
+                case 3:
+                    res.status(400).send('We ecountered a problem while updating notification');
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.openNotification = openNotification;
 //Function to create notes
 function createNote(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {

@@ -6,6 +6,7 @@ export interface NotificationDocument extends mongoose.Document {
     content : string;
     noteId: ObjectId;
     userId: ObjectId;
+    opened: boolean
     }
 
 
@@ -26,7 +27,11 @@ const NotificationSchema = new Schema(
        ref: 'noteusers',
       required: [true, 'UserId is needed'],
     },
-    
+    opened:{
+      type: Boolean,
+      default: false,
+      required: true
+    }
   },
   {
     timestamps: true,

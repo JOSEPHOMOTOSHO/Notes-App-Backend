@@ -4,7 +4,7 @@ import authorization from '../auth/authorization-passport';
 import {signIn, signOut} from '../controller/auth-controller'
 import { signInValidator } from "../middleware/validators";
 import validate from "../middleware/validate";
-import { createNote, getTrash, getCollaborators, getCollaboratorsNotes, sortByDesc, sortByTitle, getAllNotes , editNotes } from '../controller/notes-Controller';
+import { createNote, getTrash, getCollaborators, openNotification, getCollaboratorsNotes, sortByDesc, sortByTitle, getAllNotes , editNotes } from '../controller/notes-Controller';
 import { createFolder, getNote, getNoteUprotected, trashNote, getFolder, restoreNote, permanentlyDeleteNote} from '../controller/folder-Controller'; 
 import { AddLikes, AddComment, getNotes, getComment,notesByTags, getTrendingNotes, getLikes } from '../controller/social-controller'; 
 import { confirmCollaborator, inviteCollborator, removeCollaborator,  uploadFile, getNotification, adminRemoveCollaborator } from '../controller/collaborators-Controller';
@@ -26,6 +26,7 @@ declare module "express" {
   }
 router.get('/getfolder', getFolder);
 router.get('/getNotification', getNotification);
+router.get('/getNot/:id', openNotification)
 router.get('/gettrash', getTrash);
 router.get('/comments/:id', getComment);
 router.get('/desc', sortByDesc);

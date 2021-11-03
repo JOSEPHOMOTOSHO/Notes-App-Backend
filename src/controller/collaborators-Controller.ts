@@ -25,12 +25,15 @@ export async function inviteCollborator(
     if (req.user.email === email) return res.status(404).send({msg: "Note owner cannot be a Collaborator"}) 
     if(finder) {
       let noteFinder = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:false})  
+      let noteFinder2 = await Note.findByIdAndUpdate(id, { "$addToSet": {collaboratorId:finder._id}}, {new:true}).populate('collaboratorId')  
       
       if (noteFinder.collaboratorId.includes(finder._id)) return res.status(404).send({msg: "Already a Collaborator"}) 
         
       let content = `You have been added as a contributor to  ${noteFinder.title} note`
       sendNotification(email, content, noteFinder._id)
-      res.status(201).send({ msg: 'Notification Sent' });
+      res.status(201).send({ msg: 'Notification Sent',
+                            details: noteFinder2
+                          });
       return
     }
     const { validDomain }= await emailValidator.verify(email)

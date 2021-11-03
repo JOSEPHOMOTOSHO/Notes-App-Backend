@@ -20,6 +20,11 @@ var NotificationSchema = new Schema({
         ref: 'noteusers',
         required: [true, 'UserId is needed'],
     },
+    opened: {
+        type: Boolean,
+        default: false,
+        required: true
+    }
 }, {
     timestamps: true,
 });

@@ -53,11 +53,11 @@ var cloudinary = require('cloudinary').v2;
 var secret = process.env.ACCESS_TOKEN_SECRET;
 function inviteCollborator(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, id, finder, noteFinder, content, validDomain, user, token, subject, body, err_1;
+        var email, id, finder, noteFinder, noteFinder2, content, validDomain, user, token, subject, body, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 8, , 9]);
+                    _a.trys.push([0, 9, , 10]);
                     email = req.body.email;
                     id = req.params.noteId;
                     return [4 /*yield*/, signupModel_1.default.findOne({ email: email })];
@@ -65,18 +65,23 @@ function inviteCollborator(req, res, next) {
                     finder = _a.sent();
                     if (req.user.email === email)
                         return [2 /*return*/, res.status(404).send({ msg: "Note owner cannot be a Collaborator" })];
-                    if (!finder) return [3 /*break*/, 3];
+                    if (!finder) return [3 /*break*/, 4];
                     return [4 /*yield*/, noteModel_1.default.findByIdAndUpdate(id, { "$addToSet": { collaboratorId: finder._id } }, { new: false })];
                 case 2:
                     noteFinder = _a.sent();
+                    return [4 /*yield*/, noteModel_1.default.findByIdAndUpdate(id, { "$addToSet": { collaboratorId: finder._id } }, { new: true }).populate('collaboratorId')];
+                case 3:
+                    noteFinder2 = _a.sent();
                     if (noteFinder.collaboratorId.includes(finder._id))
                         return [2 /*return*/, res.status(404).send({ msg: "Already a Collaborator" })];
                     content = "You have been added as a contributor to  " + noteFinder.title + " note";
                     (0, send_notification_1.sendNotification)(email, content, noteFinder._id);
-                    res.status(201).send({ msg: 'Notification Sent' });
+                    res.status(201).send({ msg: 'Notification Sent',
+                        details: noteFinder2
+                    });
                     return [2 /*return*/];
-                case 3: return [4 /*yield*/, emailValidator.verify(email)];
-                case 4:
+                case 4: return [4 /*yield*/, emailValidator.verify(email)];
+                case 5:
                     validDomain = (_a.sent()).validDomain;
                     if (!validDomain) {
                         res.status(404).send({ msg: 'Please provide a valid email address' });
@@ -87,23 +92,23 @@ function inviteCollborator(req, res, next) {
                         id: id
                     };
                     return [4 /*yield*/, (0, joi_1.collabToken)(user)];
-                case 5:
+                case 6:
                     token = _a.sent();
                     subject = 'Invitation to Collaborate on  Note';
                     body = "\n    <h2>Please click on the given <a href=\"http://localhost:3000/collaboratorsignup/" + token + "\">link</a> to register your acount.</h2>\n    ";
-                    if (!(process.env.CONDITION !== 'test')) return [3 /*break*/, 7];
+                    if (!(process.env.CONDITION !== 'test')) return [3 /*break*/, 8];
                     return [4 /*yield*/, (0, nodemailer_1.default)(subject, email, body)];
-                case 6:
-                    _a.sent();
-                    _a.label = 7;
                 case 7:
+                    _a.sent();
+                    _a.label = 8;
+                case 8:
                     res.status(201).json({ msg: 'A mail has been sent to you to register!!!', token: token });
                     return [2 /*return*/];
-                case 8:
+                case 9:
                     err_1 = _a.sent();
                     res.status(404).send({ error: err_1.message });
                     return [2 /*return*/];
-                case 9: return [2 /*return*/];
+                case 10: return [2 /*return*/];
             }
         });
     });
