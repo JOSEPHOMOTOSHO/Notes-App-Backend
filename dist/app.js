@@ -29,10 +29,13 @@ app.set('view engine', 'ejs');
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
-    credentials: true,
-}));
+app.use((0, cors_1.default)());
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // <-- location of the react app were connecting to
+//     credentials: true,
+//   })
+// );
 // app.use((req,res,next)=>{
 //   res.header('Access-Control-Allow-Origin','*')
 //   next()
