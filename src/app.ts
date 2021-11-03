@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: "*" , // <-- location of the react app were connecting to
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
     credentials: true,
   })
 );
