@@ -28,7 +28,7 @@ router.post('/search', notes_Controller_1.sortByTitle);
 router.post('/createFolder', folder_Controller_1.createFolder); //authorization required
 router.get('/likes/:id', social_controller_1.getLikes);
 router.put('/editnote/:noteId', notes_Controller_1.editNotes);
-router.put('/addcomment/:noteId', social_controller_1.AddComment);
+router.get('/addcomment/:noteId', social_controller_1.AddComment);
 router.put('/addlike/:noteId', social_controller_1.AddLikes);
 router.get('/delete/:_id', folder_Controller_1.trashNote);
 router.get('/restoredelete/:_id', folder_Controller_1.restoreNote);

@@ -34,7 +34,7 @@ router.post('/search', sortByTitle);
 router.post('/createFolder', createFolder);//authorization required
 router.get('/likes/:id',  getLikes);
 router.put('/editnote/:noteId', editNotes);
-router.put('/addcomment/:noteId', AddComment);
+router.get('/addcomment/:noteId', AddComment);
 router.put('/addlike/:noteId', AddLikes);
 router.get('/delete/:_id', trashNote);
 router.get('/restoredelete/:_id', restoreNote);
