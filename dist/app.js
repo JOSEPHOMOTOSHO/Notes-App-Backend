@@ -33,10 +33,10 @@ app.use((0, cors_1.default)({
     origin: "http://localhost:3000",
     credentials: true,
 }));
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
+// app.use((req,res,next)=>{
+//   res.header('Access-Control-Allow-Origin','*')
+//   next()
+// })
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 app.use((0, express_session_1.default)({
     // store: new FileStore,
