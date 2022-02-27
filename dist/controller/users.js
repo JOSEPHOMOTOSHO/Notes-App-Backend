@@ -149,7 +149,7 @@ function resetPasswordLink(req, res, next) {
                     token = jsonwebtoken_1.default.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
                     Email = email;
                     subject = 'Reset Password';
-                    link = req.protocol + "://localhost:3000/password/" + token;
+                    link = req.protocol + "://xdnotes.herokuapp.com/password/" + token;
                     body = "\n    <h2>Please click on the given <a href=" + link + ">link</a>  to reset your password</h2>\n    ";
                     if (!(process.env.CONDITION !== "test")) return [3 /*break*/, 4];
                     return [4 /*yield*/, (0, nodemailer_1.default)(subject, Email, body)];
@@ -288,7 +288,7 @@ function createUsers(req, res, next) {
                     token = _b.sent();
                     subject = 'Please Verify Your Account';
                     Email = email;
-                    body = "\n    <h2>Please click on the given <a href=\"http://localhost:3000/redirect/" + token + "\">link</a> to activate your acount.</h2></br>\n    <h3>This link expires in 15mins</h3>\n    ";
+                    body = "\n    <h2>Please click on the given <a href=\"http://xdnotes.herokuapp.com/redirect/" + token + "\">link</a> to activate your acount.</h2></br>\n    <h3>This link expires in 15mins</h3>\n    ";
                     if (!(process.env.CONDITION !== "test")) return [3 /*break*/, 5];
                     return [4 /*yield*/, (0, nodemailer_1.default)(subject, Email, body)];
                 case 4:

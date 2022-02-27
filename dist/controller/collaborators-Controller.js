@@ -95,7 +95,7 @@ function inviteCollborator(req, res, next) {
                 case 6:
                     token = _a.sent();
                     subject = 'Invitation to Collaborate on  Note';
-                    body = "\n    <h2>Please click on the given <a href=\"http://localhost:3000/collaboratorsignup/" + token + "\">link</a> to register your acount.</h2>\n    ";
+                    body = "\n    <h2>Please click on the given <a href=\"http://xdnotes.herokuapp.com/collaboratorsignup/" + token + "\">link</a> to register your acount.</h2>\n    ";
                     if (!(process.env.CONDITION !== 'test')) return [3 /*break*/, 8];
                     return [4 /*yield*/, (0, nodemailer_1.default)(subject, email, body)];
                 case 7:

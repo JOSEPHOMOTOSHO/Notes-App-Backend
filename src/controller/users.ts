@@ -106,7 +106,7 @@ async function resetPasswordLink(
 
     const Email = email;
     const subject = 'Reset Password'
-    const link = `${req.protocol}://localhost:3000/password/${token}`;
+    const link = `${req.protocol}://xdnotes.herokuapp.com/password/${token}`;
     const body = `
     <h2>Please click on the given <a href=${link}>link</a>  to reset your password</h2>
     `;
@@ -233,7 +233,7 @@ async function createUsers(req: Request, res: Response, next: NextFunction) {
     const subject = 'Please Verify Your Account'
     const Email = email;
     const body = `
-    <h2>Please click on the given <a href="http://localhost:3000/redirect/${token}">link</a> to activate your acount.</h2></br>
+    <h2>Please click on the given <a href="http://xdnotes.herokuapp.com/redirect/${token}">link</a> to activate your acount.</h2></br>
     <h3>This link expires in 15mins</h3>
     `
         //email services

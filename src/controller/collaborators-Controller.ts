@@ -49,7 +49,7 @@ export async function inviteCollborator(
     let token = await collabToken(user);
     const subject = 'Invitation to Collaborate on  Note'
     const body = `
-    <h2>Please click on the given <a href="http://localhost:3000/collaboratorsignup/${token}">link</a> to register your acount.</h2>
+    <h2>Please click on the given <a href="http://xdnotes.herokuapp.com/collaboratorsignup/${token}">link</a> to register your acount.</h2>
     `
     //email services
     if (process.env.CONDITION !== 'test'){
